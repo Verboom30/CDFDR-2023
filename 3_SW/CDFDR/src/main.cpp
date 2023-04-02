@@ -5,7 +5,7 @@
 #define MAXIMUM_BUFFER_SIZE  32
 #define COEFF  0.01
 #define LO  0//0.132 //132 cm
-#define SPEED  40000
+#define SPEED  4000
 BufferedSerial pc(USBTX, USBRX,115200);
 BufferedSerial uart(D1, D0,115200);
 
@@ -34,7 +34,6 @@ float Vb=0;
 float Vc=0;
 int Vx=0;
 int Vy=0;
-
 void conCharReceived(void)
 {
      char buffer[MAXIMUM_BUFFER_SIZE] = {0};
@@ -73,41 +72,28 @@ void stepperA(void){
     {
         StepperA.move(-3000);
         while(!StepperA.stopped());
-        StepperA.move(3000);
-        while(!StepperA.stopped());
+        // StepperA.move(3000);
+        // while(!StepperA.stopped());
 
     }
 }
 void stepperB(void){
-    
-    StepperB.rotate(0);
-    StepperB.setSpeed(20000);
-    StepperB.setAcceleration(8000);
-    StepperB.setDeceleration(8000);
-    StepperB.stop();
-    StepperB.setPositionZero();
+  
     while (1)
     {
         StepperB.move(-3000);
         while(!StepperB.stopped());
-        StepperB.move(3000);
-        while(!StepperB.stopped());
+        // StepperB.move(3000);
+        // while(!StepperB.stopped());
     }
 }
 void stepperC(void){
-    StepperC.rotate(0);
-    StepperC.setSpeed(20000);
-    StepperC.setSpeed(20000);
-    StepperC.setAcceleration(8000);
-    StepperC.setDeceleration(8000);
-    StepperC.stop();
-    StepperC.setPositionZero();
     while (1)
     {
         StepperC.move(-3000);
         while(!StepperC.stopped());
-        StepperC.move(3000);
-        while(!StepperC.stopped());
+        // StepperC.move(3000);
+        // while(!StepperC.stopped());
     }
 }
 
@@ -124,70 +110,28 @@ int main()
     StepperB.rotate(0);
     StepperC.setSpeed(SPEED);
     StepperC.rotate(0);
-    //StepperA.setAcceleration(8000);
-    //StepperA.setDeceleration(8000);
-    //StepperA.stop();
-    //StepperA.setPositionZero();
+    StepperA.stop();
+    StepperA.setPositionZero();
+    StepperB.stop();
+    StepperB.setPositionZero();
+    StepperC.stop();
+    StepperC.setPositionZero();
+   
+
 
 
 
 
     serial_thread.start(conCharReceived);
     //time_upA.attach(stepperA,Te);
-    //StepperB_thread.start(stepperB);
-    //StepperC_thread.start(stepperC);
+    StepperA_thread.start(stepperA);
+    StepperB_thread.start(stepperB);
+    StepperC_thread.start(stepperC);
     while (1)
     {
-     
-       omni_move_xbox(Vx,Vy,&Va,&Vb,&Vc);
-       printf("Va:%f Vd:%f Vc:%f\n",Va,Vb,Vc);
-
-      
-   
-    
+      omni_move_xbox(Vx,Vy,&Va,&Vb,&Vc);
+      printf("Va:%f Vd:%f Vc:%f\n",Va,Vb,Vc);
 
 
-        // if(Va>20){
-        //     StepperA.rotate(1);
-        // }else if(Va<-20){
-        //     StepperA.rotate(0);
-        // }
-        // if(Vb>20){
-        //     StepperB.rotate(1);
-        // }else if(Vb<-20){
-        //     StepperB.rotate(0);
-        // }
-        // if(Vc>20){
-        //     StepperC.rotate(1);
-        // }else if(Vc<-20){
-        //     StepperC.rotate(0);
-        // }
-        // if(abs(Va)>50){
-        //     StepperA.stop(); 
-        //       StepperA.setSpeed(abs(Va*5));
-        // }else{
-        //       StepperA.stop(); 
-        // }
-        // if(abs(Vb)>50){
-        //         StepperB.stop();
-        //        StepperB.setSpeed(abs(Vb*5));
-        // }else{
-        //       StepperB.stop(); 
-        // }
-        // if(abs(Vc)>50){
-        //     StepperC.stop(); 
-        //     StepperC.setSpeed(abs(Vc*5));
-        // }else{
-        //      StepperC.stop(); 
-        // }
-      
-      
-      
-        
-
-      
-        
-        
-  
     }
 }
