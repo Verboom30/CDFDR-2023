@@ -1,6 +1,7 @@
 #include "mbed.h"
 #include "pinout.hpp"
 #include "Stepper.hpp"
+#include "tim.h"
 #include <string.h>
 #define MAXIMUM_BUFFER_SIZE  32
 #define COEFF  0.01
@@ -104,33 +105,39 @@ int main()
     //StepperC.setSpeed(1000);
 
     
-    StepperA.setSpeed(SPEED);
-    StepperA.rotate(0);
-    StepperB.setSpeed(SPEED);
-    StepperB.rotate(0);
-    StepperC.setSpeed(SPEED);
-    StepperC.rotate(0);
-    StepperA.stop();
-    StepperA.setPositionZero();
-    StepperB.stop();
-    StepperB.setPositionZero();
-    StepperC.stop();
-    StepperC.setPositionZero();
+    // StepperA.setSpeed(SPEED);
+    // StepperA.rotate(0);
+    // StepperB.setSpeed(SPEED);
+    // StepperB.rotate(0);
+    // StepperC.setSpeed(SPEED);
+    // StepperC.rotate(0);
+    // StepperA.stop();
+    // StepperA.setPositionZero();
+    // StepperB.stop();
+    // StepperB.setPositionZero();
+    // StepperC.stop();
+    // StepperC.setPositionZero();
    
 
 
 
 
 
-    serial_thread.start(conCharReceived);
-    //time_upA.attach(stepperA,Te);
-    StepperA_thread.start(stepperA);
-    StepperB_thread.start(stepperB);
-    StepperC_thread.start(stepperC);
+    // serial_thread.start(conCharReceived);
+    // //time_upA.attach(stepperA,Te);
+    // StepperA_thread.start(stepperA);
+    // StepperB_thread.start(stepperB);
+    // StepperC_thread.start(stepperC);
+    printf("INIT_Timer\n");
+    MX_TIM1_Init();
+    
+    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+    HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
+    htim1.Instance->CCR1 = 40;
     while (1)
     {
-      omni_move_xbox(Vx,Vy,&Va,&Vb,&Vc);
-      printf("Va:%f Vd:%f Vc:%f\n",Va,Vb,Vc);
+    //   omni_move_xbox(Vx,Vy,&Va,&Vb,&Vc);
+    //   printf("Va:%f Vd:%f Vc:%f\n",Va,Vb,Vc);
 
 
     }
