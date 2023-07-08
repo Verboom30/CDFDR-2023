@@ -18,5 +18,4 @@
 #define UART_TX D1  
 #define UART_RX D0
 
-
 #endif // __PINOUT_H_

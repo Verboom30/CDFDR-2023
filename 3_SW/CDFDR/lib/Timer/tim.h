@@ -24,6 +24,7 @@ PA9     ------> TIM1_CH2
 PA10     ------> TIM1_CH3
 */
 
+
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 #ifdef __cplusplus
