@@ -5,7 +5,7 @@
 #include "develop_ticker.hpp"
 #include <string.h>
 #define MAXIMUM_BUFFER_SIZE  128
-#define COEFF  0.01
+#define COEFF  1
 #define LO  0//0.132 //132 cm
 #define SPEED  20000 // max 50000 Mstepper 16 3200Ma
 #define DIS    100000
@@ -57,27 +57,24 @@ void conCharReceived(void)
       while ( strToken != NULL ) {
           sscanf(strToken,"LeftHatY: %d",&Vy); 
           sscanf(strToken,"LeftHatX: %d",&Vx); 
-          printf("X==>%d Y==>%d\n",Vx,Vy);
+          if(Vx>1000 or Vx<-1000)Vx2 =Vx;
+          if(Vy>1000 or Vy<-1000)Vy2 =Vy;   
+          printf("X==>%d Y==>%d\n",Vx2,Vy2);
           // On demande le token suivant.
           strToken = strtok ( NULL, separators );
       }    
     }   
-    if(Vx>1000 or Vx<-1000)Vx2 =Vx;
-    if(Vy>1000 or Vy<-1000)Vy2 =Vy;     
+    
   }  
     
 }
 
-
-// void omni_move_xbox(const int Vx,const int Vy, float *Va, float *Vb, float *Vc)
-// {
-//     // *Va = ((-1/2)*Vx + (sqrt(3)/2)*Vy +LO)*COEFF;
-//     // *Vb = ((-1/2)*Vx - (sqrt(3)/2)*Vy +LO)*COEFF;
-//     // *Vc = (Vx + LO)*COEFF;
-
-//     *Va = Vy;
-   
-// }
+void omni_move_xbox(const int Vx,const int Vy, float *Va, float *Vb, float *Vc)
+{
+    *Va = ((-1/2)*Vx + (sqrt(3)/2)*Vy +LO)*COEFF;
+    *Vb = ((-1/2)*Vx - (sqrt(3)/2)*Vy +LO)*COEFF;
+    *Vc = (Vx + LO)*COEFF;
+}
 
 
 // void stepperB(void){
@@ -112,7 +109,7 @@ void stepperA(void){
    
     while (1)
     {
-         test_ticker.setSpeed(Vx2);
+         test_ticker.setSpeed(Va);
     }
 }
 
@@ -120,14 +117,16 @@ void stepperB(void){
    
     while (1)
     {
-         test_ticker1.setSpeed(20000*(percentage/100));
+         //test_ticker1.setSpeed(20000*(percentage/100));
+         test_ticker1.setSpeed(Vb);
     }
 }
 void stepperC(void){
    
     while (1)
     {
-         test_ticker2.setSpeed(40000*(percentage/100));
+         //test_ticker2.setSpeed(40000*(percentage/100));
+         test_ticker2.setSpeed(Vc);
     }
 }
 
@@ -151,13 +150,13 @@ int main()
     // //time_upA.attach(stepperA,Te);
     test_ticker.setSpeed(2000);
     test_ticker.run();
-    // test_ticker1.setSpeed(2000);
-    // test_ticker1.run();
-    // test_ticker2.setSpeed(2000);
-    // test_ticker2.run();
+    test_ticker1.setSpeed(2000);
+    test_ticker1.run();
+    test_ticker2.setSpeed(2000);
+    test_ticker2.run();
     StepperA_thread.start(stepperA);
-    // StepperB_thread.start(stepperB);
-    // StepperC_thread.start(stepperC);
+    StepperB_thread.start(stepperB);
+    StepperC_thread.start(stepperC);
 
 
     // printf("INIT_Timer\n");
@@ -175,7 +174,7 @@ int main()
     while (1)
     {
         //percentage = Poten.read()*100.0f;
-        //omni_move_xbox(Vx,Vy,&Va,&Vb,&Vc);
+        omni_move_xbox(Vx2,Vy2,&Va,&Vb,&Vc);
         
         //wait_us(1000);
         //n=n+1;
