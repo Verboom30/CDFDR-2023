@@ -61,6 +61,11 @@ public:
     /** Stop the motor as fast as possible
     */
     void stop(void);
+
+    /** Run the motor 
+     * 
+    */
+    void run(void);
     
     /**Set Rotation Speed
     * @param speed [steps/sec]

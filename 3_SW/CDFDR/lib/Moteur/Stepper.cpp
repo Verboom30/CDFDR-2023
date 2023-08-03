@@ -68,9 +68,16 @@ bool Stepper::stopped(void)
     return (_state == STOP) ? true : false;
 }
 
+
 //***********************************/************************************
 //                             Public Methods                           //
 //***********************************/************************************
+
+void Stepper::run(void)
+{
+    handler();    
+}
+
 void Stepper::stop(void)
 {   
     _clk = 1;
@@ -82,7 +89,7 @@ void Stepper::stop(void)
 void Stepper::rotate(bool direction)
 {
     //if(!_spd)return;    //spd must > 0
-    _dir = direction;   //set output pin direction value
+    //_dir = direction;   //set output pin direction value
     _steps = 0;         //rotate until stop() by user
     handler();          //start thread
 }
@@ -174,7 +181,7 @@ void Stepper::handler(void)
     _pos += (_dir<<1)-1;                    //set new position +1 if cw; -1 if ccw
     _clk = 1;                              //toggle step out pin
 
-    if(_steps && _n >= _steps)stop();       //check for motor stop
+    //if(_steps && _n >= _steps)stop();       //check for motor stop
 }
 
 unsigned int Stepper::nTo(float speed,float acc)
