@@ -8,7 +8,7 @@
 #define MAXIMUM_BUFFER_SIZE  128
 // #define COEFF  0.1
 #define SPEED  20000 // max 50000 Mstepper 16 3200Ma
-#define DIS    100000
+#define DIS    100
 
 // #define PI 3.14159265
 BufferedSerial pc(USBTX, USBRX,115200);
@@ -26,14 +26,15 @@ DigitalOut uart_activity(LED2);
 AnalogIn   Poten(A0);
 Thread serial_thread;
 Thread plot_thread;
-Thread StepperA_thread;
-Thread StepperB_thread;
-Thread StepperC_thread;
+// Thread StepperA_thread;
+// Thread StepperB_thread;
+// Thread StepperC_thread;
 
 float Te=0.01;
 float V1=0;
 float V2=0;
 float V3=0;
+int Dstep=0;
 int Vx=0;
 int Vy=0;
 int Vx2=0;
@@ -132,15 +133,15 @@ int main()
     // StepperA.stop();
     // StepperA.setPositionZero();
     // StepperA.goesTo(16000);
-    // while(!StepperA.stopped());   
-    RobotMove->setSpeed(2000);
-    RobotMove->setAcceleration(4000);
-    RobotMove->setDeceleration(4000);
+    // while(!StepperA.stopped());  
+    Dstep = DIS/((PI*2*RWHEEL/(RSTEP*MSTEP))*REDUC);
+    RobotMove->setSpeed(Dstep*1,0,0);
+    //RobotMove->setAcceleration(5);
+    //RobotMove->setDeceleration(10);
     RobotMove->stop();
     RobotMove->setPositionZero();
-    RobotMove->goesTo(0,1600,0);
-    while(!RobotMove->stopped()); 
-    
+   
+
 
   
 
@@ -148,9 +149,13 @@ int main()
    
     while (1)
     {
-        //percentage = Poten.read()*100.0f;
-        //omni_move_xbox(0,percentage,&V1,&V2,&V3);
-    
+       RobotMove->move(Dstep,0,0);
+      while(!RobotMove->stopped()); 
+      RobotMove->move(-Dstep,0,0);
+      while(!RobotMove->stopped()); 
+      //RobotMove->goesTo(-Dstep,0,0);
+      //while(!RobotMove->stopped()); 
+        
 
        
     }

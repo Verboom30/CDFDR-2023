@@ -181,7 +181,7 @@ void Stepper::handler(void)
     _pos += (_dir<<1)-1;                    //set new position +1 if cw; -1 if ccw
     _clk = 1;                              //toggle step out pin
 
-    //if(_steps && _n >= _steps)stop();       //check for motor stop
+    if(_steps && _n >= _steps)stop();       //check for motor stop
 }
 
 unsigned int Stepper::nTo(float speed,float acc)

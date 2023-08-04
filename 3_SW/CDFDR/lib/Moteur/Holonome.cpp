@@ -1,23 +1,23 @@
 #include "Holonome.hpp"
 
 
-
 //***********************************/************************************
 //                         Constructors                                 //
 //***********************************/************************************
 Holonome::Holonome()
 {
-        
+   
+   
 }
 
 //***********************************/************************************
 //                                Get Set                               //
 //***********************************/************************************
-void Holonome::setSpeed(float speed)
+void Holonome::setSpeed(int Vx, int Vy, int theta)
 {
-    StepperA->setSpeed(speed);
-    StepperB->setSpeed(speed);
-    StepperC->setSpeed(speed);
+    StepperA->setSpeed((-RADIUS*theta - 0.5*Vx - sin(PI/3.0)*Vy)*COEFF);    
+    StepperB->setSpeed((-RADIUS*theta + Vx)*COEFF); 
+    StepperC->setSpeed((-RADIUS*theta - 0.5*Vx + sin(PI/3.0)*Vy)*COEFF);
 }
 
 float Holonome::getSpeed(void)
@@ -72,8 +72,6 @@ bool Holonome::stopped(void)
 //                             Public Methods                           //
 //***********************************/************************************
 
-
-
 void Holonome::run(void)
 {
      StepperA->run();    
@@ -93,4 +91,49 @@ void Holonome::goesTo(int positionX, int positionY, int Alpha)
     StepperA->goesTo((-RADIUS*Alpha - 0.5*positionX - sin(PI/3.0)*positionY)*COEFF);    
     StepperB->goesTo((-RADIUS*Alpha + positionX)*COEFF); 
     StepperC->goesTo((-RADIUS*Alpha - 0.5*positionX + sin(PI/3.0)*positionY)*COEFF);
+}
+
+void Holonome::move(int positionX, int positionY, int Alpha)
+{
+  
+    _positionX = positionX;
+    _positionY = positionY;
+    _Alpha = Alpha;
+    StepperA_thread.start(callback(this, &Holonome::routine_stepperA));
+    StepperB_thread.start(callback(this, &Holonome::routine_stepperB));
+    StepperC_thread.start(callback(this, &Holonome::routine_stepperC));
+   
+    
+}
+
+
+//***********************************/************************************
+//                          Protected Methods                           //
+//***********************************/************************************
+void Holonome::routine_stepperA(void)
+{
+    StepperA->move((-RADIUS*_Alpha - 0.5*_positionX - sin(PI/3.0)*_positionY)*COEFF);    
+    while (1)
+    {
+        //StepperA->run(); 
+    }
+    
+}
+
+void Holonome::routine_stepperB(void)
+{
+    StepperB->move((-RADIUS*_Alpha + _positionX)*COEFF); 
+    while (1)
+    {
+        // StepperB->run();    
+    }
+}
+
+void Holonome::routine_stepperC(void)
+{
+    StepperC->move((-RADIUS*_Alpha - 0.5*_positionX + sin(PI/3.0)*_positionY)*COEFF);
+    while (1)
+    {   
+         //StepperC->run();    
+    }
 }
