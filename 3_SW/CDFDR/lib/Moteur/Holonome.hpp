@@ -4,9 +4,7 @@
 #include "mbed.h"
 #include "pinout.hpp"
 #include "Stepper.hpp"
-
-
-
+#include <string.h>
 
 class Holonome 
 {
@@ -26,12 +24,16 @@ class Holonome
         void setDeceleration(float dec);
         void setPositionZero(void);
         bool stopped(void);
+        bool waitAck(void);
 
         void HolonomeSpeed(int SpeedX, int SpeedY, int W);
         void goesTo(int positionX, int positionY, int Alpha); 
         void move(int positionX, int positionY, int Alpha); 
         void stop(void);
         void run(void);
+        
+
+        
 
        
         
@@ -45,6 +47,11 @@ class Holonome
         int   _Alpha;
         int   _positionX;
         int   _positionY;
+        
+        string _Cmd;
+        bool _AckStpA;
+        bool _AckStpB;
+        bool _AckStpC;
         Thread StepperA_thread;
         Thread StepperB_thread;
         Thread StepperC_thread;

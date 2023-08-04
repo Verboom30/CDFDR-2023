@@ -1,12 +1,17 @@
 #include "Holonome.hpp"
 
-
 //***********************************/************************************
 //                         Constructors                                 //
 //***********************************/************************************
 Holonome::Holonome()
 {
-   
+    StepperA_thread.start(callback(this, &Holonome::routine_stepperA));
+    StepperB_thread.start(callback(this, &Holonome::routine_stepperB));
+    StepperC_thread.start(callback(this, &Holonome::routine_stepperC));
+    _AckStpA =false;
+    _AckStpB =false;
+    _AckStpC =false;
+    _Cmd =" ";
    
 }
 
@@ -68,6 +73,17 @@ bool Holonome::stopped(void)
     return (StepperA->stopped() == true and StepperB->stopped()== true and StepperC->stopped() == true) ? true : false;
 }
 
+bool Holonome::waitAck(void)
+{
+    if(_AckStpA ==true and _AckStpB ==true and _AckStpC == true){
+      
+        _Cmd ="ACK";
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 //***********************************/************************************
 //                             Public Methods                           //
 //***********************************/************************************
@@ -81,9 +97,8 @@ void Holonome::run(void)
 
 void Holonome::stop(void)
 {   
-     StepperA->stop();    
-     StepperB->stop();    
-     StepperC->stop();  
+    _Cmd = "STOP";
+     
 }
 
 void Holonome::goesTo(int positionX, int positionY, int Alpha)
@@ -99,9 +114,10 @@ void Holonome::move(int positionX, int positionY, int Alpha)
     _positionX = positionX;
     _positionY = positionY;
     _Alpha = Alpha;
-    StepperA_thread.start(callback(this, &Holonome::routine_stepperA));
-    StepperB_thread.start(callback(this, &Holonome::routine_stepperB));
-    StepperC_thread.start(callback(this, &Holonome::routine_stepperC));
+    _AckStpA =false;
+    _AckStpB =false;
+    _AckStpC =false;
+    _Cmd = "MOVE";
    
     
 }
@@ -112,28 +128,66 @@ void Holonome::move(int positionX, int positionY, int Alpha)
 //***********************************/************************************
 void Holonome::routine_stepperA(void)
 {
-    StepperA->move((-RADIUS*_Alpha - 0.5*_positionX - sin(PI/3.0)*_positionY)*COEFF);    
+
     while (1)
     {
-        //StepperA->run(); 
+        if(_Cmd == "MOVE" and _AckStpA ==false){
+
+            StepperA->move((-RADIUS*_Alpha - 0.5*_positionX - sin(PI/3.0)*_positionY)*COEFF); 
+            _AckStpA = true;
+
+        }else if (_Cmd == "STOP")
+        {
+            StepperA->stop();
+           
+        }else if (_Cmd == "ACK")
+        {
+            _AckStpA = false;
+        }
+        
     }
     
 }
 
 void Holonome::routine_stepperB(void)
 {
-    StepperB->move((-RADIUS*_Alpha + _positionX)*COEFF); 
-    while (1)
-    {
-        // StepperB->run();    
+  
+   while (1)
+   {
+        if(_Cmd == "MOVE" and _AckStpB ==false){
+
+            StepperB->move((-RADIUS*_Alpha + _positionX)*COEFF);
+            _AckStpB = true;
+
+        }else if (_Cmd == "STOP")
+        {
+            StepperB->stop();
+          
+        }else if (_Cmd == "ACK")
+        {
+            _AckStpB = false;
+        }
+        
     }
 }
 
 void Holonome::routine_stepperC(void)
 {
-    StepperC->move((-RADIUS*_Alpha - 0.5*_positionX + sin(PI/3.0)*_positionY)*COEFF);
-    while (1)
-    {   
-         //StepperC->run();    
-    }
+    while (1) 
+    {
+        if(_Cmd == "MOVE" and _AckStpC ==false){
+
+            StepperC->move((-RADIUS*_Alpha - 0.5*_positionX + sin(PI/3.0)*_positionY)*COEFF);
+            _AckStpC = true;
+
+        }else if (_Cmd == "STOP")
+        {
+            StepperC->stop();
+            
+        }else if (_Cmd == "ACK")
+        {
+            _AckStpC = false;
+        }
+        
+    }    
 }

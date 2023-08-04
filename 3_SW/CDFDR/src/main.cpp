@@ -7,8 +7,8 @@
 #include <math.h>
 #define MAXIMUM_BUFFER_SIZE  128
 // #define COEFF  0.1
-#define SPEED  20000 // max 50000 Mstepper 16 3200Ma
-#define DIS    100
+#define SPEED  2000 // max 50000 Mstepper 16 3200Ma
+#define DIS    200
 
 // #define PI 3.14159265
 BufferedSerial pc(USBTX, USBRX,115200);
@@ -135,28 +135,23 @@ int main()
     // StepperA.goesTo(16000);
     // while(!StepperA.stopped());  
     Dstep = DIS/((PI*2*RWHEEL/(RSTEP*MSTEP))*REDUC);
-    RobotMove->setSpeed(Dstep*1,0,0);
-    //RobotMove->setAcceleration(5);
-    //RobotMove->setDeceleration(10);
+    RobotMove->setSpeed(SPEED,0,0);
+    RobotMove->setAcceleration(0);
+    RobotMove->setDeceleration(0);
     RobotMove->stop();
     RobotMove->setPositionZero();
-   
-
-
-  
-
    
    
     while (1)
     {
-       RobotMove->move(Dstep,0,0);
+  
+      RobotMove->move(Dstep,0,0);
+      while(!RobotMove->waitAck());
       while(!RobotMove->stopped()); 
-      RobotMove->move(-Dstep,0,0);
-      while(!RobotMove->stopped()); 
-      //RobotMove->goesTo(-Dstep,0,0);
-      //while(!RobotMove->stopped()); 
-        
 
-       
+      RobotMove->move(-Dstep,0,0);
+      while(!RobotMove->waitAck());
+      while(!RobotMove->stopped()); 
+   
     }
 }
