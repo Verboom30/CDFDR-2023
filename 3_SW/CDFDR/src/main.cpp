@@ -7,8 +7,8 @@
 #include <math.h>
 #define MAXIMUM_BUFFER_SIZE  128
 // #define COEFF  0.1
-#define SPEED  2000 // max 50000 Mstepper 16 3200Ma
-#define DIS    200
+#define SPEED  1000 // max 50000 Mstepper 16 3200Ma
+#define DIS    100
 
 // #define PI 3.14159265
 BufferedSerial pc(USBTX, USBRX,115200);
@@ -149,7 +149,17 @@ int main()
       while(!RobotMove->waitAck());
       while(!RobotMove->stopped()); 
 
+      RobotMove->move(0,Dstep,0);
+      while(!RobotMove->waitAck());
+      while(!RobotMove->stopped()); 
+
+   
+
       RobotMove->move(-Dstep,0,0);
+      while(!RobotMove->waitAck());
+      while(!RobotMove->stopped()); 
+
+      RobotMove->move(0,-Dstep,0);
       while(!RobotMove->waitAck());
       while(!RobotMove->stopped()); 
    

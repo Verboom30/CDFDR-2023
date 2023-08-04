@@ -114,9 +114,6 @@ void Holonome::move(int positionX, int positionY, int Alpha)
     _positionX = positionX;
     _positionY = positionY;
     _Alpha = Alpha;
-    _AckStpA =false;
-    _AckStpB =false;
-    _AckStpC =false;
     _Cmd = "MOVE";
    
     
