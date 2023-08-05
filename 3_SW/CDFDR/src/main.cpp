@@ -7,8 +7,9 @@
 #include <math.h>
 #define MAXIMUM_BUFFER_SIZE  128
 // #define COEFF  0.1
-#define SPEED  1000 // max 50000 Mstepper 16 3200Ma
-#define DIS    100
+#define SPEED  10 // max 50000 Mstepper 16 3200Ma
+#define DIS    300
+#define ANGLE  90
 
 // #define PI 3.14159265
 BufferedSerial pc(USBTX, USBRX,115200);
@@ -35,6 +36,7 @@ float V1=0;
 float V2=0;
 float V3=0;
 int Dstep=0;
+int Astep=0;
 int Vx=0;
 int Vy=0;
 int Vx2=0;
@@ -135,33 +137,40 @@ int main()
     // StepperA.goesTo(16000);
     // while(!StepperA.stopped());  
     Dstep = DIS/((PI*2*RWHEEL/(RSTEP*MSTEP))*REDUC);
-    RobotMove->setSpeed(SPEED,0,0);
+    Astep = (ANGLE*(PI/180))/((PI*2*RWHEEL/(RSTEP*MSTEP))*REDUC);
+    RobotMove->setSpeed(0,0,SPEED);
     RobotMove->setAcceleration(0);
     RobotMove->setDeceleration(0);
     RobotMove->stop();
     RobotMove->setPositionZero();
+    
+    RobotMove->move(0,0,Astep);
+    while(!RobotMove->waitAck());
+    while(!RobotMove->stopped()); 
+ 
    
    
     while (1)
     {
-  
-      RobotMove->move(Dstep,0,0);
-      while(!RobotMove->waitAck());
-      while(!RobotMove->stopped()); 
 
-      RobotMove->move(0,Dstep,0);
-      while(!RobotMove->waitAck());
-      while(!RobotMove->stopped()); 
+        //  RobotMove->move(0,0,-Astep*17);
+        //  while(!RobotMove->waitAck());
+        //  while(!RobotMove->stopped()); 
+     
+
+      // RobotMove->move(0,Dstep,0);
+      // while(!RobotMove->waitAck());
+      // while(!RobotMove->stopped()); 
 
    
 
-      RobotMove->move(-Dstep,0,0);
-      while(!RobotMove->waitAck());
-      while(!RobotMove->stopped()); 
+      // RobotMove->move(-Dstep,0,0);
+      // while(!RobotMove->waitAck());
+      // while(!RobotMove->stopped()); 
 
-      RobotMove->move(0,-Dstep,0);
-      while(!RobotMove->waitAck());
-      while(!RobotMove->stopped()); 
+      // RobotMove->move(0,-Dstep,0);
+      // while(!RobotMove->waitAck());
+      // while(!RobotMove->stopped()); 
    
     }
 }
