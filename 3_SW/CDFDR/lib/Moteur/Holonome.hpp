@@ -18,7 +18,7 @@ class Holonome
         void getPosition(int *positionX, int *positionY, int *Alpha);
         float getAcceleration(void);
         float getDeceleration(void);
-        float getSpeed(void);
+        
         void setSpeed(int Vx, int Vy, int theta);
         void setAcceleration(float acc);
         void setDeceleration(float dec);
@@ -58,6 +58,9 @@ class Holonome
         void routine_stepperA(void);
         void routine_stepperB(void);
         void routine_stepperC(void);
+        float getSpeedA(void);
+        float getSpeedB(void);
+        float getSpeedC(void);
 
         
 };
