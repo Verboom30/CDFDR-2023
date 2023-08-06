@@ -24,9 +24,7 @@ void Holonome::setSpeed(int Vx, int Vy, int theta)
     StepperB->setSpeed((-RADIUS*theta + Vx)); 
     StepperC->setSpeed((-RADIUS*theta - 0.5*Vx + sin(PI/3.0)*Vy));
 
-    StepperA->setAcceleration((-RADIUS*theta - 0.5*Vx - sin(PI/3.0)*Vy)/4);
-    StepperB->setAcceleration((-RADIUS*theta + Vx)/4);
-    StepperC->setAcceleration((-RADIUS*theta - 0.5*Vx + sin(PI/3.0)*Vy)/4);
+
 
     StepperA->setDeceleration((-RADIUS*theta - 0.5*Vx - sin(PI/3.0)*Vy)/4);
     StepperB->setDeceleration((-RADIUS*theta + Vx)/4);
@@ -50,9 +48,9 @@ float Holonome::getSpeedC(void)
 
 void Holonome::setAcceleration(float acc)
 {
-    StepperA->setAcceleration(acc);
-    StepperB->setAcceleration(acc);
-    StepperC->setAcceleration(acc);
+    StepperA->setAcceleration(getSpeedA()/acc);
+    StepperB->setAcceleration(getSpeedB()/acc);
+    StepperC->setAcceleration(getSpeedC()/acc);
 }
 
 float Holonome::getAcceleration(void)
@@ -62,9 +60,9 @@ float Holonome::getAcceleration(void)
 
 void Holonome::setDeceleration(float dec)
 {
-    StepperA->setDeceleration(dec);
-    StepperB->setDeceleration(dec);
-    StepperC->setDeceleration(dec);
+    StepperA->setDeceleration(getSpeedA()/dec);
+    StepperB->setDeceleration(getSpeedB()/dec);
+    StepperC->setDeceleration(getSpeedC()/dec);
 }
 
 float Holonome::getDeceleration(void)

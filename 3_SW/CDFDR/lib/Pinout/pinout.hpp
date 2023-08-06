@@ -1,10 +1,10 @@
-#define COEFF  1
-#define PI 3.14159265
-#define RADIUS 136.191 // robot wheel-base radius
+#define COEFF   1
+#define PI      3.14159265
+#define RADIUS  136.191// robot wheel-base radius
 #define MSTEP   8
 #define RSTEP   206
 #define RWHEEL  30
-#define REDUC  0.5
+#define REDUC   0.5
 
 #ifndef __PINOUT_H_
 #define __PINOUT_H_
