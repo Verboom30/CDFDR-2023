@@ -120,7 +120,7 @@ void Stepper::goesTo(int position)
 //***********************************/************************************
 void Stepper::handler(void)
 {
-    static float i;
+   
     
     switch(_state)
     {
@@ -144,18 +144,18 @@ void Stepper::handler(void)
                 _nStartDec = (_steps * _dec) / (_dec + _acc);   //Equation 19 after how many step we must start decelerate  
                 if(_nStartDec > nToSpeed)_nStartDec = _steps - ((nToSpeed*_acc)/_dec);  //if speed can be reach Equation 17                
             }
-            i = _dtn;
+            _i = _dtn;
         break;
         
         case ACCEL:
             //_dtn -=  (_dtn*2.0) / ((_n<<2)+1);   //Equation 20 find next delay
-            i-= i*2.0 / ((_n<<2)+1);
-            _dtn = i;
+            _i-= _i*2.0 / ((_n<<2)+1);
+            _dtn = _i;
             
             if((unsigned int)_dtn <= _dtmin) //if max speed reached
             {
                  _dtn = _dtmin;
-                 i = _dtn;
+                 _i = _dtn;
                 _state = CRUISE;    //constant phase
             }
             if(_steps && _dec && _n >= _nStartDec)_state = DECEL; //chech when must start decelerate
@@ -167,8 +167,8 @@ void Stepper::handler(void)
         
         case DECEL:
             //_dtn +=  (_dtn*2) / (((_steps-_n)<<2)+1);  //Equation 20 find next delay
-            i+= (i*2.0) / (((_steps-_n)<<2)+1);
-            _dtn = i;
+            _i+= (_i*2.0) / (((_steps-_n)<<2)+1);
+            _dtn = _i;
         break;    
     }
     

@@ -8,7 +8,7 @@
 #define MAXIMUM_BUFFER_SIZE  128
 // #define COEFF  0.1
 #define SPEED  10000 // max 50000 Mstepper 16 3200Ma
-#define DIS    3000
+#define DIS    100
 #define ANGLE  90
 
 // #define PI 3.14159265
@@ -139,8 +139,8 @@ int main()
     Dstep = DIS/((PI*2*RWHEEL/(RSTEP*MSTEP))*REDUC);
     Astep = (ANGLE*(PI/180))/((PI*2*RWHEEL/(RSTEP*MSTEP))*REDUC);
     RobotMove->setSpeed(SPEED,0,0);
-    RobotMove->setAcceleration(10);
-    RobotMove->setDeceleration(10);
+    //RobotMove->setAcceleration(400);
+    //RobotMove->setDeceleration(400);
     RobotMove->stop();
     RobotMove->setPositionZero();
     
@@ -153,10 +153,10 @@ int main()
     while (1)
     {
 
-        //  RobotMove->move(0,0,-Astep*17);
-        //  while(!RobotMove->waitAck());
-        //  while(!RobotMove->stopped()); 
-     
+    // RobotMove->move(Dstep,0,0);
+    // while(!RobotMove->waitAck());
+    // while(!RobotMove->stopped()); 
+  
 
       // RobotMove->move(0,Dstep,0);
       // while(!RobotMove->waitAck());

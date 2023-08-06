@@ -117,7 +117,7 @@ public:
     typedef enum {CW=1,CCW=0} direction;
     
 protected:
-    unsigned int nTo(float speed,float acc);
+    
      
 private:
     float _acc;                             //Acceleration [step/s²]
@@ -130,10 +130,12 @@ private:
     unsigned int _dt0;                      //initial delay [µs]
     unsigned int _dtmin;                    //delay minimum [µs]
     unsigned int _dtn;                             //current delay
+    float _i;
     int _pos;                               //motor position
     unsigned int _n;                        //steps counters
     unsigned int _nStartDec;                //steps to decelerate
     virtual void handler();
+    unsigned int nTo(float speed,float acc);
 
 };
 
