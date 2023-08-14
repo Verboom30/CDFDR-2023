@@ -15,22 +15,25 @@ class Holonome
         Stepper* StepperC = new Stepper(STEP_M3, DIR_M3);
       
 
-        void getPosition(int *positionX, int *positionY, int *Alpha);
+        void    getPosition(void);
+        float   getPositionX(void);
+        float   getPositionY(void);
+        float   getAlpha(void);
         float getAcceleration(void);
         float getDeceleration(void);
         
-        void setSpeed(int Vx, int Vy, int theta);
-        void setAcceleration(float acc);
-        void setDeceleration(float dec);
-        void setPositionZero(void);
-        bool stopped(void);
-        bool waitAck(void);
+        void  setSpeed(int Vx, int Vy, int theta);
+        void  setAcceleration(float acc);
+        void  setDeceleration(float dec);
+        void  setPositionZero(void);
+        bool  stopped(void);
+        bool  waitAck(void);
 
-        void HolonomeSpeed(int SpeedX, int SpeedY, int W);
-        void goesTo(int positionX, int positionY, int Alpha); 
-        void move(int positionX, int positionY, int Alpha); 
-        void stop(void);
-        void run(void);
+        void  HolonomeSpeed(int SpeedX, int SpeedY, int W);
+        void  goesTo(int positionX, int positionY, int Alpha); 
+        void  move(int positionX, int positionY, int Alpha); 
+        void  stop(void);
+        void  run(void);
         
 
         
@@ -44,17 +47,22 @@ class Holonome
         float _acc;                             //Acceleration [step/s²]
         float _dec;                             //Decceleration [step/s²]
         float _spd;                             //Speed [step/s]
-        int   _Alpha;
-        int   _positionX;
-        int   _positionY;
+        float   _Alpha;
+        float   _positionX;
+        float   _positionY;
+        int   _MoveAlpha; 
+        int   _MovepositionX;
+        int   _MovepositionY;
         
         string _Cmd;
         bool _AckStpA;
         bool _AckStpB;
         bool _AckStpC;
+
         Thread StepperA_thread;
         Thread StepperB_thread;
         Thread StepperC_thread;
+        
         void routine_stepperA(void);
         void routine_stepperB(void);
         void routine_stepperC(void);

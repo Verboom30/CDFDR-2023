@@ -8,18 +8,15 @@
 #define MAXIMUM_BUFFER_SIZE  128
 // #define COEFF  0.1
 #define SPEED  3000 // max 50000 Mstepper 16 3200Ma
-#define DIS    300
+#define DIS    1000
 #define ANGLE  90
-#define ACC    4
-#define DEC    4
+#define ACC    4.0
+#define DEC    4.0
 
-// #define PI 3.14159265
+
 BufferedSerial pc(USBTX, USBRX,115200);
 BufferedSerial uart(D1, D0,115200);
 
-// Stepper StepperA(STEP_M1, DIR_M1);
-// Stepper StepperB(STEP_M2, DIR_M2);
-// Stepper StepperC(STEP_M3, DIR_M3);
 Holonome* RobotMove = new Holonome();
 
 DigitalOut pc_activity(LED1);
@@ -29,6 +26,7 @@ DigitalOut uart_activity(LED2);
 AnalogIn   Poten(A0);
 Thread serial_thread;
 Thread plot_thread;
+Thread show_pos_thread;
 // Thread StepperA_thread;
 // Thread StepperB_thread;
 // Thread StepperC_thread;
@@ -37,8 +35,6 @@ float Te=0.01;
 float V1=0;
 float V2=0;
 float V3=0;
-int Dstep=0;
-int Astep=0;
 int Vx=0;
 int Vy=0;
 int Vx2=0;
@@ -77,6 +73,15 @@ void conCharReceived(void)
   }  
     
 }
+void showPostion(void)
+{
+  while (1)
+  {
+    RobotMove->getPosition();
+    printf("PosX:%f PosY:%f Alpha:%f\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha());
+  }
+  
+}
 
 int main()
 { 
@@ -84,15 +89,22 @@ int main()
 
     //serial_thread.start(conCharReceived);
     //plot_thread.start(show_thread);
+    show_pos_thread.start(showPostion);
   
-    Dstep = DIS/((PI*2*RWHEEL/(RSTEP*MSTEP))*REDUC);
-    Astep = (ANGLE*(PI/180))/((PI*2*RWHEEL/(RSTEP*MSTEP))*REDUC);
-    RobotMove->setSpeed(0,0,SPEED/20);
     RobotMove->setAcceleration(ACC);
     RobotMove->setDeceleration(DEC);
     RobotMove->stop();
     RobotMove->setPositionZero();
     
+    RobotMove->setSpeed(SPEED,0,0);
+    RobotMove->move(DIS,0,0);
+    while(!RobotMove->waitAck());
+    while(!RobotMove->stopped()); 
+
+    // RobotMove->setSpeed(0,0,SPEED);
+    // RobotMove->move(0,0,ANGLE);
+    // while(!RobotMove->waitAck());
+    // while(!RobotMove->stopped()); 
   
  
    
@@ -100,16 +112,11 @@ int main()
     while (1)
     {
 
-    RobotMove->setSpeed(0,SPEED,0);
-    RobotMove->move(0,Dstep,0);
-    while(!RobotMove->waitAck());
-    while(!RobotMove->stopped()); 
     
     
-    RobotMove->setSpeed(0,0,SPEED/30);
-    RobotMove->move(0,0,Astep);
-    while(!RobotMove->waitAck());
-    while(!RobotMove->stopped()); 
+    
+    
+
 
     
   
