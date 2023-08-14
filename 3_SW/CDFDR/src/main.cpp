@@ -10,8 +10,7 @@
 #define SPEED  3000 // max 50000 Mstepper 16 3200Ma
 #define DIS    1000
 #define ANGLE  90
-#define ACC    4.0
-#define DEC    4.0
+
 
 
 BufferedSerial pc(USBTX, USBRX,115200);
@@ -91,8 +90,8 @@ int main()
     //plot_thread.start(show_thread);
     show_pos_thread.start(showPostion);
   
-    RobotMove->setAcceleration(ACC);
-    RobotMove->setDeceleration(DEC);
+    //RobotMove->setAcceleration(ACC);
+    //RobotMove->setDeceleration(DEC);
     RobotMove->stop();
     RobotMove->setPositionZero();
     

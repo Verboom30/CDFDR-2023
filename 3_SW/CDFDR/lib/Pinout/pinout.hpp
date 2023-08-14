@@ -7,6 +7,9 @@
 #define REDUC   0.5
 #define KSTP    ((PI*2.0*RWHEEL/(RSTEP*MSTEP))*REDUC)
 
+#define ACC    4.0
+#define DEC    4.0
+
 #ifndef __PINOUT_H_
 #define __PINOUT_H_
 
