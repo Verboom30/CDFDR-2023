@@ -19,14 +19,10 @@ class Holonome
         float   getPositionX(void);
         float   getPositionY(void);
         float   getAlpha(void);
-        float   getAcceleration(void);
-        float   getDeceleration(void);
         float   getSpeedX(void);
         float   getSpeedY(void);
         
-        void  setSpeed(int Vx, int Vy, int theta);
-        void  setAcceleration(float acc);
-        void  setDeceleration(float dec);
+    
         void  setPositionZero(void);
         bool  stopped(void);
         bool  waitAck(void);
@@ -66,10 +62,12 @@ class Holonome
         Thread StepperA_thread;
         Thread StepperB_thread;
         Thread StepperC_thread;
+        Thread routine;
         
         void routine_stepperA(void);
         void routine_stepperB(void);
         void routine_stepperC(void);
+        void routine_holonome(void);
         float getSpeedA(void);
         float getSpeedB(void);
         float getSpeedC(void);

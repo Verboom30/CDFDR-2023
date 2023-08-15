@@ -76,7 +76,6 @@ void showPostion(void)
 {
   while (1)
   {
-    RobotMove->getPosition();
     printf("PosX:%f PosY:%f Alpha:%f  SpeedX:%f SpeedY:%f\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),RobotMove->getSpeedX(),RobotMove->getSpeedY());
   }
   
@@ -90,21 +89,15 @@ int main()
     //plot_thread.start(show_thread);
     show_pos_thread.start(showPostion);
   
-    //RobotMove->setAcceleration(ACC);
-    //RobotMove->setDeceleration(DEC);
+   
     RobotMove->stop();
     RobotMove->setPositionZero();
     
-    RobotMove->setSpeed(0,0,0);
-    RobotMove->move(300,100,0);
-    
+    RobotMove->move(3000,1000,0);
     while(!RobotMove->waitAck());
     while(!RobotMove->stopped()); 
 
-    // RobotMove->setSpeed(0,0,SPEED);
-    // RobotMove->move(0,0,ANGLE);
-    // while(!RobotMove->waitAck());
-    // while(!RobotMove->stopped()); 
+  
   
  
    
