@@ -6,11 +6,6 @@
 #include <string.h>
 #include <math.h>
 #define MAXIMUM_BUFFER_SIZE  128
-// #define COEFF  0.1
-
-#define DIS    1000
-#define ANGLE  90
-
 
 
 BufferedSerial pc(USBTX, USBRX,115200);
@@ -26,9 +21,6 @@ AnalogIn   Poten(A0);
 Thread serial_thread;
 Thread plot_thread;
 Thread show_pos_thread;
-// Thread StepperA_thread;
-// Thread StepperB_thread;
-// Thread StepperC_thread;
 
 float Te=0.01;
 float V1=0;
@@ -93,20 +85,19 @@ int main()
     RobotMove->stop();
     RobotMove->setPositionZero();
     
-    RobotMove->move(3000,1000,0);
-    while(!RobotMove->waitAck());
-    while(!RobotMove->stopped()); 
-
   
   
- 
-   
-   
     while (1)
     {
 
-    
-    
+         RobotMove->goesTo(3000,1000,0);
+         while(!RobotMove->waitAck());
+         while(!RobotMove->stopped()); 
+
+         RobotMove->goesTo(0,0,0);
+         while(!RobotMove->waitAck());
+         while(!RobotMove->stopped()); 
+
     
     
 
