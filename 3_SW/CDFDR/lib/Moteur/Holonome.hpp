@@ -19,8 +19,10 @@ class Holonome
         float   getPositionX(void);
         float   getPositionY(void);
         float   getAlpha(void);
-        float getAcceleration(void);
-        float getDeceleration(void);
+        float   getAcceleration(void);
+        float   getDeceleration(void);
+        float   getSpeedX(void);
+        float   getSpeedY(void);
         
         void  setSpeed(int Vx, int Vy, int theta);
         void  setAcceleration(float acc);
@@ -47,12 +49,14 @@ class Holonome
         float _acc;                             //Acceleration [step/s²]
         float _dec;                             //Decceleration [step/s²]
         float _spd;                             //Speed [step/s]
-        float   _Alpha;
-        float   _positionX;
-        float   _positionY;
+        float _Alpha;
+        float _positionX;
+        float _positionY;
         int   _MoveAlpha; 
         int   _MovepositionX;
         int   _MovepositionY;
+        float _SpeedX;
+        float _SpeedY;
         
         string _Cmd;
         bool _AckStpA;

@@ -7,7 +7,7 @@
 #include <math.h>
 #define MAXIMUM_BUFFER_SIZE  128
 // #define COEFF  0.1
-#define SPEED  3000 // max 50000 Mstepper 16 3200Ma
+
 #define DIS    1000
 #define ANGLE  90
 
@@ -77,7 +77,7 @@ void showPostion(void)
   while (1)
   {
     RobotMove->getPosition();
-    printf("PosX:%f PosY:%f Alpha:%f\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha());
+    printf("PosX:%f PosY:%f Alpha:%f  SpeedX:%f SpeedY:%f\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),RobotMove->getSpeedX(),RobotMove->getSpeedY());
   }
   
 }
@@ -95,8 +95,9 @@ int main()
     RobotMove->stop();
     RobotMove->setPositionZero();
     
-    RobotMove->setSpeed(SPEED,0,0);
-    RobotMove->move(DIS,0,0);
+    RobotMove->setSpeed(0,0,0);
+    RobotMove->move(300,100,0);
+    
     while(!RobotMove->waitAck());
     while(!RobotMove->stopped()); 
 
