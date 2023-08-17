@@ -6,7 +6,13 @@
 #define RWHEEL  30.0
 #define REDUC   0.5
 #define KSTP    ((PI*2.0*RWHEEL/(RSTEP*MSTEP))*REDUC)
-#define SPEED   10000 // max 50000 Mstepper 16 3200Ma
+#define SPEED   5000 // max 50000 Mstepper 16 3200Ma
+
+#define RED     "\033[0;31m"
+#define CYAN    "\033[0;36m"
+#define WHITE   "\033[0;37m"
+#define GREEN   "\033[0;32m"
+#define YELLOW  "\033[0;33m"
 
 #define ACC    4.0
 #define DEC    4.0
