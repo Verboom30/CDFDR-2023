@@ -1,6 +1,6 @@
 
 #define PI      3.14159265
-#define RADIUS  136.191// robot wheel-base radius
+#define RADIUS  148.5// robot wheel-base radius
 #define MSTEP   16
 #define RSTEP   206.0
 #define RWHEEL  30.0
@@ -22,16 +22,20 @@
 
 
 // moteur 1
-#define DIR_M1  D2
-#define STEP_M1 D3
+#define DIR_M1  D7
+#define STEP_M1 D6
 
 // moteur 2
 #define DIR_M2  D4
 #define STEP_M2 D5
 
 // moteur 3
-#define DIR_M3  D7
-#define STEP_M3 D6 
+#define DIR_M3  D2
+#define STEP_M3 D3 
+
+// moteur 4
+#define DIR_M4  D37
+#define STEP_M4 D38
 
 // Bluetooth HC-06
 #define UART_TX D1  

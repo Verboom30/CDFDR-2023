@@ -13,6 +13,7 @@ class Holonome
         Stepper* StepperA = new Stepper(STEP_M1, DIR_M1);
         Stepper* StepperB = new Stepper(STEP_M2, DIR_M2);
         Stepper* StepperC = new Stepper(STEP_M3, DIR_M3);
+        Stepper* StepperD = new Stepper(STEP_M4, DIR_M4);
       
 
         void    getPosition(void);
@@ -21,6 +22,7 @@ class Holonome
         float   getAlpha(void);
         float   getSpeedX(void);
         float   getSpeedY(void);
+        float   getSpeedAlpha(void);
         
     
         void  setPositionZero(void);
@@ -32,6 +34,11 @@ class Holonome
         void  move(int positionX, int positionY, int Alpha); 
         void  stop(void);
         void  run(void);
+        float getSpeedA(void);
+        float getSpeedB(void);
+        float getSpeedC(void);
+        float getSpeedD(void);
+
         
 
         
@@ -53,25 +60,26 @@ class Holonome
         int   _MovepositionY;
         float _SpeedX;
         float _SpeedY;
+        float _SpeedAlpha;
         
         string _Cmd;
         bool _AckStpA;
         bool _AckStpB;
         bool _AckStpC;
+        bool _AckStpD;
 
         Thread StepperA_thread;
         Thread StepperB_thread;
         Thread StepperC_thread;
+        Thread StepperD_thread;
         Thread routine;
         
         void routine_stepperA(void);
         void routine_stepperB(void);
         void routine_stepperC(void);
+        void routine_stepperD(void);
         void routine_holonome(void);
-        float getSpeedA(void);
-        float getSpeedB(void);
-        float getSpeedC(void);
-
+        
         
 };
 #endif
