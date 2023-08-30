@@ -103,9 +103,16 @@ void traitement_cmdblth( char *msg, int size)
       uart.write(" Alpha:",sizeof(" Alpha:"));
       uart.write(Alpha.c_str(),Alpha.length());
       uart.write(WHITE, sizeof(WHITE));
-
-      RobotMove->goesTo(stoi(PX),stoi(PY),stoi(Alpha));
-      while(!RobotMove->waitAck());
+      if(cmd =="GOTO"){
+        RobotMove->goesTo(stoi(PX),stoi(PY),stoi(Alpha));
+        while(!RobotMove->waitAck());
+      }else if (cmd =="MOVE")
+      {
+        RobotMove->move(stoi(PX),stoi(PY),stoi(Alpha));
+        while(!RobotMove->waitAck());
+      }
+      
+      
       //while(!RobotMove->stopped()); 
 
 
@@ -223,16 +230,18 @@ int main()
    
     RobotMove->stop();
     RobotMove->setPositionZero();
+   
 
   
     // RobotMove->goesTo(300,0,0);
     //  while(!RobotMove->waitAck());
     //  while(!RobotMove->stopped()); 
-    RobotMove->move(0,100,45);
-    while(!RobotMove->waitAck());
-    while(!RobotMove->stopped()); 
+    // RobotMove->move(0,100,0);
+    // while(!RobotMove->waitAck());
+    // while(!RobotMove->stopped()); 
 
-        
+    
+    
   
   
     while (1)

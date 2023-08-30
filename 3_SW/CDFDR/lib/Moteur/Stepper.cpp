@@ -11,8 +11,14 @@ Stepper::Stepper(PinName clk, PinName dir): _clk(clk) , _dir(dir)
     _state = STOP;
     _pos = 0;
     _steps = 0;
-    _spd = 400;
+    _spd = 0;
     _dt0 = 0;
+    _n=0;
+    _nStartDec=0;
+    _dtn=0;
+    _dtmin=0;
+    _dt0=0;
+    _i=0;
 }
 
 //***********************************/************************************
