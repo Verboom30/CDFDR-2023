@@ -6,7 +6,7 @@
 #include <string.h>
 #include <math.h>
 #define MAXIMUM_BUFFER_SIZE  128
-#define COEFF  0.1
+#define COEFF  0.5
 #define SPEED  20000 // max 50000 Mstepper 16 3200Ma
 #define DIS    100000
 #define PI 3.14159265
@@ -67,7 +67,8 @@ void conCharReceived(void)
           if(Vx>1000 or Vx<-1000)Vx2 =Vx;
           if(Vy>1000 or Vy<-1000)Vy2 =-Vy;   
           //printf("X==>%d Y==>%d\n",Vx2,Vy2);
-          printf("V1:%f V2:%f V3:%f\n",V1,V2,V3);
+          //printf("V1:%f V2:%f V3:%f\n",V1,V2,V3);
+          wait_us(500);
           // On demande le token suivant.
           strToken = strtok ( NULL, separators );
       }    
