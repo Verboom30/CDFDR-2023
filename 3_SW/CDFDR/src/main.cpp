@@ -33,6 +33,8 @@ float R = 0.136; // robot wheel-base radius
 float theta_dot = 0; // robot wheel-base radius
 float percentage =0;
 
+PwmOut Myservo(D9);
+
 
 void print(const std::string &str) {
     pc.write(str.c_str(), str.length());
@@ -230,6 +232,8 @@ int main()
    
     RobotMove->stop();
     RobotMove->setPositionZero();
+
+    Myservo.period_ms(20);
    
 
   
@@ -246,8 +250,16 @@ int main()
   
     while (1)
     {
+      Myservo.pulsewidth_us(500.0+(100.0/9.0)*0.0);
+      wait_us(2000000);
+      Myservo.pulsewidth_us(500.0+(100.0/9.0)*90.0);
+       wait_us(2000000);
+      //  Myservo.pulsewidth_us(1000);
+      //   wait_us(5000000);
+      //   Myservo.pulsewidth_us(1250);
+      //    wait_us(5000000);
 
-         
+       
     //  RobotMove->move(300,300,0);
     //  while(!RobotMove->waitAck());
     //  while(!RobotMove->stopped()); 
