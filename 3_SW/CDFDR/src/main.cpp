@@ -8,32 +8,29 @@
 
 
 BufferedSerial pc(USBTX, USBRX,115200);
-BufferedSerial uart(D1, D0,9600);
+BufferedSerial uart(D1, D0,115200); //115200 Xbox_read 9600 blth
 
 Holonome* RobotMove = new Holonome();
 
 DigitalOut pc_activity(LED1);
 DigitalOut uart_activity(LED2);
 
-
-AnalogIn   Poten(A0);
 Thread serial_thread;
-Thread plot_thread;
 Thread show_pos_thread;
 
 float Te=0.01;
 float V1=0;
 float V2=0;
 float V3=0;
-int Vx=0;
-int Vy=0;
-int Vx2=0;
-int Vy2=0;
+
 float R = 0.136; // robot wheel-base radius
 float theta_dot = 0; // robot wheel-base radius
 float percentage =0;
 
-PwmOut Myservo(D9);
+PwmOut ServoB1(PA_0);
+PwmOut ServoB2(PD_12);
+PwmOut ServoB3(PD_13);
+
 
 
 void print(const std::string &str) {
@@ -44,22 +41,89 @@ void Xbox_read(void)
 {
   const char * separators = "\t\n";
   char buffer[MAXIMUM_BUFFER_SIZE] = {0};
+  int LeftHY=0;
+  int LeftHX=0;
+  int RightHY=0;
+  int RightHX=0;
+  int LT=0;
+  int RT=0;
   while (1) {
     if (uint32_t num = uart.read(buffer, sizeof(buffer))) {
       uart_activity = !uart_activity;
       //pc.write(buffer,num);
+      
+      //printf("%s",buffer);
 
       char * strToken = strtok ( buffer, separators );
       while ( strToken != NULL ) {
-          sscanf(strToken,"LeftHatY: %d",&Vy); 
-          sscanf(strToken,"LeftHatX: %d",&Vx); 
-          if(Vx>1000 or Vx<-1000)Vx2 =Vx;
-          if(Vy>1000 or Vy<-1000)Vy2 =-Vy;   
-          //printf("X==>%d Y==>%d\n",Vx2,Vy2);
-          printf("V1:%f V2:%f V3:%f\n",V1,V2,V3);
-          // On demande le token suivant.
-          strToken = strtok ( NULL, separators );
-      }    
+        sscanf(strToken,"LeftHatY: %d",&LeftHY); 
+        sscanf(strToken,"LeftHatX: %d",&LeftHX); 
+        sscanf(strToken,"RightHatY: %d",&RightHY); 
+        sscanf(strToken,"RightHatX: %d",&RightHX); 
+        sscanf(strToken,"LT: %d",&LT); 
+        sscanf(strToken,"RT: %d",&RT); 
+
+        printf("LeftHX ==> %d ",LeftHX);
+        printf("LeftHY ==> %d ",LeftHY);
+        printf("RightHX ==> %d ",RightHX);
+        printf("RightHY ==> %d ",RightHY);
+        printf("LT ==> %d ",LT);
+        printf("RT ==> %d ",RT);
+        printf("\n");
+
+        if(strstr(buffer,"A")){
+           
+        }
+        if(strstr(buffer,"B")){
+           
+        }
+        if(strstr(buffer,"X")){
+           
+        }
+        if(strstr(buffer,"Y")){
+           
+        }
+        if(strstr(buffer,"Up")){
+            ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
+        }
+        if(strstr(buffer,"Down")){
+            ServoB1.pulsewidth_us(500.0+(100.0/9.0)*120);
+        }
+        if(strstr(buffer,"Left")){
+            
+        }
+        if(strstr(buffer,"Right")){
+            
+        }
+        if(strstr(buffer,"View")){
+            
+        }
+        if(strstr(buffer,"Menu")){
+            
+        }
+        if(strstr(buffer,"Xbox")){
+            
+        }
+        if(strstr(buffer,"LB")){
+            
+        }
+        if(strstr(buffer,"RB")){
+            
+        }
+        if(strstr(buffer,"L3")){
+            
+        }
+         if(strstr(buffer,"R3")){
+            
+        }
+      
+        // On demande le token suivant.
+        strToken = strtok ( NULL, separators );
+      }   
+      for (int i = 0; i < MAXIMUM_BUFFER_SIZE; i++)
+      {
+          buffer[i] = 0; // on vide le buffer
+      }
     }   
     
   }  
@@ -222,18 +286,21 @@ void showPostion(void)
 
 int main()
 { 
-
-
-    //serial_thread.start(Xbox_read);
-    serial_thread.start(BluetoothCmd);
-    //plot_thread.start(show_thread);
-    show_pos_thread.start(showPostion);
+    serial_thread.start(Xbox_read);
+    //serial_thread.start(BluetoothCmd);
+    //show_pos_thread.start(showPostion);
   
    
     RobotMove->stop();
     RobotMove->setPositionZero();
 
-    Myservo.period_ms(20);
+    ServoB1.period_ms(20);
+    ServoB2.period_ms(20);
+    ServoB3.period_ms(20);
+    ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
+    ServoB2.pulsewidth_us(500.0+(100.0/9.0)*180);
+    ServoB3.pulsewidth_us(500.0+(100.0/9.0)*180);
+   
    
 
   
@@ -250,10 +317,20 @@ int main()
   
     while (1)
     {
-      Myservo.pulsewidth_us(500.0+(100.0/9.0)*0.0);
-      wait_us(2000000);
-      Myservo.pulsewidth_us(500.0+(100.0/9.0)*90.0);
-       wait_us(2000000);
+      // ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
+      // ServoB2.pulsewidth_us(500.0+(100.0/9.0)*180);
+      // ServoB3.pulsewidth_us(500.0+(100.0/9.0)*180);
+      // wait_us(2000000);
+      // ServoB1.pulsewidth_us(500.0+(100.0/9.0)*110);
+      // ServoB2.pulsewidth_us(500.0+(100.0/9.0)*110);
+      // ServoB3.pulsewidth_us(500.0+(100.0/9.0)*110);
+      // wait_us(2000000);
+    
+      //   wait_us(2000000);
+      //  Myservo.pulsewidth_us(500.0+(100.0/9.0)*110);
+  
+      //   wait_us(2000000);
+
       //  Myservo.pulsewidth_us(1000);
       //   wait_us(5000000);
       //   Myservo.pulsewidth_us(1250);
