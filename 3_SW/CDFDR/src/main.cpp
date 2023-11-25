@@ -5,8 +5,8 @@
 #include "develop_ticker.hpp"
 #include <string.h>
 #include <math.h>
-#define MAXIMUM_BUFFER_SIZE  128
-#define COEFF  0.5
+#define MAXIMUM_BUFFER_SIZE  32
+#define COEFF  0.1
 #define SPEED  20000 // max 50000 Mstepper 16 3200Ma
 #define DIS    100000
 #define PI 3.14159265
@@ -57,92 +57,107 @@ void conCharReceived(void)
 {
   const char * separators = "\t\n";
   char buffer[MAXIMUM_BUFFER_SIZE] = {0};
+   char CmdBlth[MAXIMUM_BUFFER_SIZE*2] = {0};
   int LeftHY=0;
   int LeftHX=0;
   int RightHY=0;
   int RightHX=0;
   int LT=0;
   int RT=0;
+  size_t data_written = 0;
   while (1) {
     if (uint32_t num = uart.read(buffer, sizeof(buffer))) {
       uart_activity = !uart_activity;
       //pc.write(buffer,num);
+
+      data_written =0;
+      do
+      {
+        //printf("%c",buffer[data_written]);
+        CmdBlth[data_written] = buffer[data_written]; 
+        data_written++;
+      } while (data_written < num);
       
-      //printf("%s",buffer);
+    
+      printf("%s",CmdBlth);
 
-      char * strToken = strtok ( buffer, separators );
-      while ( strToken != NULL ) {
-        sscanf(strToken,"LeftHatY: %d",&LeftHY); 
-        sscanf(strToken,"LeftHatX: %d",&LeftHX); 
-        sscanf(strToken,"RightHatY: %d",&RightHY); 
-        sscanf(strToken,"RightHatX: %d",&RightHX); 
-        sscanf(strToken,"LT: %d",&LT); 
-        sscanf(strToken,"RT: %d",&RT);
-         Vx = LeftHX;
-         Vy = -LeftHY;
-         //wait_us(500);
+    
 
-        printf("LeftHX ==> %d ",LeftHX);
-        printf("LeftHY ==> %d ",LeftHY);
-        printf("RightHX ==> %d ",RightHX);
-        printf("RightHY ==> %d ",RightHY);
-        printf("LT ==> %d ",LT);
-        printf("RT ==> %d ",RT);
-        printf("\n");
+      // char * strToken = strtok ( buffer, separators );
+      // while ( strToken != NULL ) {
+      //   sscanf(strToken,"LeftHatY: %d",&LeftHY); 
+      //   sscanf(strToken,"LeftHatX: %d",&LeftHX); 
+      //   sscanf(strToken,"RightHatY: %d",&RightHY); 
+      //   sscanf(strToken,"RightHatX: %d",&RightHX); 
+      //   sscanf(strToken,"LT: %d",&LT); 
+      //   sscanf(strToken,"RT: %d",&RT);
+      //    Vx = LeftHX;
+      //    Vy = -LeftHY;
+      //    wait_us(500);
 
-        if(strstr(buffer,"A")){
+        // printf("LeftHX ==> %d ",LeftHX);
+        // printf("LeftHY ==> %d ",LeftHY);
+        // printf("RightHX ==> %d ",RightHX);
+        // printf("RightHY ==> %d ",RightHY);
+        // printf("LT ==> %d ",LT);
+        // printf("RT ==> %d ",RT);
+        // printf("\n");
+
+      //   if(strstr(buffer,"A")){
            
-        }
-        if(strstr(buffer,"B")){
+      //   }
+      //   if(strstr(buffer,"B")){
            
-        }
-        if(strstr(buffer,"X")){
+      //   }
+      //   if(strstr(buffer,"X")){
            
-        }
-        if(strstr(buffer,"Y")){
+      //   }
+      //   if(strstr(buffer,"Y")){
            
-        }
-        if(strstr(buffer,"Up")){
-            ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
-        }
-        if(strstr(buffer,"Down")){
-            ServoB1.pulsewidth_us(500.0+(100.0/9.0)*120);
-        }
-        if(strstr(buffer,"Left")){
+      //   }
+      //   if(strstr(buffer,"Up")){
+      //       ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
+      //   }
+      //   if(strstr(buffer,"Down")){
+      //       ServoB1.pulsewidth_us(500.0+(100.0/9.0)*120);
+      //   }
+      //   if(strstr(buffer,"Left")){
             
-        }
-        if(strstr(buffer,"Right")){
+      //   }
+      //   if(strstr(buffer,"Right")){
             
-        }
-        if(strstr(buffer,"View")){
+      //   }
+      //   if(strstr(buffer,"View")){
             
-        }
-        if(strstr(buffer,"Menu")){
+      //   }
+      //   if(strstr(buffer,"Menu")){
             
-        }
-        if(strstr(buffer,"Xbox")){
+      //   }
+      //   if(strstr(buffer,"Xbox")){
             
-        }
-        if(strstr(buffer,"LB")){
+      //   }
+      //   if(strstr(buffer,"LB")){
             
-        }
-        if(strstr(buffer,"RB")){
+      //   }
+      //   if(strstr(buffer,"RB")){
             
-        }
-        if(strstr(buffer,"L3")){
+      //   }
+      //   if(strstr(buffer,"L3")){
             
-        }
-         if(strstr(buffer,"R3")){
+      //   }
+      //    if(strstr(buffer,"R3")){
             
-        }
+      //   }
       
-        // On demande le token suivant.
-        strToken = strtok ( NULL, separators );
-      }   
-    //   for (int i = 0; i < MAXIMUM_BUFFER_SIZE; i++)
-    //   {
-    //       buffer[i] = 0; // on vide le buffer
-    //   }
+      //   // On demande le token suivant.
+      //   strToken = strtok ( NULL, separators );
+      // }   
+   
+        for (size_t i = 0; i < data_written; i++)
+      {
+         CmdBlth[i] = 0; // on vide le buffer
+      }
+      
     }   
     
   }  
