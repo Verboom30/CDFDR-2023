@@ -8,7 +8,7 @@
 
 
 BufferedSerial pc(USBTX, USBRX,115200);
-BufferedSerial uart(D1, D0,115200); //115200 Xbox_read 9600 blth
+BufferedSerial uart(D1, D0,9600); //115200 Xbox_read 9600 blth
 
 Holonome* RobotMove = new Holonome();
 
@@ -277,18 +277,24 @@ void showPostion(void)
 {
   while (1)
   {
-    printf("PosX:%f PosY:%f Alpha:%f  SpeedX:%f SpeedY:%f SpeedAlpha:%f SpeedA:%f SpeedB:%f SpeedC:%f SpeedD:%f \n"
+    // printf("PosX:%f PosY:%f Alpha:%f  SpeedX:%f SpeedY:%f SpeedAlpha:%f SpeedA:%f SpeedB:%f SpeedC:%f \n"
+    // ,RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),RobotMove->getSpeedX(),RobotMove->getSpeedY(),
+    // RobotMove->getSpeedAlpha(),RobotMove->getSpeedA(),RobotMove->getSpeedB(),RobotMove->getSpeedC()
+    // );
+
+    printf("PosX:%f PosY:%f Alpha:%f  SpeedX:%f SpeedY:%f SpeedAlpha:%f PosA:%d PosB:%d PosC:%d \n"
     ,RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),RobotMove->getSpeedX(),RobotMove->getSpeedY(),
-    RobotMove->getSpeedAlpha(),RobotMove->getSpeedA(),RobotMove->getSpeedB(),RobotMove->getSpeedC(),RobotMove->getSpeedB());
+    RobotMove->getSpeedAlpha(),RobotMove->getPosA(),RobotMove->getPosB(),RobotMove->getPosC()
+    );
   }
   
 }
 
 int main()
 { 
-    serial_thread.start(Xbox_read);
-    //serial_thread.start(BluetoothCmd);
-    //show_pos_thread.start(showPostion);
+    //serial_thread.start(Xbox_read);
+    serial_thread.start(BluetoothCmd);
+    show_pos_thread.start(showPostion);
   
    
     RobotMove->stop();
