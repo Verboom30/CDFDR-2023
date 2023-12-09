@@ -181,7 +181,20 @@ void Holonome::routine_stepperA(void)
             StepperB->setDeceleration(getSpeedB()/DEC); 
             StepperB->move(int(((-RADIUS*_MoveAlpha) + (_MovepositionX))/KSTP));
 
+            // StepperA->setSpeed(1000);
+            // StepperA->setAcceleration(0);
+            // StepperA->setDeceleration(0);
+            // StepperA->move(2000);
 
+            // StepperC->setSpeed(1000);
+            // StepperC->setAcceleration(0);
+            // StepperC->setDeceleration(0);
+            // StepperC->move(-2000);
+
+            // StepperB->setSpeed(1000);
+            // StepperB->setAcceleration(0);
+            // StepperB->setDeceleration(0);
+            // StepperB->move(0);
             _AckStpA = true;
 
         }else if (_Cmd == "GOTO" and _AckStpA == false){  
@@ -199,6 +212,21 @@ void Holonome::routine_stepperA(void)
             StepperB->setAcceleration(getSpeedB()/ACC);
             StepperB->setDeceleration(getSpeedB()/DEC); 
             StepperB->goesTo(int(((-RADIUS*_MoveAlpha) + (_MovepositionX))/KSTP));
+
+            // StepperA->setSpeed(1000);
+            // StepperA->setAcceleration(0);
+            // StepperA->setDeceleration(0);
+            // StepperA->move(-2000);
+
+            // StepperC->setSpeed(1000);
+            // StepperC->setAcceleration(0);
+            // StepperC->setDeceleration(0);
+            // StepperC->move(2000);
+
+            // StepperB->setSpeed(1000);
+            // StepperB->setAcceleration(0);
+            // StepperB->setDeceleration(0);
+            // StepperB->move(0);
             _AckStpA = true;
 
         }else if (_Cmd == "STOP"){
