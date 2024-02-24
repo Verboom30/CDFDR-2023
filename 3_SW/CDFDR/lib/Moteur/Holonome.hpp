@@ -59,13 +59,13 @@ class Holonome
         bool _AckStpC;
 
         Thread StepperA_thread;
-        // Thread StepperB_thread;
-        // Thread StepperC_thread;
+         Thread StepperB_thread;
+         Thread StepperC_thread;
         Thread routine;
         
         void routine_stepperA(void);
-        // void routine_stepperB(void);
-        // void routine_stepperC(void);
+         void routine_stepperB(void);
+         void routine_stepperC(void);
         void routine_holonome(void);
         
         

@@ -2,6 +2,7 @@
 #include "pinout.hpp"
 #include "develop_ticker.hpp"
 #include "Holonome.hpp"
+#include "servo.hpp"
 #include <string.h>
 #include <math.h>
 #define MAXIMUM_BUFFER_SIZE  32
@@ -27,9 +28,18 @@ float R = 0.136; // robot wheel-base radius
 float theta_dot = 0; // robot wheel-base radius
 float percentage =0;
 
-PwmOut ServoB1(PA_0);
-PwmOut ServoB2(PD_12);
-PwmOut ServoB3(PD_13);
+PwmOut ServoB1(SERVO_B1);
+PwmOut ServoB2(SERVO_B2);
+PwmOut ServoB3(SERVO_B3);
+
+PwmOut ServoB1P1(SERVO_B1_P1);
+PwmOut ServoB1P2(SERVO_B1_P2);
+
+PwmOut ServoB2P1(SERVO_B2_P1);
+PwmOut ServoB2P2(SERVO_B2_P2);
+
+PwmOut ServoB3P1(SERVO_B3_P1);
+PwmOut ServoB3P2(SERVO_B3_P2);
 
 
 
@@ -290,6 +300,11 @@ void showPostion(void)
   
 }
 
+float theta2pluse(float theta)
+{
+  return 500.0+(100.0/9.0)*theta;
+}
+
 int main()
 { 
     //serial_thread.start(Xbox_read);
@@ -303,9 +318,9 @@ int main()
     ServoB1.period_ms(20);
     ServoB2.period_ms(20);
     ServoB3.period_ms(20);
-    ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
-    ServoB2.pulsewidth_us(500.0+(100.0/9.0)*180);
-    ServoB3.pulsewidth_us(500.0+(100.0/9.0)*180);
+    ServoB1.pulsewidth_us(theta2pluse(180));
+    ServoB2.pulsewidth_us(theta2pluse(180));
+    ServoB3.pulsewidth_us(theta2pluse(180));
    
    
 

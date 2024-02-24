@@ -94,8 +94,8 @@ void Stepper::stop(void)
 
 void Stepper::rotate(bool direction)
 {
-    //if(!_spd)return;    //spd must > 0
-    //_dir = direction;   //set output pin direction value
+    if(!_spd)return;    //spd must > 0
+    _dir = direction;   //set output pin direction value
     _steps = 0;         //rotate until stop() by user
     handler();          //start thread
 }
