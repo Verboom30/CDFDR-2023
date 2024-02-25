@@ -48,7 +48,7 @@
 //Servo_bras_1_prise_1
 #define SERVO_B1_P1  PC_8
 //Servo_bras_1_prise_2
-#define SERVO_B1_P2  PE_6
+#define SERVO_B1_P2  PB_11
 
 //Servo_bras_2_prise_1
 #define SERVO_B2_P1  PC_9
@@ -58,7 +58,7 @@
 //Servo_bras_3_prise_1
 #define SERVO_B3_P1  PE_5
 //Servo_bras_3_prise_2
-#define SERVO_B3_P2  PE_11
+#define SERVO_B3_P2  PE_6
 
 //Turbine 1
 #define TURB1  PF_8

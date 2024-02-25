@@ -300,9 +300,9 @@ void showPostion(void)
   
 }
 
-float theta2pluse(float theta)
+float theta2pluse(int theta)
 {
-  return 500.0+(100.0/9.0)*theta;
+  return 500.0+(100.0/9.0)*float(theta);
 }
 
 int main()
@@ -318,10 +318,18 @@ int main()
     ServoB1.period_ms(20);
     ServoB2.period_ms(20);
     ServoB3.period_ms(20);
-    ServoB1.pulsewidth_us(theta2pluse(180));
-    ServoB2.pulsewidth_us(theta2pluse(180));
-    ServoB3.pulsewidth_us(theta2pluse(180));
-   
+    ServoB1P1.period_ms(20);
+    ServoB1P2.period_ms(20);
+    ServoB2P1.period_ms(20);
+    ServoB2P2.period_ms(20);
+    ServoB3P1.period_ms(20);
+    ServoB3P2.period_ms(20);
+    ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+    ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+    ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+
+    ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+    ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
    
 
   
@@ -338,6 +346,19 @@ int main()
   
     while (1)
     {
+      ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+      ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+      wait_us(5000000);
+      ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
+      ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
+      wait_us(2000000);
+      ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+      wait_us(2000000);
+      ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+      ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+      wait_us(2000000);
+      ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+      
       // ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
       // ServoB2.pulsewidth_us(500.0+(100.0/9.0)*180);
       // ServoB3.pulsewidth_us(500.0+(100.0/9.0)*180);
