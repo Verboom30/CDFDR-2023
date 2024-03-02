@@ -32,6 +32,10 @@ PwmOut ServoB1(SERVO_B1);
 PwmOut ServoB2(SERVO_B2);
 PwmOut ServoB3(SERVO_B3);
 
+PwmOut Turbine1(TURB1);
+PwmOut Turbine2(TURB2);
+PwmOut Turbine3(TURB3);
+
 PwmOut ServoB1P1(SERVO_B1_P1);
 PwmOut ServoB1P2(SERVO_B1_P2);
 
@@ -318,12 +322,18 @@ int main()
     ServoB1.period_ms(20);
     ServoB2.period_ms(20);
     ServoB3.period_ms(20);
+    Turbine1.period_ms(20);
+    Turbine2.period_ms(20);
+    Turbine3.period_ms(20);
     ServoB1P1.period_ms(20);
     ServoB1P2.period_ms(20);
     ServoB2P1.period_ms(20);
     ServoB2P2.period_ms(20);
     ServoB3P1.period_ms(20);
     ServoB3P2.period_ms(20);
+    Turbine1.pulsewidth_us(1000);
+    Turbine2.pulsewidth_us(1000);
+    Turbine3.pulsewidth_us(1000);
     ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
     ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
     ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
@@ -346,18 +356,25 @@ int main()
   
     while (1)
     {
-      ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-      ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+      // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+      // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+      // wait_us(5000000);
+      // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
+      // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
+      // wait_us(2000000);
+      // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+      // wait_us(2000000);
+      // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+      // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+      // wait_us(2000000);
+      // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+
+      Turbine1.pulsewidth_us(1000);
       wait_us(5000000);
-      ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
-      ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
-      wait_us(2000000);
-      ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
-      wait_us(2000000);
-      ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-      ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
-      wait_us(2000000);
-      ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+      Turbine1.pulsewidth_us(1550);
+      wait_us(5000000);
+
+      
       
       // ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
       // ServoB2.pulsewidth_us(500.0+(100.0/9.0)*180);
@@ -373,10 +390,7 @@ int main()
   
       //   wait_us(2000000);
 
-      //  Myservo.pulsewidth_us(1000);
-      //   wait_us(5000000);
-      //   Myservo.pulsewidth_us(1250);
-      //    wait_us(5000000);
+      
 
        
     //  RobotMove->move(300,300,0);

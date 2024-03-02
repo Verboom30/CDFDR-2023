@@ -12,7 +12,7 @@ struct pos_servo {
 };
 
 const struct pos_bras Bras[]{
-    {180, 120}, //Bras 1
+    {180, 150}, //Bras 1
     {180, 150}, //Bras 2
     {180, 150}, //Bras 3
 };
