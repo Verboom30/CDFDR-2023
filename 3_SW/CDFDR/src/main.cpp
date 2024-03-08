@@ -354,10 +354,18 @@ int main()
 
     
     
-    lcd.printf("HelloWorld!\n");
-  
+  lcd.printf("HelloWorld!\n");
+   for ( int x = 1; x <= 100 ; x++ )
+     {
+       lcd.locate(7,1);
+       lcd.printf("%d\n",x);
+       HAL_Delay (1000);
+     }
     while (1)
     {
+
+    
+
       // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
       // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
       // wait_us(5000000);
