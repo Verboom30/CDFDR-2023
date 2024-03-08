@@ -3,6 +3,7 @@
 #include "develop_ticker.hpp"
 #include "Holonome.hpp"
 #include "servo.hpp"
+#include "lcd.hpp"
 #include <string.h>
 #include <math.h>
 #define MAXIMUM_BUFFER_SIZE  32
@@ -309,6 +310,7 @@ float theta2pluse(int theta)
   return 500.0+(100.0/9.0)*float(theta);
 }
 
+LCD lcd(PC_10,PC_11,PC_12,PD_2,PG_2,PG_3, LCD16x2); // rs, e, d4-d7
 int main()
 { 
     //serial_thread.start(Xbox_read);
@@ -319,27 +321,27 @@ int main()
     RobotMove->stop();
     RobotMove->setPositionZero();
 
-    ServoB1.period_ms(20);
-    ServoB2.period_ms(20);
-    ServoB3.period_ms(20);
-    Turbine1.period_ms(20);
-    Turbine2.period_ms(20);
-    Turbine3.period_ms(20);
-    ServoB1P1.period_ms(20);
-    ServoB1P2.period_ms(20);
-    ServoB2P1.period_ms(20);
-    ServoB2P2.period_ms(20);
-    ServoB3P1.period_ms(20);
-    ServoB3P2.period_ms(20);
-    Turbine1.pulsewidth_us(1000);
-    Turbine2.pulsewidth_us(1000);
-    Turbine3.pulsewidth_us(1000);
-    ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
-    ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
-    ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+    // ServoB1.period_ms(20);
+    // ServoB2.period_ms(20);
+    // ServoB3.period_ms(20);
+    // Turbine1.period_ms(20);
+    // Turbine2.period_ms(20);
+    // Turbine3.period_ms(20);
+    // ServoB1P1.period_ms(20);
+    // ServoB1P2.period_ms(20);
+    // ServoB2P1.period_ms(20);
+    // ServoB2P2.period_ms(20);
+    // ServoB3P1.period_ms(20);
+    // ServoB3P2.period_ms(20);
+    // Turbine1.pulsewidth_us(1000);
+    // Turbine2.pulsewidth_us(1000);
+    // Turbine3.pulsewidth_us(1000);
+    // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+    // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+    // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
 
-    ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-    ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+    // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+    // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
    
 
   
@@ -352,7 +354,7 @@ int main()
 
     
     
-  
+    lcd.printf("HelloWorld!\n");
   
     while (1)
     {
@@ -369,10 +371,10 @@ int main()
       // wait_us(2000000);
       // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
 
-      Turbine1.pulsewidth_us(1000);
-      wait_us(5000000);
-      Turbine1.pulsewidth_us(1550);
-      wait_us(5000000);
+      // Turbine1.pulsewidth_us(1000);
+      // wait_us(5000000);
+      // Turbine1.pulsewidth_us(1550);
+      // wait_us(5000000);
 
       
       
