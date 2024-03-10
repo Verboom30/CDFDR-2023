@@ -1,27 +1,6 @@
 #ifndef __PINOUT_H_
 #define __PINOUT_H_
 
-#define PI      3.14159265
-#define RADIUS  136 // robot wheel-base radius
-#define MSTEP   16
-#define RSTEP   200.0
-#define RWHEEL  29 
-#define REDUC   0.5
-#define KSTP     ((PI*2.0*RWHEEL/(RSTEP*MSTEP))*REDUC)
-#define SPEED   150 // max 50000 Mstepper 16 3200Ma
-#define THETA_A 60 // trop angle sur le A
-#define THETA_C 60
-
-#define RED     "\033[0;31m"
-#define CYAN    "\033[0;36m"
-#define WHITE   "\033[0;37m"
-#define GREEN   "\033[0;32m"
-#define YELLOW  "\033[0;33m"
-
-#define ACC    2.0
-#define DEC    2.0
-
-
 // moteur A
 #define DIR_M1  D37
 #define STEP_M1 D38
@@ -67,9 +46,23 @@
 //Turbine 3
 #define TURB3  PF_9
 
+//Ldc Screen
+#define LCD_RS PC_10
+#define LCD_EN PC_11
+#define LCD_D4 PC_12
+#define LCD_D5 PD_2
+#define LCD_D6 PG_2
+#define LCD_D7 PG_3
+
+//Button init
+#define BT_INIT PE_2
+#define BT_INIT_GND PE_4
 
 // Bluetooth HC-06
 #define UART_TX D1  
 #define UART_RX D0
+
+
+
 
 #endif // __PINOUT_H_

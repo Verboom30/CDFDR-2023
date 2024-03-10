@@ -1,5 +1,6 @@
 #include "mbed.h"
 #include "pinout.hpp"
+#include "main_pkg.hpp"
 #include "develop_ticker.hpp"
 #include "Holonome.hpp"
 #include "servo.hpp"
@@ -45,6 +46,13 @@ PwmOut ServoB2P2(SERVO_B2_P2);
 
 PwmOut ServoB3P1(SERVO_B3_P1);
 PwmOut ServoB3P2(SERVO_B3_P2);
+
+LCD lcd(LCD_RS,LCD_EN,LCD_D4,LCD_D5,LCD_D6,LCD_D7, LCD16x2); // rs, e, d4-d7
+
+DigitalIn  Button_init(BT_INIT);
+DigitalOut Button_init_gnd(BT_INIT_GND);
+
+
 
 
 
@@ -310,29 +318,34 @@ float theta2pluse(int theta)
   return 500.0+(100.0/9.0)*float(theta);
 }
 
-LCD lcd(PC_10,PC_11,PC_12,PD_2,PG_2,PG_3, LCD16x2); // rs, e, d4-d7
+
 int main()
 { 
+    Button_init.mode(PullUp);
+    Button_init_gnd = 0;
+    FsmState = IDLE;
+    lcd.printf("Wait Calibration\n");
+    
     //serial_thread.start(Xbox_read);
-    serial_thread.start(BluetoothCmd);
+    //serial_thread.start(BluetoothCmd);
     show_pos_thread.start(showPostion);
-  
-   
+
     RobotMove->stop();
     RobotMove->setPositionZero();
+    
 
-    // ServoB1.period_ms(20);
-    // ServoB2.period_ms(20);
-    // ServoB3.period_ms(20);
+    ServoB1.period_ms(20);
+    ServoB2.period_ms(20);
+    ServoB3.period_ms(20);
     // Turbine1.period_ms(20);
     // Turbine2.period_ms(20);
     // Turbine3.period_ms(20);
-    // ServoB1P1.period_ms(20);
-    // ServoB1P2.period_ms(20);
-    // ServoB2P1.period_ms(20);
-    // ServoB2P2.period_ms(20);
-    // ServoB3P1.period_ms(20);
-    // ServoB3P2.period_ms(20);
+    ServoB1P1.period_ms(20);
+    ServoB1P2.period_ms(20);
+    ServoB2P1.period_ms(20);
+    ServoB2P2.period_ms(20);
+    ServoB3P1.period_ms(20);
+    ServoB3P2.period_ms(20);
     // Turbine1.pulsewidth_us(1000);
     // Turbine2.pulsewidth_us(1000);
     // Turbine3.pulsewidth_us(1000);
@@ -352,18 +365,61 @@ int main()
     // while(!RobotMove->waitAck());
     // while(!RobotMove->stopped()); 
 
-    
-    
-  lcd.printf("HelloWorld!\n");
-   for ( int x = 1; x <= 100 ; x++ )
-     {
-       lcd.locate(7,1);
-       lcd.printf("%d\n",x);
-       HAL_Delay (1000);
-     }
     while (1)
     {
+      switch(FsmState){
+        case IDLE :
+          if(Button_init != 1){ // Attente boutton d'init 
+            lcd.cls();
+            lcd.printf("Start Up !\n");
+            FsmState = START_UP; //Allumage actionneurs 
+          } 
+          break;
 
+        case START_UP :
+          ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+          ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+          ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+          ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+          ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+          HAL_Delay (3000); // Attente de 2 secondes 
+          lcd.cls();
+          lcd.printf("Calibration !\n");
+          FsmState = CAL;
+          break;
+            
+        
+        case CAL :
+          RobotMove->goesTo(300,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped()); 
+          RobotMove->goesTo(0,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped()); 
+          RobotMove->goesTo(0,-300,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped()); 
+          RobotMove->goesTo(0,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped()); 
+          FsmState = WAIT_MATCH;
+          lcd.cls();
+          lcd.printf("Wait Match !\n");
+          break;
+
+        case WAIT_MATCH :
+          break;
+
+        case GAME :
+          break;
+
+        case END :
+          break;
+      }
+     
+    
+     
+     
     
 
       // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
