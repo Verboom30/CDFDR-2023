@@ -33,33 +33,42 @@ void on_rx_interrupt(void)
 //***********************************/************************************
 
 
-  uint32_t charToUInt32(const char* src) {
-    uint32_t ret = 0;
-    char* dst = (char*)&ret;
-    for(unsigned i = 0; (i < sizeof(src)) && (*src); ++i, ++src)
-      dst[i] = *src;
+  // uint32_t charToUInt32(const char* src) {
+  //   uint32_t ret = 0;
+  //   char* dst = (char*)&ret;
+  //   for(unsigned i = 0; (i < sizeof(src)) && (*src); ++i, ++src)
+  //     dst[i] = *src;
 
-    return ret;
-  }
+  //   return ret;
+  // }
 
 
 void Lidar::routine_lidar(void)
 {
-    char buffer[DATA_PACKET_SIZE*2] = {0};
-    char buffer_hex[DATA_PACKET_SIZE*2] = {0};
-    //BufferedSerial pc(USBTX, USBRX,230400);
+    uint8_t buffer[DATA_PACKET_SIZE*2] = {0};
     while(1){
-      
         if (readable()) {
-          //int dataPacket = 0;
           if (uint32_t num = read(buffer, sizeof(buffer))) {
 
-            printf("\nbuffer_hex: ");
-            for (uint32_t i = 0; i < num; i++)
+            // printf("\nbuffer_hex: ");
+            // for (uint32_t i = 0; i < num; i++)
+            // {
+            //     printf("%x",buffer[i]);
+            // }
+            uint8_t index;
+            for (index = 0; index < DATA_PACKET_SIZE && buffer[index] != HEADER; index++);
+            printf("\nDATA_PACKET: ");
+            for (uint8_t i = index; i < DATA_PACKET_SIZE+index; i++)
             {
-                memcpy(&buffer_hex[i], buffer+i, 1);
-                printf("%x",buffer_hex[i]);
+               printf("%02X",buffer[i]);
             }
+            
+          
+            
+
+
+
+          
           }
           
         }else{
