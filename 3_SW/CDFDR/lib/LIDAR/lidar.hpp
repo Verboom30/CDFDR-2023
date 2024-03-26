@@ -6,6 +6,7 @@
 
 #define POINT_PER_PACK 12
 #define HEADER 0x54
+#define VERLEN 0x2C
 #define DATA_PACKET_SIZE 47
 
 struct   LidarPointStructDef{
@@ -32,7 +33,7 @@ class Lidar : public BufferedSerial
 {
     public:
         Lidar(PinName tx, PinName rx, int baud = MBED_CONF_PLATFORM_DEFAULT_SERIAL_BAUD_RATE);
-        void ReadLidar(char ** DataPacket);
+        void ReadLidar(void);
         
     private : 
         LiDARFrameTypeDef _dataPacket;
