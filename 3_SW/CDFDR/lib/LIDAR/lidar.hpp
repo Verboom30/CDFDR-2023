@@ -12,7 +12,8 @@
 struct   LidarPointStructDef{
 
     uint16_t distance;
-    uint8_t intensity;
+    uint8_t  intensity;
+    float    angle;
 
 };
 
@@ -34,9 +35,11 @@ class Lidar : public BufferedSerial
     public:
         Lidar(PinName tx, PinName rx, int baud = MBED_CONF_PLATFORM_DEFAULT_SERIAL_BAUD_RATE);
         void ReadLidar(void);
+        void ShowDisAndIntsy(void);
+        LiDARFrameTypeDef _dataPacket;
         
     private : 
-        LiDARFrameTypeDef _dataPacket;
+       
         
 
         Thread Lidar_thread;
