@@ -34,7 +34,7 @@ void Lidar::ReadLidar(void)
         //printf("%02X",buffer[i]);
       }
       //printf("\r\n");
-      
+
       _dataPacket.header                = DataPacket[0];
       _dataPacket.ver_len               = DataPacket[1];
       _dataPacket.speed                 = ((uint16_t)DataPacket[3] << 8) | DataPacket[2];
@@ -65,7 +65,7 @@ void Lidar::ReadLidar(void)
           }
          
           //printf("EndAngle=%5d StartAngle=%5d Step[%2d]= %4.2f angle[%2d]=%4.2f dis[%2d]=%d \n",_dataPacket.end_angle,_dataPacket.start_angle,i,step,i,_dataPacket.point[i].angle,i,_dataPacket.point[i].distance);
-          printf("Angle[%2d]=%4.2f dis[%2d]=%d\n",i,(_dataPacket.point[i].angle/100),i,_dataPacket.point[i].distance);
+          //printf("Angle[%2d]=%4.2f dis[%2d]=%d\n",i,(_dataPacket.point[i].angle/100),i,_dataPacket.point[i].distance);
         }
       
     }
@@ -77,7 +77,8 @@ void Lidar::ShowDisAndIntsy(void)
 {
   for (uint8_t i = 0; i < POINT_PER_PACK; i++)
   {
-    printf("[%2d] Dis=%4d Intsy=%4d Agl=%3.2f\n",i,_dataPacket.point[i].distance,_dataPacket.point[i].intensity,_dataPacket.point[i].angle);
+    //printf("[%2d] Dis=%4d Intsy=%4d Agl=%3.2f\n",i,_dataPacket.point[i].distance,_dataPacket.point[i].intensity,_dataPacket.point[i].angle);
+    printf("[%2d] Angle=%5.f; Dis=%5d ",i,(_dataPacket.point[i].angle/100),_dataPacket.point[i].distance);
   }
   printf("\r\n");
   
@@ -108,6 +109,6 @@ void Lidar::routine_lidar(void)
 {
     while(1){
       ReadLidar();
-      //ShowDisAndIntsy();
+      ShowDisAndIntsy();
     }
 }
