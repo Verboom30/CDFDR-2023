@@ -16,7 +16,7 @@ BufferedSerial pc(USBTX, USBRX,230400);
 
 
 Holonome* RobotMove = new Holonome();
-Lidar*    LidarLD19 = new Lidar(D1, D0,230400);
+Lidar*    LidarLD19 = new Lidar(LIDAR_TX, LIDAR_RX,230400);
 
 DigitalOut pc_activity(LED1);
 DigitalOut uart_activity(LED2);
@@ -80,76 +80,76 @@ DigitalOut Button_init_gnd(BT_INIT_GND);
       
 //       //printf("%s",buffer);
 
-//       // char * strToken = strtok ( buffer, separators );
-//       // while ( strToken != NULL ) {
-//       //   sscanf(strToken,"LeftHatY: %d",&LeftHY); 
-//       //   sscanf(strToken,"LeftHatX: %d",&LeftHX); 
-//       //   sscanf(strToken,"RightHatY: %d",&RightHY); 
-//       //   sscanf(strToken,"RightHatX: %d",&RightHX); 
-//       //   sscanf(strToken,"LT: %d",&LT); 
-//       //   sscanf(strToken,"RT: %d",&RT); 
+//       char * strToken = strtok ( buffer, separators );
+//       while ( strToken != NULL ) {
+//         sscanf(strToken,"LeftHatY: %d",&LeftHY); 
+//         sscanf(strToken,"LeftHatX: %d",&LeftHX); 
+//         sscanf(strToken,"RightHatY: %d",&RightHY); 
+//         sscanf(strToken,"RightHatX: %d",&RightHX); 
+//         sscanf(strToken,"LT: %d",&LT); 
+//         sscanf(strToken,"RT: %d",&RT); 
 
-//       //   printf("LeftHX ==> %d ",LeftHX);
-//       //   printf("LeftHY ==> %d ",LeftHY);
-//       //   printf("RightHX ==> %d ",RightHX);
-//       //   printf("RightHY ==> %d ",RightHY);
-//       //   printf("LT ==> %d ",LT);
-//       //   printf("RT ==> %d ",RT);
-//       //   printf("\n");
+//         printf("LeftHX ==> %d ",LeftHX);
+//         printf("LeftHY ==> %d ",LeftHY);
+//         printf("RightHX ==> %d ",RightHX);
+//         printf("RightHY ==> %d ",RightHY);
+//         printf("LT ==> %d ",LT);
+//         printf("RT ==> %d ",RT);
+//         printf("\n");
 
-//       //   if(strstr(buffer,"A")){
+//         if(strstr(buffer,"A")){
            
-//       //   }
-//       //   if(strstr(buffer,"B")){
+//         }
+//         if(strstr(buffer,"B")){
            
-//       //   }
-//       //   if(strstr(buffer,"X")){
+//         }
+//         if(strstr(buffer,"X")){
            
-//       //   }
-//       //   if(strstr(buffer,"Y")){
+//         }
+//         if(strstr(buffer,"Y")){
            
-//       //   }
-//       //   if(strstr(buffer,"Up")){
-//       //       ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
-//       //   }
-//       //   if(strstr(buffer,"Down")){
-//       //       ServoB1.pulsewidth_us(500.0+(100.0/9.0)*120);
-//       //   }
-//       //   if(strstr(buffer,"Left")){
+//         }
+//         if(strstr(buffer,"Up")){
+//             ServoB1.pulsewidth_us(500.0+(100.0/9.0)*180);
+//         }
+//         if(strstr(buffer,"Down")){
+//             ServoB1.pulsewidth_us(500.0+(100.0/9.0)*120);
+//         }
+//         if(strstr(buffer,"Left")){
             
-//       //   }
-//       //   if(strstr(buffer,"Right")){
+//         }
+//         if(strstr(buffer,"Right")){
             
-//       //   }
-//       //   if(strstr(buffer,"View")){
+//         }
+//         if(strstr(buffer,"View")){
             
-//       //   }
-//       //   if(strstr(buffer,"Menu")){
+//         }
+//         if(strstr(buffer,"Menu")){
             
-//       //   }
-//       //   if(strstr(buffer,"Xbox")){
+//         }
+//         if(strstr(buffer,"Xbox")){
             
-//       //   }
-//       //   if(strstr(buffer,"LB")){
+//         }
+//         if(strstr(buffer,"LB")){
             
-//       //   }
-//       //   if(strstr(buffer,"RB")){
+//         }
+//         if(strstr(buffer,"RB")){
             
-//       //   }
-//       //   if(strstr(buffer,"L3")){
+//         }
+//         if(strstr(buffer,"L3")){
             
-//       //   }
-//       //    if(strstr(buffer,"R3")){
+//         }
+//          if(strstr(buffer,"R3")){
             
-//       //   }
+//         }
       
-//       //   // On demande le token suivant.
-//       //   strToken = strtok ( NULL, separators );
-//       // }   
-//       // for (int i = 0; i < MAXIMUM_BUFFER_SIZE; i++)
-//       // {
-//       //     buffer[i] = 0; // on vide le buffer
-//       // }
+//         // On demande le token suivant.
+//         strToken = strtok ( NULL, separators );
+//       }   
+//       for (int i = 0; i < MAXIMUM_BUFFER_SIZE; i++)
+//       {
+//           buffer[i] = 0; // on vide le buffer
+//       }
 //     }   
     
 //   }  
@@ -316,16 +316,7 @@ void showPostion(void)
   
 }
 
-void showLidar(void)
-{
-  char* msg = {0};
-  while (1)
-  {
-    LidarLD19->ReadLidar(&msg);
-    printf("DataLidar: %s\n",msg);
-  }
-  
-}
+
 
 float theta2pluse(int theta)
 {

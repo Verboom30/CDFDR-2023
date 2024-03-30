@@ -62,6 +62,9 @@
 #define UART_TX D1  
 #define UART_RX D0
 
+//LIDAR
+#define LIDAR_TX PD_5  
+#define LIDAR_RX PD_6
 
 
 
