@@ -66,6 +66,9 @@
 #define LIDAR_TX PD_5  
 #define LIDAR_RX PD_6
 
+//Tirette
+#define BT_TIRETTE PE_3
+
 
 
 #endif // __PINOUT_H_

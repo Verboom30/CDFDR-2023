@@ -358,14 +358,18 @@ int main()
     Turbine1.pulsewidth_us(1000);
     Turbine2.pulsewidth_us(1000);
     Turbine3.pulsewidth_us(1000);
-    // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
-    // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
-    // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+    
+    //ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+    //ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
+    //ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
+    // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
+    // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
 
-    // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-    // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
-   
+    // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
+    // ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
 
+    // ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
+    // ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
   
     // RobotMove->goesTo(300,0,0);
     //  while(!RobotMove->waitAck());
@@ -388,12 +392,19 @@ int main()
           break;
 
         case START_UP :
-          // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
-          // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
-          // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
-          // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-          // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
-          //HAL_Delay (3000); // Attente de 2 secondes 
+          ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+          ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+          ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+
+          ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+          ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+
+          ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
+          ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+
+          ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
+          ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
+          HAL_Delay (2000); // Attente de 2 secondes 
           lcd.cls();
           lcd.printf("Calibration !\n");
           FsmState = CAL;
@@ -424,7 +435,7 @@ int main()
           break;
 
         case WAIT_MATCH :
-          if(Tirette == 1){
+          if(Tirette != 1){
             lcd.cls();
             lcd.printf("GAME !\n");
             FsmState = GAME; //Lancement du match !
@@ -444,7 +455,6 @@ int main()
           RobotMove->move(0,0,90);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
-
           RobotMove->move(1000,0,0);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
