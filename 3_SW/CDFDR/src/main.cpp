@@ -55,6 +55,8 @@ LCD lcd(LCD_RS,LCD_EN,LCD_D4,LCD_D5,LCD_D6,LCD_D7, LCD16x2); // rs, e, d4-d7
 DigitalIn  Button_init(BT_INIT);
 DigitalOut Button_init_gnd(BT_INIT_GND);
 
+DigitalIn  Tirette(BT_TIRETTE);
+
 
 
 
@@ -327,13 +329,14 @@ float theta2pluse(int theta)
 int main()
 { 
     Button_init.mode(PullUp);
+    Tirette.mode(PullUp);
     Button_init_gnd = 0;
     FsmState = IDLE;
     lcd.printf("Wait Calibration\n");
     
     //serial_thread.start(Xbox_read);
     //serial_thread.start(BluetoothCmd);
-    //show_pos_thread.start(showPostion);
+    show_pos_thread.start(showPostion);
     //show_pos_thread.start(showLidar);
 
     RobotMove->stop();
@@ -343,18 +346,18 @@ int main()
     ServoB1.period_ms(20);
     ServoB2.period_ms(20);
     ServoB3.period_ms(20);
-    // Turbine1.period_ms(20);
-    // Turbine2.period_ms(20);
-    // Turbine3.period_ms(20);
+    Turbine1.period_ms(20);
+    Turbine2.period_ms(20);
+    Turbine3.period_ms(20);   
     ServoB1P1.period_ms(20);
     ServoB1P2.period_ms(20);
     ServoB2P1.period_ms(20);
     ServoB2P2.period_ms(20);
     ServoB3P1.period_ms(20);
     ServoB3P2.period_ms(20);
-    // Turbine1.pulsewidth_us(1000);
-    // Turbine2.pulsewidth_us(1000);
-    // Turbine3.pulsewidth_us(1000);
+    Turbine1.pulsewidth_us(1000);
+    Turbine2.pulsewidth_us(1000);
+    Turbine3.pulsewidth_us(1000);
     // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
     // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
     // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
@@ -373,6 +376,8 @@ int main()
 
     while (1)
     {
+     
+    
       switch(FsmState){
         case IDLE :
           if(Button_init != 1){ // Attente boutton d'init 
@@ -383,12 +388,12 @@ int main()
           break;
 
         case START_UP :
-          ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
-          ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
-          ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
-          ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-          ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
-          HAL_Delay (3000); // Attente de 2 secondes 
+          // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+          // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+          // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+          // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+          // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+          //HAL_Delay (3000); // Attente de 2 secondes 
           lcd.cls();
           lcd.printf("Calibration !\n");
           FsmState = CAL;
@@ -396,27 +401,57 @@ int main()
             
         
         case CAL :
-          RobotMove->goesTo(300,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped()); 
-          RobotMove->goesTo(0,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped()); 
-          RobotMove->goesTo(0,-300,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped()); 
-          RobotMove->goesTo(0,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped()); 
+          // RobotMove->move(200,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+          // RobotMove->move(-200,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+          // while(!RobotMove->stopped()); s
+          // RobotMove->goesTo(0,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped()); 
+          // RobotMove->goesTo(0,-300,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped()); 
+          // RobotMove->goesTo(0,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+          
           FsmState = WAIT_MATCH;
           lcd.cls();
           lcd.printf("Wait Match !\n");
           break;
 
         case WAIT_MATCH :
+          if(Tirette == 1){
+            lcd.cls();
+            lcd.printf("GAME !\n");
+            FsmState = GAME; //Lancement du match !
+          }
           break;
 
         case GAME :
+          RobotMove->move(0,1000,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+          RobotMove->move(-1000,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+          RobotMove->move(0,0,-90);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+          RobotMove->move(0,0,90);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->move(1000,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+          RobotMove->move(0,-1000,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+          FsmState = END; //Lancement du match !
           break;
 
         case END :
