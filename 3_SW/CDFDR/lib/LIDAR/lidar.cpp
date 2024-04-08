@@ -5,7 +5,7 @@
 
 Lidar::Lidar(PinName tx, PinName rx, int baud) : BufferedSerial(tx, rx, baud)
 {
-    Lidar_thread.start(callback(this, &Lidar::routine_lidar));
+    //Lidar_thread.start(callback(this, &Lidar::routine_lidar));
     LiDARFrameTypeDef _dataPacket;
 }
 
@@ -73,42 +73,36 @@ void Lidar::ReadLidar(void)
 }
 
 
-void Lidar::ShowDisAndIntsy(void)
-{
-  for (uint8_t i = 0; i < POINT_PER_PACK; i++)
-  {
-    //printf("[%2d] Dis=%4d Intsy=%4d Agl=%3.2f\n",i,_dataPacket.point[i].distance,_dataPacket.point[i].intensity,_dataPacket.point[i].angle);
-    printf("[%2d] Angle=%5.f; Dis=%5d ",i,(_dataPacket.point[i].angle/100),_dataPacket.point[i].distance);
-  }
-  printf("\r\n");
+// void Lidar::ShowDisAndIntsy(void)
+// {
+//   for (uint8_t i = 0; i < POINT_PER_PACK; i++)
+//   {
+//     //printf("[%2d] Dis=%4d Intsy=%4d Agl=%3.2f\n",i,_dataPacket.point[i].distance,_dataPacket.point[i].intensity,_dataPacket.point[i].angle);
+//     printf("[%2d] Angle=%5.f; Dis=%5d ",i,(_dataPacket.point[i].angle/100),_dataPacket.point[i].distance);
+//   }
+//   printf("\r\n");
   
-}
+// }
 
 
 //***********************************/************************************
 //                             Public Methods                           //
 //***********************************/************************************
-
+LiDARFrameTypeDef Lidar::GetPoints(void)
+{
+  ReadLidar();
+  return _dataPacket;
+}
 
 //***********************************/************************************
 //                          Protected Methods                           //
 //***********************************/************************************
 
 
-  // uint32_t charToUInt32(const char* src) {
-  //   uint32_t ret = 0;
-  //   char* dst = (char*)&ret;
-  //   for(unsigned i = 0; (i < sizeof(src)) && (*src); ++i, ++src)
-  //     dst[i] = *src;
-
-  //   return ret;
-  // }
-
-
-void Lidar::routine_lidar(void)
-{
-    while(1){
-      ReadLidar();
-      ShowDisAndIntsy();
-    }
-}
+// void Lidar::routine_lidar(void)
+// {
+//     while(1){
+      
+//       //ShowDisAndIntsy();
+//     }
+// }

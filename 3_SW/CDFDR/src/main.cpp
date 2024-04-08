@@ -18,6 +18,8 @@ BufferedSerial pc(USBTX, USBRX,230400);
 Holonome* RobotMove = new Holonome();
 Lidar*    LidarLD19 = new Lidar(LIDAR_TX, LIDAR_RX,230400);
 
+LiDARFrameTypeDef LidarPoints;
+
 DigitalOut pc_activity(LED1);
 DigitalOut uart_activity(LED2);
 
@@ -314,8 +316,42 @@ void showPostion(void)
     ,RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),RobotMove->getSpeedX(),RobotMove->getSpeedY(),
     RobotMove->getSpeedAlpha(),RobotMove->getPosA(),RobotMove->getPosB(),RobotMove->getPosC()
     );
+ 
   }
   
+}
+
+void showLidar(void)
+{
+  while (1)
+  {
+    LidarPoints = LidarLD19->GetPoints();
+    for (uint8_t i = 0; i < POINT_PER_PACK; i++)
+    {
+      //printf("[%2d] Dis=%4d Intsy=%4d Agl=%3.2f\n",i,_dataPacket.point[i].distance,_dataPacket.point[i].intensity,_dataPacket.point[i].angle);
+      printf("[%2d] Angle=%5.f; Dis=%5d ",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
+    }
+    printf("\r\n");
+  }
+  
+}
+
+void ShowLidarCoord(void)
+{
+ while (1)
+  {
+    LidarPoints = LidarLD19->GetPoints();
+    for (uint8_t i = 0; i < POINT_PER_PACK; i++)
+    {
+     
+      //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
+      float LidarX = RobotMove->getPositionX()+cos((PI/180)*(LidarPoints.point[i].angle/100)-90-RobotMove->getAlpha())*LidarPoints.point[i].distance;
+      float LidarY = RobotMove->getPositionY()+sin((PI/180)*(LidarPoints.point[i].angle/100)+90-RobotMove->getAlpha())*LidarPoints.point[i].distance;
+      if(LidarX>0 and LidarX<2000 and LidarY>0 and LidarY<3000) printf("%5.f;%5.f\r\n",LidarX,LidarY);
+      //printf("%5.f;%5.f\r\n", RobotMove->getPositionX()+cos((PI/180)*(LidarPoints.point[i].angle/100)-90-RobotMove->getAlpha())*LidarPoints.point[i].distance,RobotMove->getPositionY()+sin((PI/180)*(LidarPoints.point[i].angle/100)+90-RobotMove->getAlpha())*LidarPoints.point[i].distance);
+    }
+    //printf("\r\n");
+  }
 }
 
 
@@ -336,7 +372,9 @@ int main()
     
     //serial_thread.start(Xbox_read);
     //serial_thread.start(BluetoothCmd);
-    show_pos_thread.start(showPostion);
+    //show_pos_thread.start(showPostion);
+    //show_pos_thread.start(showLidar);
+    show_pos_thread.start(ShowLidarCoord);
     //show_pos_thread.start(showLidar);
 
     RobotMove->stop();
@@ -443,24 +481,41 @@ int main()
           break;
 
         case GAME :
-          RobotMove->move(0,1000,0);
+          // RobotMove->move(0,1000,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+          // RobotMove->move(-1000,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+          // RobotMove->move(0,0,-90);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+          // RobotMove->move(0,0,90);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+          // RobotMove->move(1000,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+          // RobotMove->move(0,-1000,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+
+          RobotMove->goesTo(0,200,0);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
-          RobotMove->move(-1000,0,0);
+
+          // RobotMove->goesTo(100,200,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+
+          // RobotMove->goesTo(0,0,90);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
+
+          RobotMove->goesTo(0,0,0);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
-          RobotMove->move(0,0,-90);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
-          RobotMove->move(0,0,90);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
-          RobotMove->move(1000,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
-          RobotMove->move(0,-1000,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+
           FsmState = END; //Lancement du match !
           break;
 
