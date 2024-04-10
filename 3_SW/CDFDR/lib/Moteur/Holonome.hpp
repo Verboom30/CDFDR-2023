@@ -38,6 +38,9 @@ class Holonome
         int getPosA(void);
         int getPosB(void);
         int getPosC(void);
+        int getStepA(void);
+        int getStepB(void);
+        int getStepC(void);
         
     private : 
         float _acc;                             //Acceleration [step/s²]

@@ -1,11 +1,12 @@
 #include "lidar.hpp"
+#include "main_pkg.hpp"
 //***********************************/************************************
 //                         Constructors                                 //
 //***********************************/************************************
 
 Lidar::Lidar(PinName tx, PinName rx, int baud) : BufferedSerial(tx, rx, baud)
 {
-    //Lidar_thread.start(callback(this, &Lidar::routine_lidar));
+    Lidar_thread.start(callback(this, &Lidar::routine_lidar));
     LiDARFrameTypeDef _dataPacket;
 }
 
@@ -73,16 +74,16 @@ void Lidar::ReadLidar(void)
 }
 
 
-// void Lidar::ShowDisAndIntsy(void)
-// {
-//   for (uint8_t i = 0; i < POINT_PER_PACK; i++)
-//   {
-//     //printf("[%2d] Dis=%4d Intsy=%4d Agl=%3.2f\n",i,_dataPacket.point[i].distance,_dataPacket.point[i].intensity,_dataPacket.point[i].angle);
-//     printf("[%2d] Angle=%5.f; Dis=%5d ",i,(_dataPacket.point[i].angle/100),_dataPacket.point[i].distance);
-//   }
-//   printf("\r\n");
+void Lidar::ShowDisAndIntsy(void)
+{
+  for (uint8_t i = 0; i < POINT_PER_PACK; i++)
+  {
+    //printf("[%2d] Dis=%4d Intsy=%4d Agl=%3.2f\n",i,_dataPacket.point[i].distance,_dataPacket.point[i].intensity,_dataPacket.point[i].angle);
+    printf("%f;%5d\r\n",(float(_dataPacket.point[i].angle/100)),_dataPacket.point[i].distance);
+  }
   
-// }
+  
+}
 
 
 //***********************************/************************************
@@ -99,10 +100,10 @@ LiDARFrameTypeDef Lidar::GetPoints(void)
 //***********************************/************************************
 
 
-// void Lidar::routine_lidar(void)
-// {
-//     while(1){
-      
-//       //ShowDisAndIntsy();
-//     }
-// }
+void Lidar::routine_lidar(void)
+{
+    while(1){
+      ReadLidar();
+      //ShowDisAndIntsy();
+    }
+}

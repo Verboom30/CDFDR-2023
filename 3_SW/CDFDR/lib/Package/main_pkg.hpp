@@ -18,8 +18,8 @@
 #define GREEN   "\033[0;32m"
 #define YELLOW  "\033[0;33m"
 
-#define ACC    2.0
-#define DEC    2.0
+#define ACC    4.0
+#define DEC    4.0
 
 
 enum {IDLE,START_UP,CAL,WAIT_MATCH,GAME,END}FsmState;  

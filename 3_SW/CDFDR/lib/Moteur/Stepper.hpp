@@ -95,6 +95,11 @@ public:
     * @returns position [steps] from origin set by setPositionZero()
     */
     int getPosition(void);
+
+    /**Get absolute step
+    * @returns steps
+    */
+    int getStep(void);
     
     /**Get Acceleration
     * @returns acceleration [steps/sec²]

@@ -35,7 +35,7 @@ class Lidar : public BufferedSerial
     public:
         Lidar(PinName tx, PinName rx, int baud = MBED_CONF_PLATFORM_DEFAULT_SERIAL_BAUD_RATE);
         void ReadLidar(void);
-        // void ShowDisAndIntsy(void);
+        void ShowDisAndIntsy(void);
         LiDARFrameTypeDef GetPoints(void);
         LiDARFrameTypeDef _dataPacket;
         
@@ -44,7 +44,7 @@ class Lidar : public BufferedSerial
         
 
         Thread Lidar_thread;
-        // void routine_lidar(void);
+        void routine_lidar(void);
         
         
 };

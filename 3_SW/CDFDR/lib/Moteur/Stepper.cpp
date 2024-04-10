@@ -69,6 +69,11 @@ int Stepper::getPosition(void)
     return _pos;
 }
 
+int Stepper::getStep(void)
+{
+    return _steps;
+}
+
 bool Stepper::stopped(void)
 {
     return (_state == STOP) ? true : false;
