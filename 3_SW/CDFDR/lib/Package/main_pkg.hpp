@@ -8,7 +8,7 @@
 #define RWHEEL  29 
 #define REDUC   0.5
 #define KSTP     ((PI*2.0*RWHEEL/(RSTEP*MSTEP))*REDUC)
-#define SPEED   150 // max 50000 Mstepper 16 3200Ma
+#define SPEED   500 // max 50000 Mstepper 16 3200Ma
 #define THETA_A 60 // trop angle sur le A
 #define THETA_C 60
 
@@ -18,8 +18,8 @@
 #define GREEN   "\033[0;32m"
 #define YELLOW  "\033[0;33m"
 
-#define ACC    4.0
-#define DEC    4.0
+#define ACC    2.0
+#define DEC    2.0
 
 
 enum {IDLE,START_UP,CAL,WAIT_MATCH,GAME,END}FsmState;  

@@ -59,6 +59,10 @@ float Stepper::getDeceleration(void)
     return _dec;
 }
 
+void Stepper::setPosition(int position)
+{
+    _pos = position;
+}
 void Stepper::setPositionZero(void)
 {
     _pos = 0;

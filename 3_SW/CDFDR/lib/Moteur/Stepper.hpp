@@ -81,6 +81,8 @@ public:
     * @param dec deceleration [steps/sec²] (0 = infinite deceleration last step @ max speed)
     */
     void setDeceleration(float dec);
+
+    void setPosition(int position);
     
     /**Give Origin for motor absolute movement
     */

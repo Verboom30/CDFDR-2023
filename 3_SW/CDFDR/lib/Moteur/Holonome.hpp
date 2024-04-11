@@ -23,6 +23,7 @@ class Holonome
         float   getSpeedAlpha(void);
         
     
+        void  setPosition(int positionX, int positionY, int Alpha);
         void  setPositionZero(void);
         bool  stopped(void);
         bool  waitAck(void);

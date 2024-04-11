@@ -317,12 +317,12 @@ void showPostion(void)
     // RobotMove->getSpeedAlpha(),RobotMove->getPosA(),RobotMove->getPosB(),RobotMove->getPosC()
     // );
 
-    printf("PosX:%f PosY:%f Alpha:%f  SpeedX:%f SpeedY:%f SpeedAlpha:%f StepA:%d StepB:%d StepC:%d SpeedA:%f SpeedB:%f SpeedC:%f\n"
-    ,RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),RobotMove->getSpeedX(),RobotMove->getSpeedY(),
-    RobotMove->getSpeedAlpha(),RobotMove->getStepA(),RobotMove->getStepB(),RobotMove->getStepC(),RobotMove->getSpeedA(),RobotMove->getSpeedB(),RobotMove->getSpeedC()
-    );
+    // printf("PosX:%f PosY:%f Alpha:%f  SpeedX:%f SpeedY:%f SpeedAlpha:%f StepA:%d StepB:%d StepC:%d SpeedA:%f SpeedB:%f SpeedC:%f\n"
+    // ,RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),RobotMove->getSpeedX(),RobotMove->getSpeedY(),
+    // RobotMove->getSpeedAlpha(),RobotMove->getStepA(),RobotMove->getStepB(),RobotMove->getStepC(),RobotMove->getSpeedA(),RobotMove->getSpeedB(),RobotMove->getSpeedC()
+    // );
 
-    //printf("%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY());
+    printf("%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY());
  
   }
   
@@ -335,16 +335,20 @@ void showLidar(void)
     LidarPoints = LidarLD19->GetPoints();
     for (uint8_t i = 0; i < POINT_PER_PACK; i++)
     {
-      //printf("[%2d] Dis=%4d Intsy=%4d Agl=%3.2f\n",i,_dataPacket.point[i].distance,_dataPacket.point[i].intensity,_dataPacket.point[i].angle);
-      printf("[%2d] Angle=%5.f; Dis=%5d ",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
+      //printf("[%2d] Dis=%5d Intsy=%5d Agl=%5.f\r\n",i,LidarPoints.point[i].distance,LidarPoints.point[i].intensity,(LidarPoints.point[i].angle/100));
+     
+      if(LidarPoints.point[i].intensity >200)  printf("%f;%d\r\n",(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
+     
     }
-    printf("\r\n");
+    //printf("\r\n");
   }
   
 }
 
 void ShowLidarCoord(void)
 {
+  float PointLidarX =0;
+  float PointLidarY =0;
  while (1)
   {
     LidarPoints = LidarLD19->GetPoints();
@@ -354,7 +358,10 @@ void ShowLidarCoord(void)
       //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
       float LidarX = RobotMove->getPositionX()+cos((PI/180)*(LidarPoints.point[i].angle/100)-90-RobotMove->getAlpha())*LidarPoints.point[i].distance;
       float LidarY = RobotMove->getPositionY()+sin((PI/180)*(LidarPoints.point[i].angle/100)+90-RobotMove->getAlpha())*LidarPoints.point[i].distance;
-      if(LidarX>0 and LidarX<2000 and LidarY>0 and LidarY<3000) printf("%5.f;%5.f\r\n",LidarX,LidarY);
+
+      if(LidarX>0 and LidarX<2000 and LidarY>0 and LidarY<3000) PointLidarX = LidarX,PointLidarY = LidarY;
+      printf("%f;%f;%f;%d\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
+      //printf("%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),LidarX,LidarY);
       //printf("%5.f;%5.f\r\n", RobotMove->getPositionX()+cos((PI/180)*(LidarPoints.point[i].angle/100)-90-RobotMove->getAlpha())*LidarPoints.point[i].distance,RobotMove->getPositionY()+sin((PI/180)*(LidarPoints.point[i].angle/100)+90-RobotMove->getAlpha())*LidarPoints.point[i].distance);
     }
     //printf("\r\n");
@@ -437,6 +444,7 @@ int main()
           break;
 
         case START_UP :
+          RobotMove->setPosition(225,1775,0);
           ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
           ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
           ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
@@ -509,7 +517,40 @@ int main()
 
       
 
-          RobotMove->goesTo(1000,-1000,90);
+          RobotMove->goesTo(800,1350,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->goesTo(800,1900,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          
+          RobotMove->goesTo(800,750,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->goesTo(800,1400,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->goesTo(150,1400,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->goesTo(800,1400,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->goesTo(800,100,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->goesTo(255,100,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->goesTo(255,255,0);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
 
@@ -522,9 +563,6 @@ int main()
           // while(!RobotMove->waitAck());
           // while(!RobotMove->stopped());
 
-          RobotMove->goesTo(0,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
 
           FsmState = END; //Lancement du match !
           break;

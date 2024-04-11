@@ -77,7 +77,12 @@ int Holonome::getStepC(void)
     return StepperC->getStep();
 }
 
-
+void Holonome::setPosition(int positionX, int positionY, int Alpha)
+{
+    StepperA->setPosition(int(((-RADIUS*Alpha) + (positionX))/KSTP));
+    StepperB->setPosition(int(((-RADIUS*Alpha) - 0.5*positionX - sin((PI/180.0)*THETA_A)*positionY)/KSTP));
+    StepperC->setPosition(int(((-RADIUS*Alpha) - 0.5*positionX + sin((PI/180.0)*THETA_A)*positionY)/KSTP));
+}
 
 
 
