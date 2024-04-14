@@ -12,6 +12,7 @@ int size_y = 900;
 int midd_x = size_x/2;
 int midd_y = size_y/2;
 float scale = 4;
+float scale_robot = 2;
 PVector p1,p2,p3,p4;
  
 void setup() {
@@ -23,7 +24,7 @@ void setup() {
   size(1500,900);
   Table = loadImage("vinyle_table_2024_FINAL_V1.png");
   points.add(new PVector(0,0));
-  coord_robot.add(new PVector(0,0));
+  coord_robot.add(new PVector(0,0,0));
   //background(0);
   stroke(0,0,0); // black
   strokeWeight(10);
@@ -63,7 +64,7 @@ void setup() {
     strokeWeight(5);
     fill(0, 0, 0);
     textSize(3*scale);
-    text(200-i*100,p2.x-7*scale,p2.y+i*10*scale+1*scale);
+    text(2000-i*100,p2.x-10*scale,p2.y+i*10*scale+1*scale);
     ellipse(p1.x+i*10*scale,p1.y,0,20);
     ellipse(p2.x,p2.y+i*10*scale,20,0);
   }
@@ -82,22 +83,28 @@ void draw() {
     if (myString != null) {
       //print(myString);
       String[] q = splitTokens(myString, ";");
-      if (q.length>1){
+      if (q.length>2){
         x=float(q[0]);  // Converts and prints float
         y = float(q[1]);  // Converts and prints float
+        angle = float(q[2]);  // Converts and prints float
         
        
 //draw_table();
-        coord_robot.add(new PVector(p1.x+x*scale/10,p1.y-y*scale/10));
+        coord_robot.add(new PVector(p1.x+x*scale/10,p1.y-y*scale/10,angle));
         while (coord_robot.size() > 1) {
           coord_robot.remove(0);
         }
         PVector coord = coord_robot.get(coord_robot.size()-1);
         
-        stroke(255,0,0); // ellipse color: default white fill, red stroke
-        strokeWeight(10);
-        ellipse(coord.x,coord.y,5,5);
-        println(x,y);
+        stroke(0,255,0); // ellipse color: default white fill, red stroke
+        strokeWeight(1*scale*scale_robot);
+        ellipse(coord.x,coord.y,2*scale*scale_robot,2*scale*scale_robot);
+        stroke(0,0,0); // ellipse color: default white fill, red stroke
+        line(coord.x,coord.y,coord.x+scale*sin((coord.z+0+180)*(PI/180))*3,coord.y+scale*cos((coord.z+0+180)*(PI/180))*3*scale_robot);
+        stroke(255,0,0);
+        line(coord.x,coord.y,coord.x+scale*sin((coord.z+120+180)*(PI/180))*3*scale_robot,coord.y+scale*cos((coord.z+120+180)*(PI/180))*3*scale_robot);
+        line(coord.x,coord.y,coord.x+scale*sin((coord.z+240+180)*(PI/180))*3*scale_robot,coord.y+scale*cos((coord.z+240+180)*(PI/180))*3*scale_robot);
+        println(x,y,angle);
  
       }
     }

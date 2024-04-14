@@ -11,6 +11,7 @@ int size_y = 2000;
 int midd_x = size_x/2;
 int midd_y = size_y/2;
 float scale = 8;
+
  
 void setup() {
   // List all the available serial ports
@@ -69,8 +70,17 @@ void setup() {
   point(p1.x,p1.y);
   
   stroke(0,255,0); // ellipse color: default white fill, red stroke
-  strokeWeight(10);
-  ellipse(p1.x+100*scale,p1.y-100*scale,20,20);
+  strokeWeight(20);
+  ellipse(p1.x+100*scale,p1.y-100*scale,40,40);
+  
+  stroke(255,255,255);
+  strokeWeight(8);
+  angle = 60;
+  line(p1.x+100*scale,p1.y-100*scale,p1.x+100*scale+scale*sin((angle+0+180)*(PI/180))*3,p1.y-100*scale+scale*cos((angle+0+180)*(PI/180))*3);
+  stroke(255,0,0);
+  line(p1.x+100*scale,p1.y-100*scale,p1.x+100*scale+scale*sin((angle+120+180)*(PI/180))*3,p1.y-100*scale+scale*cos((angle+120+180)*(PI/180))*3);
+  line(p1.x+100*scale,p1.y-100*scale,p1.x+100*scale+scale*sin((angle+240+180)*(PI/180))*3,p1.y-100*scale+scale*cos((angle+240+180)*(PI/180))*3);
+
   
   
   
