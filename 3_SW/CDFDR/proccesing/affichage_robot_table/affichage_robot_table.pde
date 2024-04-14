@@ -97,13 +97,13 @@ void draw() {
         PVector coord = coord_robot.get(coord_robot.size()-1);
         
         stroke(0,255,0); // ellipse color: default white fill, red stroke
-        strokeWeight(1*scale*scale_robot);
-        ellipse(coord.x,coord.y,2*scale*scale_robot,2*scale*scale_robot);
-        stroke(0,0,0); // ellipse color: default white fill, red stroke
-        line(coord.x,coord.y,coord.x+scale*sin((coord.z+0+180)*(PI/180))*3,coord.y+scale*cos((coord.z+0+180)*(PI/180))*3*scale_robot);
+        strokeWeight(10);
+        ellipse(coord.x,coord.y,5*scale*scale_robot,5*scale*scale_robot);
+        stroke(255,255,255); // ellipse color: default white fill, red stroke
+        line(coord.x,coord.y,coord.x+scale*sin((coord.z+0+180)*(PI/180))*1*scale_robot,coord.y+scale*cos((coord.z+0+180)*(PI/180))*1*scale_robot);
         stroke(255,0,0);
-        line(coord.x,coord.y,coord.x+scale*sin((coord.z+120+180)*(PI/180))*3*scale_robot,coord.y+scale*cos((coord.z+120+180)*(PI/180))*3*scale_robot);
-        line(coord.x,coord.y,coord.x+scale*sin((coord.z+240+180)*(PI/180))*3*scale_robot,coord.y+scale*cos((coord.z+240+180)*(PI/180))*3*scale_robot);
+        line(coord.x,coord.y,coord.x+scale*sin((coord.z+120+180)*(PI/180))*1*scale_robot,coord.y+scale*cos((coord.z+120+180)*(PI/180))*1*scale_robot);
+        line(coord.x,coord.y,coord.x+scale*sin((coord.z+240+180)*(PI/180))*1*scale_robot,coord.y+scale*cos((coord.z+240+180)*(PI/180))*1*scale_robot);
         println(x,y,angle);
  
       }

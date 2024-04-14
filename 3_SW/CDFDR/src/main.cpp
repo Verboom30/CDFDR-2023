@@ -254,6 +254,32 @@ int main()
 
 
 
+
+
+
+
+          // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+          // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+          // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
+          // ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+          // ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
+          // ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
+          // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+          // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+          // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+          // HAL_Delay (1000); // Attente de 2 secondes 
+          // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
+          // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
+          // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
+          // ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
+          // ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
+          // ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
+          // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+          // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
+          // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
+          // HAL_Delay (1000); // Attente de 2 secondes 
+
+
           FsmState = END; //Lancement du match !
           break;
 
