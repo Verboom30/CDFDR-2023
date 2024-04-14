@@ -90,7 +90,7 @@ void draw() {
         
        
 //draw_table();
-        coord_robot.add(new PVector(p1.x+x*scale/10,p1.y-y*scale/10,angle));
+        coord_robot.add(new PVector(p1.x+x*scale/10,p1.y-y*scale/10,-angle));
         while (coord_robot.size() > 1) {
           coord_robot.remove(0);
         }
