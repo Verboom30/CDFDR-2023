@@ -109,19 +109,24 @@ void ShowLidarCoord(void)
  while (1)
   {
     LidarPoints = LidarLD19->GetPoints();
+   
     for (uint8_t i = 0; i < POINT_PER_PACK; i++)
     {
      
       //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
-      float LidarX = RobotMove->getPositionX()+cos((PI/180)*(LidarPoints.point[i].angle/100)-90-RobotMove->getAlpha())*LidarPoints.point[i].distance;
-      float LidarY = RobotMove->getPositionY()+sin((PI/180)*(LidarPoints.point[i].angle/100)+90-RobotMove->getAlpha())*LidarPoints.point[i].distance;
-
+      float LidarX = cos((PI/180)*float(LidarPoints.point[i].angle/100)+90)*LidarPoints.point[i].distance;
+      float LidarY = -sin((PI/180)*float(LidarPoints.point[i].angle/100)+90)*LidarPoints.point[i].distance;
       if(LidarX>0 and LidarX<2000 and LidarY>0 and LidarY<3000) PointLidarX = LidarX,PointLidarY = LidarY;
-      printf("%f;%f;%f;%d\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
+      //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
+     //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarX,LidarY);
+     
+     if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%d\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarPoints.point[i].angle/100,LidarPoints.point[i].distance);
+      
+      //printf("%f;%f;%f;%d\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
       //printf("%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),LidarX,LidarY);
       //printf("%5.f;%5.f\r\n", RobotMove->getPositionX()+cos((PI/180)*(LidarPoints.point[i].angle/100)-90-RobotMove->getAlpha())*LidarPoints.point[i].distance,RobotMove->getPositionY()+sin((PI/180)*(LidarPoints.point[i].angle/100)+90-RobotMove->getAlpha())*LidarPoints.point[i].distance);
     }
-    //printf("\r\n");
+    printf("\r\n");
   }
 }
 
@@ -143,11 +148,10 @@ int main()
     
     //serial_thread.start(Xbox_read);
     //serial_thread.start(BluetoothCmd);
-    show_pos_thread.start(showPostion);
+    //show_pos_thread.start(showPostion);
     //show_pos_thread.start(showLidar);
-    //show_pos_thread.start(ShowLidarCoord);
-    //show_pos_thread.start(showLidar);
-
+    show_pos_thread.start(ShowLidarCoord);
+ 
     RobotMove->stop();
     RobotMove->setPositionZero();
     
@@ -167,6 +171,7 @@ int main()
     Turbine1.pulsewidth_us(1000);
     Turbine2.pulsewidth_us(1000);
     Turbine3.pulsewidth_us(1000);
+    RobotMove->setPosition(1500,1000,0);
     
     while (1)
     {
@@ -182,7 +187,7 @@ int main()
           break;
 
         case START_UP :
-          //RobotMove->setPosition(225,1775,0);
+         
           ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
           ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
           ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));

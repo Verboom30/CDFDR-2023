@@ -6,7 +6,7 @@
 
 Lidar::Lidar(PinName tx, PinName rx, int baud) : BufferedSerial(tx, rx, baud)
 {
-    Lidar_thread.start(callback(this, &Lidar::routine_lidar));
+    //Lidar_thread.start(callback(this, &Lidar::routine_lidar));
     LiDARFrameTypeDef _dataPacket;
 }
 
@@ -108,10 +108,10 @@ LiDARFrameTypeDef Lidar::GetPoints(void)
 //***********************************/************************************
 
 
-void Lidar::routine_lidar(void)
-{
-    while(1){
-      ReadLidar();
-      ShowDisAndIntsy();
-    }
-}
+// void Lidar::routine_lidar(void)
+// {
+//     while(1){
+//       ReadLidar();
+//       ShowDisAndIntsy();
+//     }
+// }

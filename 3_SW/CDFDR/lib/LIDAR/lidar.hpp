@@ -44,7 +44,7 @@ class Lidar : public BufferedSerial
         
 
         Thread Lidar_thread;
-        void routine_lidar(void);
+        //void routine_lidar(void);
         
         
 };
