@@ -114,9 +114,9 @@ void ShowLidarCoord(void)
     {
      
       //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
-      float LidarX = RobotMove->getPositionX()+sin((PI/180)*float(LidarPoints.point[i].angle/100))*LidarPoints.point[i].distance;
-      float LidarY = RobotMove->getPositionY()+cos((PI/180)*float(LidarPoints.point[i].angle/100))*LidarPoints.point[i].distance;
-      if(LidarX>0 and LidarX<2000 and LidarY>0 and LidarY<3000) PointLidarX = LidarX,PointLidarY = LidarY;
+      float LidarX = RobotMove->getPositionX()+sin((PI/180)*(float(LidarPoints.point[i].angle/100)+RobotMove->getAlpha()))*LidarPoints.point[i].distance;
+      float LidarY = RobotMove->getPositionY()+cos((PI/180)*(float(LidarPoints.point[i].angle/100)+RobotMove->getAlpha()))*LidarPoints.point[i].distance;
+      if(LidarX>0 and LidarX<3000 and LidarY>0 and LidarY<2000) PointLidarX = LidarX,PointLidarY = LidarY;
       //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
      //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarX,LidarY);
 
