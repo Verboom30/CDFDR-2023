@@ -106,7 +106,8 @@ void ShowLidarCoord(void)
 {
   float PointLidarX =0;
   float PointLidarY =0;
- while (1)
+  float AngleCible  =0;
+  while (1)
   {
     LidarPoints = LidarLD19->GetPoints();
    
@@ -122,7 +123,10 @@ void ShowLidarCoord(void)
 
      //if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
 
-     if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY());
+     AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-RobotMove->getPositionX()),(RobotMove->getPosCibleY()-RobotMove->getPositionY())))-RobotMove->getAlpha();
+     if(AngleCible<0) AngleCible =360+AngleCible;
+  
+     if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY(),AngleCible);
      
      //if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%d\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarPoints.point[i].angle/100,LidarPoints.point[i].distance);
       
@@ -253,13 +257,18 @@ int main()
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
 
-          RobotMove->goesTo(2000,1000,90);
+          RobotMove->goesTo(1000,2000,90);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
 
           RobotMove->goesTo(2000,1000,180);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
+
+
+      
+
+         
 
 
 
