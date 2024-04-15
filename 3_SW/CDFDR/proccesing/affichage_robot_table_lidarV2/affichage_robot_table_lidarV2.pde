@@ -6,7 +6,7 @@ import processing.serial.*;
 Serial myPort;  // The serial port
 int lf = 10;    // Linefeed in ASCII
 String myString = null;
-float x,y,angle,angle_lidar,r,LidarX,LidarY;
+float x,y,angle,angle_lidar,r,LidarX,LidarY,CibleX,CibleY;
 float f = 0.25;
 int size_x = 1500;
 int size_y = 900;
@@ -85,13 +85,15 @@ void draw() {
     if (myString != null) {
       //print(myString);
       String[] q = splitTokens(myString, ";");
-      if (q.length>4){
+      if (q.length>6){
         x=float(q[0]);  // Converts and prints float
         y = float(q[1]);  // Converts and prints float
         angle = float(q[2]);  // Converts and prints float
         LidarX =float(q[3]);
         LidarY =float(q[4]);
-        println(x,y,angle,LidarX,LidarY);
+        CibleX =float(q[5]);
+        CibleY =float(q[6]);
+        println(x,y,angle,LidarX,LidarY,CibleX,CibleY);
        
 //draw_table();
         coord_robot.add(new PVector(p1.x+x*scale/10,p1.y-y*scale/10,-angle));
@@ -120,7 +122,15 @@ void draw() {
         strokeWeight(5);
         stroke(255,255,0);
         ellipse(p1.x+LidarX*scale/10,p1.y-LidarY*scale/10,1*scale,1*scale);
-        //ellipse(LidarX,LidarY,1*scale,1*scale);
+        
+        strokeWeight(10);
+        stroke(255,0,255);
+        ellipse(p1.x+CibleX*scale/10,p1.y-CibleY*scale/10,5*scale,5*scale);
+        
+        strokeWeight(1);
+        line(p1.x+CibleX*scale/10,p1.y-CibleY*scale/10,coord.x,coord.y);
+        
+    
         
  
        

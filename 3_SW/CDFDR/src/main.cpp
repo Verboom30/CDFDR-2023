@@ -120,7 +120,9 @@ void ShowLidarCoord(void)
       //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
      //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarX,LidarY);
 
-     if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
+     //if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
+
+     if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY());
      
      //if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%d\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarPoints.point[i].angle/100,LidarPoints.point[i].distance);
       
@@ -173,7 +175,7 @@ int main()
     Turbine1.pulsewidth_us(1000);
     Turbine2.pulsewidth_us(1000);
     Turbine3.pulsewidth_us(1000);
-    RobotMove->setPosition(1500,1000,0);
+    //RobotMove->setPosition(1500,1000,0);
     
     while (1)
     {

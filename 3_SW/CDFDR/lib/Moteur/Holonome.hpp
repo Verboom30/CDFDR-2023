@@ -17,6 +17,8 @@ class Holonome
         void    getPosition(void);
         float   getPositionX(void);
         float   getPositionY(void);
+        float   getPosCibleX(void);
+        float   getPosCibleY(void);
         float   getAlpha(void);
         float   getSpeedX(void);
         float   getSpeedY(void);

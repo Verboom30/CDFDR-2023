@@ -103,6 +103,16 @@ float Holonome::getPositionY(void)
     return _positionY;
 }
 
+float Holonome::getPosCibleX(void)
+{
+    return _MovepositionX;
+}
+
+float Holonome::getPosCibleY(void)
+{
+    return _MovepositionY;
+}
+
 float Holonome::getAlpha(void)
 {
     return _Alpha;
