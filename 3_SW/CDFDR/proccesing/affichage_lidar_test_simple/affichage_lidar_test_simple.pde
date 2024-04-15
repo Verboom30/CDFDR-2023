@@ -28,7 +28,7 @@ void draw() {
         r = float(q[1]);  // Converts and prints float
         
         x = (f*sin(angle*(PI/180))*r + 1000);
-        y = (f*cos(angle*(PI/180))*r + 1000);
+        y = (-f*cos(angle*(PI/180))*r + 1000);
         stroke(255,0,0); // ellipse color: default white fill, red stroke
         strokeWeight(3);
         point(x,y);
