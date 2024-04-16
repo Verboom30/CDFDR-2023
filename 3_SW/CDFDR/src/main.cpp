@@ -59,6 +59,16 @@ DigitalOut Button_init_gnd(BT_INIT_GND);
 
 DigitalIn  Tirette(BT_TIRETTE);
 
+float PointLidarX =0;
+float PointLidarY =0;
+float AngleCible  =0;
+float AngleCible_Down =0;
+float AngleCible_Top  =0;
+int   Stop            =0;
+int   SumNoStop       =0;
+int   SumStop         =0;
+float AngleLidar      =0;
+int   DistanceLidar   =0;
 
 void showPostion(void)
 {
@@ -104,37 +114,104 @@ void showLidar(void)
 
 void ShowLidarCoord(void)
 {
-  float PointLidarX =0;
-  float PointLidarY =0;
-  float AngleCible  =0;
+ 
   while (1)
   {
     LidarPoints = LidarLD19->GetPoints();
    
     for (uint8_t i = 0; i < POINT_PER_PACK; i++)
     {
-     
-      //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
-      float LidarX = RobotMove->getPositionX()+sin((PI/180)*(float(LidarPoints.point[i].angle/100)+RobotMove->getAlpha()))*LidarPoints.point[i].distance;
-      float LidarY = RobotMove->getPositionY()+cos((PI/180)*(float(LidarPoints.point[i].angle/100)+RobotMove->getAlpha()))*LidarPoints.point[i].distance;
-      if(LidarX>0 and LidarX<3000 and LidarY>0 and LidarY<2000) PointLidarX = LidarX,PointLidarY = LidarY;
-      //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
-     //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarX,LidarY);
+      //if(LidarPoints.point[i].intensity >200 and (RobotMove->stopped()==0)){
+      if(LidarPoints.point[i].intensity >200){
+        //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
 
-     //if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
+        //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
+        //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarX,LidarY);
 
-     AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-RobotMove->getPositionX()),(RobotMove->getPosCibleY()-RobotMove->getPositionY())))-RobotMove->getAlpha();
-     if(AngleCible<0) AngleCible =360+AngleCible;
-  
-     if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY(),AngleCible);
-     
+        //if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
+        float LidarX = RobotMove->getPositionX()+sin((PI/180)*(float(LidarPoints.point[i].angle/100)+RobotMove->getAlpha()))*LidarPoints.point[i].distance;
+        float LidarY = RobotMove->getPositionY()+cos((PI/180)*(float(LidarPoints.point[i].angle/100)+RobotMove->getAlpha()))*LidarPoints.point[i].distance;
+        
+        AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-RobotMove->getPositionX()),(RobotMove->getPosCibleY()-RobotMove->getPositionY())))-RobotMove->getAlpha();
+        if(AngleCible<0) AngleCible =360+AngleCible;
+        AngleCible_Down = AngleCible-45;
+        AngleCible_Top  = AngleCible+45;
+        if(AngleCible_Down<0) AngleCible_Down =360+AngleCible_Down;
+        if(AngleCible_Top>360)  AngleCible_Top  =AngleCible_Top-360;
+    
+        if(LidarX>0 and LidarX<3000 and LidarY>0 and LidarY<2000){
+          if(AngleCible_Top > AngleCible_Down){
+              if(float(LidarPoints.point[i].angle/100) <= AngleCible_Top and float(LidarPoints.point[i].angle/100) >= AngleCible_Down){
+                if(LidarPoints.point[i].distance > 200 and LidarPoints.point[i].distance <900){
+                  if(Stop==0){
+                    if(SumStop>2000)SumStop=2000;
+                    if(SumStop>=2000){
+                      Stop =1;
+                    }else{
+                      SumStop=SumStop+400;
+                    }
+                  }
+                  
+                  //printf("STOP1!=%d, SumStop=%d, distance=%d, AngleCible_Top=%f, Anglelidar=%f, AngleCible_Down=%f\n",Stop,SumStop,LidarPoints.point[i].distance,AngleCible_Top,float(LidarPoints.point[i].angle/100),AngleCible_Down);
+                }else{
+                if(Stop ==1){
+                  SumNoStop++;
+                }
+                if(SumNoStop>3000){
+                  Stop=0;
+                  SumNoStop=0;
+                  SumStop=0;
+                } 
+                if(SumStop>0 and Stop==0)SumStop--;
+                }
+              }
+          }else{
+            if(float(LidarPoints.point[i].angle/100) <= AngleCible_Top or float(LidarPoints.point[i].angle/100) >= AngleCible_Down){
+                if(LidarPoints.point[i].distance > 200 and LidarPoints.point[i].distance <900){
+                if(Stop==0){
+                    if(SumStop>2000)SumStop=2000;
+                    if(SumStop>=2000){
+                      Stop =1;
+                    }else{
+                      SumStop=SumStop+400;
+                    }
+                  }
+                //printf("STOP2!=%d, SumStop=%d, distance=%d, AngleCible_Top=%f, Anglelidar=%f, AngleCible_Down=%f\n",Stop,SumStop,LidarPoints.point[i].distance,AngleCible_Top,float(LidarPoints.point[i].angle/100),AngleCible_Down);
+                }else{
+                if(Stop ==1){
+                  SumNoStop++;
+                }
+                if(SumNoStop>3000){
+                  Stop=0;
+                  SumNoStop=0;
+                  SumStop=0;
+                } 
+                if(SumStop>0 and Stop==0)SumStop--;
+                }
+              }
+          }
+        }
+        if(Stop==1){
+          DistanceLidar = LidarPoints.point[i].distance ;
+          AngleLidar   = float(LidarPoints.point[i].angle/100);
+          PointLidarX = LidarX;
+          PointLidarY = LidarY;
+
+          
+        }else{
+            DistanceLidar =0;
+            AngleLidar=0;
+            PointLidarX = 0;
+            PointLidarY = 0;
+        }
+      }  
+
      //if(LidarPoints.point[i].intensity >200)printf("%f;%f;%f;%f;%d\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),LidarPoints.point[i].angle/100,LidarPoints.point[i].distance);
       
       //printf("%f;%f;%f;%d\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
       //printf("%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),LidarX,LidarY);
       //printf("%5.f;%5.f\r\n", RobotMove->getPositionX()+cos((PI/180)*(LidarPoints.point[i].angle/100)-90-RobotMove->getAlpha())*LidarPoints.point[i].distance,RobotMove->getPositionY()+sin((PI/180)*(LidarPoints.point[i].angle/100)+90-RobotMove->getAlpha())*LidarPoints.point[i].distance);
     }
-    printf("\r\n");
   }
 }
 
@@ -145,6 +222,13 @@ float theta2pluse(int theta)
   return 500.0+(100.0/9.0)*float(theta);
 }
 
+void print_serial(void)
+{
+  while(1){
+    printf("STOP:%d, distance=%d, AngleCible_Top=%f, Anglelidar=%f, AngleCible_Down=%f\n",Stop,DistanceLidar,AngleCible_Top,AngleLidar,AngleCible_Down);
+    //printf("%f;%f;%f;%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY(),AngleCible);
+  }
+}
 
 int main()
 { 
@@ -158,6 +242,7 @@ int main()
     //serial_thread.start(BluetoothCmd);
     //show_pos_thread.start(showPostion);
     //show_pos_thread.start(showLidar);
+    serial_thread.start(print_serial);
     show_pos_thread.start(ShowLidarCoord);
  
     RobotMove->stop();
