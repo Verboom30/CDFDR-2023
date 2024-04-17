@@ -12,6 +12,7 @@ int size_x = 1500;
 int size_y = 900;
 int midd_x = size_x/2;
 int midd_y = size_y/2;
+int stop =0;
 float scale = 4;
 float scale_robot = 4;
 PVector p1,p2,p3,p4;
@@ -85,16 +86,17 @@ void draw() {
     if (myString != null) {
       //print(myString);
       String[] q = splitTokens(myString, ";");
-      if (q.length>7){
-        x=float(q[0]);  // Converts and prints float
-        y = float(q[1]);  // Converts and prints float
-        angle = float(q[2]);  // Converts and prints float
-        LidarX =float(q[3]);
-        LidarY =float(q[4]);
-        CibleX =float(q[5]);
-        CibleY =float(q[6]);
-        AngleCible =float(q[7]);
-        println(x,y,angle,LidarX,LidarY,CibleX,CibleY,AngleCible);
+      if (q.length>8){
+        stop =int(q[0]);
+        x=float(q[1]);  // Converts and prints float
+        y = float(q[2]);  // Converts and prints float
+        angle = float(q[3]);  // Converts and prints float
+        LidarX =float(q[4]);
+        LidarY =float(q[5]);
+        CibleX =float(q[6]);
+        CibleY =float(q[7]);
+        AngleCible =float(q[8]);
+        println(stop,x,y,angle,LidarX,LidarY,CibleX,CibleY,AngleCible);
        
 //draw_table();
         coord_robot.add(new PVector(p1.x+x*scale/10,p1.y-y*scale/10,-angle));
