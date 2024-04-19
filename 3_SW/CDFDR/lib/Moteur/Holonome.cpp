@@ -82,9 +82,9 @@ void Holonome::setPosition(int positionX, int positionY, int Alpha)
     _MovepositionX =positionX;
     _MovepositionY =positionY;
     _MoveAlpha =Alpha;
-    StepperA->setPosition(int(((-RADIUS*Alpha) - (positionX))/KSTP));
-    StepperB->setPosition(int(((-RADIUS*Alpha) + 0.5*positionX - sin((PI/180.0)*THETA_A)*positionY)/KSTP));
-    StepperC->setPosition(int(((-RADIUS*Alpha) + 0.5*positionX + sin((PI/180.0)*THETA_A)*positionY)/KSTP));
+    StepperA->setPosition(int(((-RADIUS*Alpha*(PI/180.0)) - (positionX))/KSTP));
+    StepperB->setPosition(int(((-RADIUS*Alpha*(PI/180.0)) + 0.5*positionX - sin((PI/180.0)*THETA_A)*positionY)/KSTP));
+    StepperC->setPosition(int(((-RADIUS*Alpha*(PI/180.0)) + 0.5*positionX + sin((PI/180.0)*THETA_A)*positionY)/KSTP));
 }
 
 
@@ -183,7 +183,7 @@ void Holonome::move(int positionX, int positionY, int Alpha)
 {
     _MovepositionX = positionX         ; 
     _MovepositionY = positionY         ; 
-    _MoveAlpha     = (Alpha*(PI/180.0)); // Deg vers Rad  
+    _MoveAlpha     = Alpha             ; // Deg vers Rad  
     _SpeedX = (float((_MovepositionX))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
     _SpeedY = (float((_MovepositionY))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
     _SpeedAlpha = (float(_MoveAlpha)/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*float(3*SPEED/RADIUS);

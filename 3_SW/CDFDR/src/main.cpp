@@ -132,7 +132,7 @@ void ShowLidarCoord(void)
       for (uint8_t i = 0; i < POINT_PER_PACK; i++)
       {
         //if(LidarPoints.point[i].intensity >200 and (RobotMove->stopped()==0)){
-        if(LidarPoints.point[i].intensity >200){
+        if(LidarPoints.point[i].intensity >200 and sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
           //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
 
           //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
@@ -142,7 +142,16 @@ void ShowLidarCoord(void)
           LidarX = RobotMove->getPositionX()+sin((PI/180)*(float(LidarPoints.point[i].angle/100)+RobotMove->getAlpha()))*LidarPoints.point[i].distance;
           LidarY = RobotMove->getPositionY()+cos((PI/180)*(float(LidarPoints.point[i].angle/100)+RobotMove->getAlpha()))*LidarPoints.point[i].distance;
           
-          AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-RobotMove->getPositionX()),(RobotMove->getPosCibleY()-RobotMove->getPositionY())))-RobotMove->getAlpha();
+        
+          //if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
+            AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-(RobotMove->getPositionX())),(RobotMove->getPosCibleY()-(RobotMove->getPositionY()))))-RobotMove->getAlpha();
+          //}
+          
+         
+          //printf("module=%f\n",sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)));
+       
+          
+         
           if(AngleCible<0) AngleCible =360+AngleCible;
           AngleCible_Down = AngleCible-LIDAR_ANGLE_MARGIN;
           AngleCible_Top  = AngleCible+LIDAR_ANGLE_MARGIN;
@@ -180,20 +189,23 @@ void ShowLidarCoord(void)
                 }
             }
           }
-        }  
+          if((NbNoDetecLidarPack+NbNoDetecLidarPack) != 0){
+            //printf("pourcentageON:=%f,pourcentageOFF=%f\n",float((NbDetecLidarPack*100)/(NbNoDetecLidarPack+NbDetecLidarPack)),float((NbNoDetecLidarPack*100)/(NbNoDetecLidarPack+NbDetecLidarPack)));
+        
+            if(float((NbDetecLidarPack*100)/(NbNoDetecLidarPack+NbDetecLidarPack))>LIDAR_PC_ON and Stop == 0){
+              Stop = 1;
+            }
+            if(float((NbNoDetecLidarPack*100)/(NbNoDetecLidarPack+NbDetecLidarPack))>LIDAR_PC_OFF and Stop == 1){
+              Stop = 0;
+            }
+          }
+        }else{
+          Stop = 0;
+        }
       }
     } 
     
-    if((NbNoDetecLidarPack+NbNoDetecLidarPack) != 0){
-      //printf("pourcentageON:=%f,pourcentageOFF=%f\n",float((NbDetecLidarPack*100)/(NbNoDetecLidarPack+NbDetecLidarPack)),float((NbNoDetecLidarPack*100)/(NbNoDetecLidarPack+NbDetecLidarPack)));
    
-      if(float((NbDetecLidarPack*100)/(NbNoDetecLidarPack+NbDetecLidarPack))>LIDAR_PC_ON and Stop == 0){
-        Stop = 1;
-      }
-      if(float((NbNoDetecLidarPack*100)/(NbNoDetecLidarPack+NbDetecLidarPack))>LIDAR_PC_OFF and Stop == 1){
-         Stop = 0;
-      }
-    }
   }
 }
 
@@ -209,7 +221,7 @@ void print_serial(void)
   while(1){
     //printf("Stop:%d,  distance=%d, AngleCible_Top=%f, Anglelidar=%f, AngleCible_Down=%f\n",Stop,DistanceLidar,AngleCible_Top,AngleLidar,AngleCible_Down);
 
-    printf("%d;%f;%f;%f;%f;%f;%f;%f;%f\r\n",Stop,RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY(),AngleCible);
+    printf("%d;%d;%d;%f;%f;%f;%f;%f;%f\r\n",Stop,int(RobotMove->getPositionX()+0.5),int(RobotMove->getPositionY()+0.5),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY(),AngleCible);
   }
 }
 
@@ -247,7 +259,7 @@ int main()
     Turbine1.pulsewidth_us(1000);
     Turbine2.pulsewidth_us(1000);
     Turbine3.pulsewidth_us(1000);
-    //RobotMove->setPosition(1500,1000,0);
+    RobotMove->setPosition(225,1000,90);
     
     while (1)
     {
@@ -317,22 +329,30 @@ int main()
         case GAME :
         
 
-          RobotMove->goesTo(1000,1000,0);
+          RobotMove->goesTo(2725,1000,90);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
 
-          RobotMove->goesTo(1000,1000,90);
+          RobotMove->goesTo(2725,1000,270);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
 
-          RobotMove->goesTo(1000,2000,90);
+          RobotMove->goesTo(2725,1000,0);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
 
-          RobotMove->goesTo(2000,1000,180);
+          RobotMove->goesTo(2725,500,90);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
 
+          RobotMove->goesTo(1000,500,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+
+
+
+         
 
       
 
