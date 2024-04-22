@@ -29,6 +29,7 @@ class Holonome
         void  setPositionZero(void);
         bool  stopped(void);
         bool  waitAck(void);
+        bool  PosCibleDone(void);
 
         void  HolonomeSpeed(int SpeedX, int SpeedY, int W);
         void  goesTo(int positionX, int positionY, int Alpha); 

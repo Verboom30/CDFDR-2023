@@ -8,6 +8,7 @@ Stepper::Stepper(PinName clk, PinName dir): _clk(clk) , _dir(dir)
 
     
     _clk = 1;
+    _dir = 0;
     _state = STOP;
     _pos = 0;
     _steps = 0;
@@ -19,6 +20,9 @@ Stepper::Stepper(PinName clk, PinName dir): _clk(clk) , _dir(dir)
     _dtmin=0;
     _dt0=0;
     _i=0;
+    _acc =0;
+    _dec =0;
+    _Pos_Cible_Done = 1;
 }
 
 //***********************************/************************************
@@ -83,6 +87,11 @@ bool Stepper::stopped(void)
     return (_state == STOP) ? true : false;
 }
 
+bool Stepper::getPosCibleDone(void)
+{
+    return (_Pos_Cible_Done == 1) ? true : false;
+}
+
 
 //***********************************/************************************
 //                             Public Methods                           //
@@ -99,6 +108,7 @@ void Stepper::stop(void)
     remove();           //stop timer
     _state = STOP;      //update state machine 
     _steps = 0;         //reset total steps per move
+    
 }
 
 void Stepper::rotate(bool direction)
@@ -122,6 +132,7 @@ void Stepper::move(int steps)
         _dir = CW;          //set output pin direction value
         _steps = steps;     //total steps per move
     }
+    _Pos_Cible_Done =0;
     handler();              //start thread
 }
 
@@ -196,7 +207,10 @@ void Stepper::handler(void)
     _pos += (_dir<<1)-1;                    //set new position +1 if cw; -1 if ccw
     _clk = 1;                              //toggle step out pin
 
-    if(_steps && _n >= _steps)stop();       //check for motor stop
+    if(_steps && _n >= _steps){
+        _Pos_Cible_Done = 1;
+        stop();       //check for motor stop
+    }
 }
 
 unsigned int Stepper::nTo(float speed,float acc)

@@ -132,8 +132,8 @@ void ShowLidarCoord(void)
       LidarPoints = LidarLD19->GetPoints();
       for (uint8_t i = 0; i < POINT_PER_PACK; i++)
       {
-        //if(LidarPoints.point[i].intensity >200 ){
-        if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
+        
+        if(LidarPoints.point[i].intensity >200 and sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
           //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
 
           //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
@@ -336,7 +336,8 @@ int main()
               RobotMove->goesTo(225,1000,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped() and Stop == 0);
-              //if(Stop == 0) StepGame = 1;
+              if(RobotMove->PosCibleDone())StepGame = 1;
+              
             }else{
               RobotMove->stop();
               while(!RobotMove->waitAck());
@@ -355,6 +356,13 @@ int main()
             break;
 
           case 2 :
+            RobotMove->goesTo(225,225,0);
+            while(!RobotMove->waitAck());
+            while(!RobotMove->stopped());
+            StepGame = 3;
+            break;
+
+          case 3 :
             FsmState = END; //Lancement du match !
             break;
           

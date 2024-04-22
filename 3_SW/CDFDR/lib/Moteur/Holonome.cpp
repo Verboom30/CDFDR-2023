@@ -140,6 +140,11 @@ bool Holonome::stopped(void)
     return (StepperA->stopped() == true and StepperB->stopped()== true and StepperC->stopped() == true) ? true : false;
 }
 
+bool Holonome::PosCibleDone(void)
+{
+    return (StepperA->getPosCibleDone() == true and StepperB->getPosCibleDone()== true and StepperC->getPosCibleDone() == true) ? true : false;
+}
+
 bool Holonome::waitAck(void)
 {
     if(_AckStpA ==true and _AckStpB ==true and _AckStpC ==true ){

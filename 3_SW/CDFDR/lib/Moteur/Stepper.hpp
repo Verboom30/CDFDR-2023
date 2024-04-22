@@ -92,6 +92,8 @@ public:
     * @returns true if motor stopped
     */  
     bool stopped(void);
+
+    bool getPosCibleDone(void);
     
     /**Get absolute position from origin
     * @returns position [steps] from origin set by setPositionZero()
@@ -137,6 +139,7 @@ private:
     unsigned int _dt0;                      //initial delay [µs]
     unsigned int _dtmin;                    //delay minimum [µs]
     unsigned int _dtn;                             //current delay
+    int _Pos_Cible_Done;
     float _i;
     int _pos;                               //motor position
     unsigned int _n;                        //steps counters
