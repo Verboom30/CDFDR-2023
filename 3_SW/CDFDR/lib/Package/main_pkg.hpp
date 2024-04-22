@@ -23,13 +23,15 @@
 
 
 #define LIDAR_DIS_MIN        200
-#define LIDAR_DIS_MAX        900
+#define LIDAR_DIS_MAX        600
 #define NB_LIDAR_PACK_READ   LIDAR_ANGLE_MARGIN*4
 #define LIDAR_ANGLE_MARGIN   45
 #define LIDAR_PC_ON   2.0
-#define LIDAR_PC_OFF   90.0
+#define LIDAR_PC_OFF  80.0
 
 enum {IDLE,START_UP,CAL,WAIT_MATCH,GAME,END}FsmState;  
+
+
 
 
 #endif // __MAIN_PKG_H_

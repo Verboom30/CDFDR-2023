@@ -71,6 +71,7 @@ int   NbNoDetecLidarPack =0;
 int   Stop             =0;
 int   SumNoStop        =0;
 int   SumStop          =0;
+int   StepGame         =0;
 
 
 float AngleLidar      =0;
@@ -131,8 +132,8 @@ void ShowLidarCoord(void)
       LidarPoints = LidarLD19->GetPoints();
       for (uint8_t i = 0; i < POINT_PER_PACK; i++)
       {
-        //if(LidarPoints.point[i].intensity >200 and (RobotMove->stopped()==0)){
-        if(LidarPoints.point[i].intensity >200 and sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
+        //if(LidarPoints.point[i].intensity >200 ){
+        if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
           //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
 
           //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
@@ -200,7 +201,7 @@ void ShowLidarCoord(void)
             }
           }
         }else{
-          Stop = 0;
+          //Stop = 0;
         }
       }
     } 
@@ -221,7 +222,7 @@ void print_serial(void)
   while(1){
     //printf("Stop:%d,  distance=%d, AngleCible_Top=%f, Anglelidar=%f, AngleCible_Down=%f\n",Stop,DistanceLidar,AngleCible_Top,AngleLidar,AngleCible_Down);
 
-    printf("%d;%d;%d;%f;%f;%f;%f;%f;%f\r\n",Stop,int(RobotMove->getPositionX()+0.5),int(RobotMove->getPositionY()+0.5),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY(),AngleCible);
+    printf("%d;%d;%d;%f;%f;%f;%f;%f;%f\r\n",Stop,int(RobotMove->getPositionX()),int(RobotMove->getPositionY()),RobotMove->getAlpha(),PointLidarX,PointLidarY,RobotMove->getPosCibleX(),RobotMove->getPosCibleY(),AngleCible);
   }
 }
 
@@ -241,6 +242,7 @@ int main()
     show_pos_thread.start(ShowLidarCoord);
  
     RobotMove->stop();
+     while(!RobotMove->waitAck());
     RobotMove->setPositionZero();
     
 
@@ -259,7 +261,7 @@ int main()
     Turbine1.pulsewidth_us(1000);
     Turbine2.pulsewidth_us(1000);
     Turbine3.pulsewidth_us(1000);
-    RobotMove->setPosition(225,1000,90);
+    RobotMove->setPosition(225,225,0);
     
     while (1)
     {
@@ -327,43 +329,38 @@ int main()
           break;
 
         case GAME :
-        
+          switch (StepGame)
+          {
+          case 0 :
+            if(Stop == 0){
+              RobotMove->goesTo(225,1000,0);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped() and Stop == 0);
+              //if(Stop == 0) StepGame = 1;
+            }else{
+              RobotMove->stop();
+              while(!RobotMove->waitAck());
+            }
+           
+           
+            
 
-          RobotMove->goesTo(2725,1000,90);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+            break;
 
-          RobotMove->goesTo(2725,1000,270);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          case 1 :
+            RobotMove->goesTo(700,1000,0);
+            while(!RobotMove->waitAck());
+            while(!RobotMove->stopped());
+            StepGame = 2;
+            break;
 
-          RobotMove->goesTo(2725,1000,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
-
-          RobotMove->goesTo(2725,500,90);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
-
-          RobotMove->goesTo(1000,500,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
-
-
-
-
-         
-
-      
-
-         
-
-
-
-
-
-
-
+          case 2 :
+            FsmState = END; //Lancement du match !
+            break;
+          
+          default:
+            break;
+          }
           // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
           // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
           // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
@@ -386,7 +383,6 @@ int main()
           // HAL_Delay (1000); // Attente de 2 secondes 
 
 
-          FsmState = END; //Lancement du match !
           break;
 
         case END :
