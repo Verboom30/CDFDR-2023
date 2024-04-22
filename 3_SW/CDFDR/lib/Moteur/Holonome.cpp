@@ -220,7 +220,7 @@ void Holonome::routine_stepperA(void)
             _AckStpA = true;
 
         }else if (_Cmd == "STOP" and _AckStpA ==false){
-            StepperB->stop();
+            StepperA->stop();
             _AckStpA = true;
           
         }else if (_Cmd == "ACK"){
@@ -248,7 +248,7 @@ void Holonome::routine_stepperB(void)
             _AckStpB = true;
 
         }else if (_Cmd == "STOP" and _AckStpB ==false){
-            StepperC->stop();
+            StepperB->stop();
             _AckStpB = true;
             
         }else if (_Cmd == "ACK"){

@@ -132,8 +132,8 @@ void ShowLidarCoord(void)
       LidarPoints = LidarLD19->GetPoints();
       for (uint8_t i = 0; i < POINT_PER_PACK; i++)
       {
-        
-        if(LidarPoints.point[i].intensity >200 and sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
+        //LidarPoints.point[i].intensity >100 
+        if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
           //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
 
           //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
@@ -145,7 +145,7 @@ void ShowLidarCoord(void)
           
         
           //if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
-            AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-(RobotMove->getPositionX())),(RobotMove->getPosCibleY()-(RobotMove->getPositionY()))))-RobotMove->getAlpha();
+            AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-(RobotMove->getPositionX())),(RobotMove->getPosCibleY()-(RobotMove->getPositionY()))))+RobotMove->getAlpha();
           //}
           
          
@@ -159,7 +159,7 @@ void ShowLidarCoord(void)
           if(AngleCible_Down<0) AngleCible_Down =360+AngleCible_Down;
           if(AngleCible_Top>360)  AngleCible_Top  =AngleCible_Top-360;
       
-          if(LidarX>0 and LidarX<3000 and LidarY>0 and LidarY<2000){
+          if(LidarX>0 and LidarX<(3000-100) and LidarY>0 and LidarY<(2000-100)){
             if(AngleCible_Top > AngleCible_Down){
                 if(float(LidarPoints.point[i].angle/100) <= AngleCible_Top and float(LidarPoints.point[i].angle/100) >= AngleCible_Down){
                   if(LidarPoints.point[i].distance > LIDAR_DIS_MIN and LidarPoints.point[i].distance <LIDAR_DIS_MAX){
@@ -201,7 +201,7 @@ void ShowLidarCoord(void)
             }
           }
         }else{
-          //Stop = 0;
+          Stop = 0;
         }
       }
     } 
@@ -242,7 +242,7 @@ int main()
     show_pos_thread.start(ShowLidarCoord);
  
     RobotMove->stop();
-     while(!RobotMove->waitAck());
+    while(!RobotMove->waitAck());
     RobotMove->setPositionZero();
     
 
@@ -349,17 +349,29 @@ int main()
             break;
 
           case 1 :
-            RobotMove->goesTo(700,1000,0);
-            while(!RobotMove->waitAck());
-            while(!RobotMove->stopped());
-            StepGame = 2;
+            if(Stop == 0){
+              RobotMove->goesTo(1000,1000,0);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped() and Stop == 0);
+              if(RobotMove->PosCibleDone()) StepGame = 2;
+              
+            }else{
+              RobotMove->stop();
+              while(!RobotMove->waitAck());
+            }
             break;
 
           case 2 :
-            RobotMove->goesTo(225,225,0);
-            while(!RobotMove->waitAck());
-            while(!RobotMove->stopped());
-            StepGame = 3;
+            if(Stop == 0){
+              RobotMove->goesTo(225,225,0);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped() and Stop == 0);
+              if(RobotMove->PosCibleDone()) StepGame = 3;
+              
+            }else{
+              RobotMove->stop();
+              while(!RobotMove->waitAck());
+            }
             break;
 
           case 3 :
