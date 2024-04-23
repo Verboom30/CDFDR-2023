@@ -270,10 +270,10 @@ void Holonome::routine_stepperC(void)
             _AckStpC = true;
 
         }else if (_Cmd == "GOTO" and _AckStpC == false){  
-            StepperC->setSpeed(((-RADIUS*_SpeedAlpha) + cos((PI/180.0)*(THETA_A+_Alpha))*_SpeedX + sin((PI/180.0)*(THETA_A-_Alpha))*_SpeedY)/KSTP); 
+            StepperC->setSpeed(((-RADIUS*_SpeedAlpha) + cos((PI/180.0)*(THETA_A-_Alpha))*_SpeedX + sin((PI/180.0)*(THETA_A-_Alpha))*_SpeedY)/KSTP); 
             StepperC->setAcceleration(getSpeedC()/ACC);
             StepperC->setDeceleration(getSpeedC()/DEC); 
-            StepperC->goesTo(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA_A+_Alpha))*_MovepositionX + sin((PI/180.0)*(THETA_A-_Alpha))*_MovepositionY)/KSTP)); 
+            StepperC->goesTo(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA_A-_Alpha))*_MovepositionX + sin((PI/180.0)*(THETA_A-_Alpha))*_MovepositionY)/KSTP)); 
             _AckStpC = true;
 
         }else if (_Cmd == "STOP" and _AckStpC ==false){
