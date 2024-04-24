@@ -53,6 +53,9 @@ class Holonome
         float _Alpha;
         float _positionX;
         float _positionY;
+        float _positionX_Save;
+        float _positionY_Save;
+        float _Alpha_Save;
         float _MoveAlpha; 
         float _MovepositionX;
         float _MovepositionY;

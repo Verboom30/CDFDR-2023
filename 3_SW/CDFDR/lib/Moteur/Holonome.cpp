@@ -17,6 +17,9 @@ Holonome::Holonome()
     _Alpha = 0;
     _positionY  =0;
     _positionX  =0;
+    _positionY_Save  =0;
+    _positionX_Save  =0;
+    _Alpha_Save      =0;
     _SpeedX     =0;
     _SpeedY     =0;
     _SpeedAlpha =0;
@@ -178,6 +181,9 @@ void Holonome::goesTo(int positionX, int positionY, int Alpha)
     _MovepositionX = positionX         ; 
     _MovepositionY = positionY         ; 
     _MoveAlpha     = Alpha; // Deg vers Rad 
+    _positionX_Save = _positionX;
+    _positionY_Save = _positionY;
+     setPositionZero();
     _SpeedX = (float((_MovepositionX-_positionX))/(abs(_MovepositionX-_positionX)+abs(_MovepositionY-_positionY)+abs(_MoveAlpha-_Alpha)))*SPEED;
     _SpeedY = (float((_MovepositionY-_positionY))/(abs(_MovepositionX-_positionX)+abs(_MovepositionY-_positionY)+abs(_MoveAlpha-_Alpha)))*SPEED;
     _SpeedAlpha = (float((_MoveAlpha-_Alpha))/(abs(_MovepositionX-_positionX)+abs(_MovepositionY-_positionY)+abs(_MoveAlpha-_Alpha)))*float(3*SPEED/RADIUS);
@@ -189,6 +195,10 @@ void Holonome::move(int positionX, int positionY, int Alpha)
     _MovepositionX = positionX         ; 
     _MovepositionY = positionY         ; 
     _MoveAlpha     = Alpha             ; // Deg vers Rad  
+    _positionX_Save = _positionX;
+    _positionY_Save = _positionY;
+    _Alpha_Save     = _Alpha;
+    setPositionZero();
     _SpeedX = (float((_MovepositionX))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
     _SpeedY = (float((_MovepositionY))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
     _SpeedAlpha = (float(_MoveAlpha)/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*float(3*SPEED/RADIUS);
@@ -292,13 +302,20 @@ void Holonome::routine_holonome(void)
     while (1)
     {
        
-        _Alpha      =   (((-1.0/(3.0*RADIUS))*StepperB->getPosition()) + ((-1.0/(3.0*RADIUS))*StepperA->getPosition()) + ((-1.0/(3.0*RADIUS))*StepperC->getPosition()))*KSTP/(PI/180.0);
+            _Alpha      =  _Alpha_Save+ (((-1.0/(3.0*RADIUS))*StepperB->getPosition()) + ((-1.0/(3.0*RADIUS))*StepperA->getPosition()) + ((-1.0/(3.0*RADIUS))*StepperC->getPosition()))*KSTP/(PI/180.0);
 
-        _positionX = ((-cos((PI/180.0)*_MoveAlpha)/6.0)*StepperA->getPosition() + ((cos((PI/180.0)*_MoveAlpha)-sqrt(3)*sin((PI/180.0)*_MoveAlpha))/12.0)*StepperB->getPosition() + ((sqrt(3)*sin((PI/180.0)*_MoveAlpha)+cos((PI/180.0)*_MoveAlpha))/12.0)*StepperC->getPosition())*KSTP*4;
-        _positionY = ((sin((PI/180.0)*_MoveAlpha)/6.0)*StepperA->getPosition() - ((sin((PI/180.0)*_MoveAlpha)+sqrt(3)*cos((PI/180.0)*_MoveAlpha))/12.0)*StepperB->getPosition() + ((sqrt(3)*cos((PI/180.0)*_MoveAlpha)-sin((PI/180.0)*_MoveAlpha))/12.0)*StepperC->getPosition())*KSTP*4;
+      
+              _positionX = _positionX_Save+ ((-cos((PI/180.0)*_Alpha)/6.0)*StepperA->getPosition() + ((cos((PI/180.0)*_Alpha)-sqrt(3)*sin((PI/180.0)*_Alpha))/12.0)*StepperB->getPosition() + ((sqrt(3)*sin((PI/180.0)*_Alpha)+cos((PI/180.0)*_Alpha))/12.0)*StepperC->getPosition())*KSTP*4;
+              _positionY = _positionY_Save+ ((sin((PI/180.0)*_Alpha)/6.0)*StepperA->getPosition() - ((sin((PI/180.0)*_Alpha)+sqrt(3)*cos((PI/180.0)*_Alpha))/12.0)*StepperB->getPosition() + ((sqrt(3)*cos((PI/180.0)*_Alpha)-sin((PI/180.0)*_Alpha))/12.0)*StepperC->getPosition())*KSTP*4;
+      
+
+    
+
+         
+       
        
 
-
+         //printf("_positionX =%f, _positionY=%f, _positionX_Save=%f, _positionY_Save=%f,\n\r",_positionX,_positionY,_positionX_Save,_positionY_Save);
 
          //_positionX  =   -(((2.0/3.0)*StepperA->getPosition()) - ((1.0/3.0)*StepperB->getPosition()) - ((1.0/3.0)*StepperC->getPosition())) * KSTP;     
          //_positionY  =   ((-tan(PI/6.0)*StepperB->getPosition()) + (tan(PI/6.0)*StepperC->getPosition())) * KSTP;
