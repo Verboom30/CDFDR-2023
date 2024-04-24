@@ -336,11 +336,11 @@ int main()
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->move(1000,1000,90);
+              RobotMove->goesTo(1000,1000,90);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->move(0,0,90);
+              RobotMove->goesTo(0,0,90);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
