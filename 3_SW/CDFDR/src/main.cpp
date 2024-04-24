@@ -332,23 +332,15 @@ int main()
 
        
 
-              RobotMove->move(0,1000,0);
+              RobotMove->goesTo(1000,1000,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->move(200,0,0);
+              RobotMove->move(1000,1000,90);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
               RobotMove->move(0,0,90);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->move(0,-1000,0);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->move(-200,0,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 

@@ -108,6 +108,7 @@ void Stepper::stop(void)
     remove();           //stop timer
     _state = STOP;      //update state machine 
     _steps = 0;         //reset total steps per move
+   
     
 }
 
