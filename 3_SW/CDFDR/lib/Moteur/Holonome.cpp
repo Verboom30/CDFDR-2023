@@ -19,6 +19,8 @@ Holonome::Holonome()
     _positionX  =0;
     _positionY_Save  =0;
     _positionX_Save  =0;
+    _cibleposX       =0;
+    _cibleposY       =0;
     _Alpha_Save      =0;
     _SpeedX     =0;
     _SpeedY     =0;
@@ -109,12 +111,12 @@ float Holonome::getPositionY(void)
 
 float Holonome::getPosCibleX(void)
 {
-    return _MovepositionX;
+    return _cibleposX;
 }
 
 float Holonome::getPosCibleY(void)
 {
-    return _MovepositionY;
+    return _cibleposY;
 }
 
 float Holonome::getAlpha(void)
@@ -176,7 +178,8 @@ void Holonome::stop(void)
 
 void Holonome::goesTo(int positionX, int positionY, int Alpha)
 {
-
+    _cibleposX      = positionX;
+    _cibleposY      = positionY;
     _MovepositionX  = float(positionX -_positionX)        ; 
     _MovepositionY  = float(positionY -_positionY)        ; 
     _MoveAlpha      = float(Alpha -_Alpha)          ; 
@@ -192,6 +195,8 @@ void Holonome::goesTo(int positionX, int positionY, int Alpha)
 
 void Holonome::move(int positionX, int positionY, int Alpha)
 {
+    _cibleposX      = positionX;
+    _cibleposY      = positionY;
     _MovepositionX  = positionX         ; 
     _MovepositionY  = positionY         ; 
     _MoveAlpha      = Alpha; 
