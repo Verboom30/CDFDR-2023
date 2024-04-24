@@ -261,7 +261,7 @@ int main()
     Turbine1.pulsewidth_us(1000);
     Turbine2.pulsewidth_us(1000);
     Turbine3.pulsewidth_us(1000);
-    RobotMove->setPosition(0,0,0);
+    RobotMove->setPosition(225,225,180);
     
     while (1)
     {
@@ -332,7 +332,7 @@ int main()
 
        
 
-              RobotMove->goesTo(1000,1000,0);
+              RobotMove->goesTo(1000,1000,180);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
@@ -340,7 +340,15 @@ int main()
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(0,0,90);
+              RobotMove->goesTo(1000,2000,90);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped());
+
+              RobotMove->goesTo(1000,2000,180);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped());
+
+              RobotMove->goesTo(0,0,180);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
