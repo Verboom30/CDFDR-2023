@@ -145,7 +145,7 @@ void ShowLidarCoord(void)
           
         
           //if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
-            AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-(RobotMove->getPositionX())),(RobotMove->getPosCibleY()-(RobotMove->getPositionY()))))+RobotMove->getAlpha();
+            AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-(RobotMove->getPositionX())),(RobotMove->getPosCibleY()-(RobotMove->getPositionY()))))-RobotMove->getAlpha();
           //}
           
          
