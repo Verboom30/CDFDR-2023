@@ -2,10 +2,10 @@
 #define __MAIN_PKG_H_
 
 #define PI      3.14159265
-#define RADIUS  136.0 // robot wheel-base radius
+#define RADIUS  121.0 // robot wheel-base radius
 #define MSTEP   16.0
-#define RSTEP   200.0
-#define RWHEEL  29.0 
+#define RSTEP   198.5
+#define RWHEEL  27.5 
 #define REDUC   0.5
 #define KSTP     ((PI*2.0*RWHEEL/(RSTEP*MSTEP))*REDUC)
 #define SPEED   500.0 // max 50000 Mstepper 16 3200Ma
