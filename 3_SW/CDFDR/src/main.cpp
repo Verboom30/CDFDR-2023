@@ -1,7 +1,6 @@
 #include "mbed.h"
 #include "pinout.hpp"
 #include "main_pkg.hpp"
-#include "develop_ticker.hpp"
 #include "Holonome.hpp"
 #include "servo.hpp"
 #include "lcd.hpp"
@@ -226,6 +225,24 @@ void print_serial(void)
   }
 }
 
+int LidargoesTo(int positionX, int positionY, int Alpha, int Stop){
+  if(Stop == 0){
+    RobotMove->goesTo(positionX,positionY,Alpha);
+    while(!RobotMove->waitAck());
+    while(!RobotMove->stopped() and Stop == 0);
+    if(RobotMove->PosCibleDone()){
+      return 1;
+    }else{
+      return 0;
+    }
+    
+  }else{
+    RobotMove->stop();
+    while(!RobotMove->waitAck());
+    return 0;
+  }    
+}
+
 int main()
 { 
     Button_init.mode(PullUp);
@@ -282,14 +299,14 @@ int main()
           ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
           ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
 
-          ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-          ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+          ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
+          ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
 
-          ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
-          ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+          ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
+          ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
 
-          ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
-          ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
+          ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
+          ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
           HAL_Delay (2000); // Attente de 2 secondes 
           lcd.cls();
           lcd.printf("Calibration !\n");
@@ -298,23 +315,39 @@ int main()
             
         
         case CAL :
-          // RobotMove->move(200,0,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
-          // RobotMove->move(-200,0,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
-          // while(!RobotMove->stopped()); 
-          // RobotMove->goesTo(0,0,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped()); 
-          // RobotMove->goesTo(0,-300,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped()); 
-          // RobotMove->goesTo(0,0,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
-          
+         /*  RobotMove->move(0,0,-30);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->move(-150,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->move(0,-80,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->move(-30,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->move(0,52,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->move(100,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->move(0,0,30);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped()); 
+
+          RobotMove->stop();
+          while(!RobotMove->waitAck());
+          RobotMove->setPositionZero();
+          RobotMove->setPosition(225,225,0);   */
+ 
           FsmState = WAIT_MATCH;
           lcd.cls();
           lcd.printf("Wait Match !\n");
@@ -329,237 +362,8 @@ int main()
           break;
 
         case GAME :
-
-              RobotMove->goesTo(300,225,0);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(525,225,0);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,225,0);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,700,0);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,700,30);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,700,150);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,700,270);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(100,1800,270);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(100,1000,270);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(100,1400,270);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(150,1400,270);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(150,1400,210);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(100,1400,210);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(150,1400,210);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(150,1400,90);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(100,1400,90);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(150,1400,90);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(150,1400,-30);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(100,1400,-30);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(150,1400,-30);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,1350,-30);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,1350,-90);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,1350,-210);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,1350,-330);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1800,-330);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1800,-300);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1900,-300);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1800,-300);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1800,-180);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1900,-180);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1800,-180);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1800,-60);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1900,-60);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(750,1800,-60);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(225,1775,-60);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(225,1775,0);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-
-              
-
-
-             
-
-
-
-
-
-             
-
-             
-          // switch (StepGame)
-          // {
-          // case 0 :
-          //   //if(Stop == 0){
-          //     RobotMove->goesTo(1000,200,90);
-          //     while(!RobotMove->waitAck());
-          //     while(!RobotMove->stopped() and Stop == 0);
-          //     // if(RobotMove->PosCibleDone())StepGame = 1;
-              
-          //   // }else{
-          //   //   RobotMove->stop();
-          //   //   while(!RobotMove->waitAck());
-          //   // }
-           
-           
-            
-
-          //   break;
-
-          // case 1 :
-          //   if(Stop == 0){
-          //     RobotMove->goesTo(1000,1000,0);
-          //     while(!RobotMove->waitAck());
-          //     while(!RobotMove->stopped() and Stop == 0);
-          //     if(RobotMove->PosCibleDone()) StepGame = 2;
-              
-          //   }else{
-          //     RobotMove->stop();
-          //     while(!RobotMove->waitAck());
-          //   }
-          //   break;
-
-          // case 2 :
-          //   if(Stop == 0){
-          //     RobotMove->goesTo(225,225,0);
-          //     while(!RobotMove->waitAck());
-          //     while(!RobotMove->stopped() and Stop == 0);
-          //     if(RobotMove->PosCibleDone()) StepGame = 3;
-              
-          //   }else{
-          //     RobotMove->stop();
-          //     while(!RobotMove->waitAck());
-          //   }
-          //   break;
-
-          // case 3 :
-          //   FsmState = END; //Lancement du match !
-          //   break;
           
-          // default:
-          //   break;
-          // }
-          // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-          // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
-          // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
-          // ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
-          // ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
-          // ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
-          // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
-          // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
-          // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
-          // HAL_Delay (1000); // Attente de 2 secondes 
-          // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
-          // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
-          // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
-          // ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
-          // ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
-          // ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
-          // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
-          // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
-          // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
-          // HAL_Delay (1000); // Attente de 2 secondes 
-
+          while(!LidargoesTo(225,1000,0,Stop));
           FsmState = END;
           break;
 
