@@ -132,7 +132,7 @@ void ShowLidarCoord(void)
       for (uint8_t i = 0; i < POINT_PER_PACK; i++)
       {
         //LidarPoints.point[i].intensity >100 
-        if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
+        if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >1){
           //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
 
           //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
@@ -225,22 +225,22 @@ void print_serial(void)
   }
 }
 
-int LidargoesTo(int positionX, int positionY, int Alpha, int Stop){
-  if(Stop == 0){
-    RobotMove->goesTo(positionX,positionY,Alpha);
-    while(!RobotMove->waitAck());
-    while(!RobotMove->stopped() and Stop == 0);
-    if(RobotMove->PosCibleDone()){
-      return 1;
-    }else{
-      return 0;
-    }
-    
-  }else{
-    RobotMove->stop();
-    while(!RobotMove->waitAck());
-    return 0;
-  }    
+int LidargoesTo(int positionX, int positionY, int Alpha){
+           if(Stop == 0){
+            RobotMove->goesTo(positionX,positionY,Alpha);
+            while(!RobotMove->waitAck());
+            while(!RobotMove->stopped() and Stop == 0);
+            if(RobotMove->PosCibleDone()){
+              return 1;
+            }else{
+              return 0;
+            }
+            
+          }else{
+            RobotMove->stop();
+            while(!RobotMove->waitAck());
+            return 0;
+          }   
 }
 
 int main()
@@ -363,7 +363,11 @@ int main()
 
         case GAME :
           
-          while(!LidargoesTo(225,1000,0,Stop));
+          while(!LidargoesTo(225,2000,0));
+          while(!LidargoesTo(225,0,0));
+          
+
+         
           FsmState = END;
           break;
 
