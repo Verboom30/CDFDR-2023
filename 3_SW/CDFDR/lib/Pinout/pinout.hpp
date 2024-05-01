@@ -69,6 +69,12 @@
 //Tirette
 #define BT_TIRETTE PE_3
 
+//Led Lidar
+#define LED_LIDAR PD_4
+
+//Switch Team
+#define SWITCH_TEAM PD_3
+
 
 
 #endif // __PINOUT_H_

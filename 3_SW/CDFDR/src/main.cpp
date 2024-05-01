@@ -21,6 +21,7 @@ LiDARFrameTypeDef LidarPoints;
 
 DigitalOut pc_activity(LED1);
 DigitalOut uart_activity(LED2);
+DigitalOut led_lidar(LED_LIDAR);
 
 Thread serial_thread;
 Thread show_pos_thread;
@@ -57,6 +58,7 @@ DigitalIn  Button_init(BT_INIT);
 DigitalOut Button_init_gnd(BT_INIT_GND);
 
 DigitalIn  Tirette(BT_TIRETTE);
+DigitalIn  Switch_Team(SWITCH_TEAM);
 
 float PointLidarX =0;
 float PointLidarY =0;
@@ -70,7 +72,7 @@ int   NbNoDetecLidarPack =0;
 int   Stop             =0;
 int   SumNoStop        =0;
 int   SumStop          =0;
-int   StepGame         =0;
+int   Couleur_Team     =0; // 0 bleu 1 jaune
 
 
 float AngleLidar      =0;
@@ -205,7 +207,8 @@ void ShowLidarCoord(void)
       }
     } 
     
-   
+    led_lidar =Stop;
+    
   }
 }
 
@@ -247,9 +250,21 @@ int main()
 { 
     Button_init.mode(PullUp);
     Tirette.mode(PullUp);
+    Switch_Team.mode(PullUp);
+
     Button_init_gnd = 0;
     FsmState = IDLE;
     lcd.printf("Wait Calibration\n");
+    lcd.locate(0,1);
+    Couleur_Team =!Switch_Team;
+    if(Couleur_Team ==0){
+      lcd.printf("Team Blue\n");
+    }else{
+      lcd.printf("Team Yellow\n");
+    }
+    
+    
+   
     
     //serial_thread.start(Xbox_read);
     //serial_thread.start(BluetoothCmd);
@@ -283,7 +298,6 @@ int main()
     while (1)
     {
      
-    
       switch(FsmState){
         case IDLE :
           if(Button_init != 1){ // Attente boutton d'init 
