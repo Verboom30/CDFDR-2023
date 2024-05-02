@@ -331,36 +331,36 @@ int main()
             
         
         case CAL :
-          RobotMove->move(0,0,-30);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(0,0,-30);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(-150,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(-150,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(0,-80,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(0,-80,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(-30,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(-30,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(0,52,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(0,52,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(100,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(100,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(0,0,30);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped()); 
+          // RobotMove->move(0,0,30);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped()); 
 
-          RobotMove->setPosition(225,225,0);
-          while(!RobotMove->waitAck());
+          // RobotMove->setPosition(225,225,0);
+          // while(!RobotMove->waitAck());
  
           FsmState = WAIT_MATCH;
           lcd.cls();
@@ -377,7 +377,7 @@ int main()
 
         case GAME :
 
-          RobotMove->goesTo(225,1200,0);
+          RobotMove->goesTo(225,1700,0);
           while(!RobotMove->waitAck());
           while(!RobotMove->stopped());
 
