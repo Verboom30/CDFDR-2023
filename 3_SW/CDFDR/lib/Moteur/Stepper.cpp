@@ -70,6 +70,21 @@ void Stepper::setPosition(int position)
 void Stepper::setPositionZero(void)
 {
     _pos = 0;
+    _clk = 1;
+    _dir = 0;
+    _state = STOP;
+    _pos = 0;
+    _steps = 0;
+    _spd = 0;
+    _dt0 = 0;
+    _n=0;
+    _nStartDec=0;
+    _dtn=0;
+    _dtmin=0;
+    _dt0=0;
+    _i=0;
+    _acc =0;
+    _dec =0;
 }
 
 int Stepper::getPosition(void)

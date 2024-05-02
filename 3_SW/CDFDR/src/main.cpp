@@ -228,23 +228,23 @@ void print_serial(void)
   }
 }
 
-int LidargoesTo(int positionX, int positionY, int Alpha){
-           if(Stop == 0){
-            RobotMove->goesTo(positionX,positionY,Alpha);
-            while(!RobotMove->waitAck());
-            while(!RobotMove->stopped() and Stop == 0);
-            if(RobotMove->PosCibleDone()){
-              return 1;
-            }else{
-              return 0;
-            }
+// int LidargoesTo(int positionX, int positionY, int Alpha){
+//            if(Stop == 0){
+//             RobotMove->goesTo(positionX,positionY,Alpha);
+//             while(!RobotMove->waitAck());
+//             while(!RobotMove->stopped() and Stop == 0);
+//             if(RobotMove->PosCibleDone()){
+//               return 1;
+//             }else{
+//               return 0;
+//             }
             
-          }else{
-            RobotMove->stop();
-            while(!RobotMove->waitAck());
-            return 0;
-          }   
-}
+//           }else{
+//             RobotMove->stop();
+//             while(!RobotMove->waitAck());
+//             return 0;
+//           }   
+// }
 
 int main()
 { 
@@ -293,7 +293,9 @@ int main()
     Turbine1.pulsewidth_us(1000);
     Turbine2.pulsewidth_us(1000);
     Turbine3.pulsewidth_us(1000);
-    RobotMove->setPosition(225,225,0);
+    // RobotMove->setPosition(225,225,0);
+    // while(!RobotMove->waitAck());
+   
     
     while (1)
     {
@@ -329,38 +331,40 @@ int main()
             
         
         case CAL :
-         /*  RobotMove->move(0,0,-30);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(0,0,-30);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(-150,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(-150,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(0,-80,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(0,-80,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(-30,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(-30,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(0,52,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(0,52,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(100,0,0);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped());
+          // RobotMove->move(100,0,0);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped());
 
-          RobotMove->move(0,0,30);
-          while(!RobotMove->waitAck());
-          while(!RobotMove->stopped()); 
+          // RobotMove->move(0,0,30);
+          // while(!RobotMove->waitAck());
+          // while(!RobotMove->stopped()); 
 
-          RobotMove->stop();
-          while(!RobotMove->waitAck());
-          RobotMove->setPositionZero();
-          RobotMove->setPosition(225,225,0);   */
+          // RobotMove->stop();
+          // while(!RobotMove->waitAck());
+          // RobotMove->setPositionZero();
+
+          // RobotMove->setPosition(225,225,0);
+          // while(!RobotMove->waitAck());
  
           FsmState = WAIT_MATCH;
           lcd.cls();
@@ -376,9 +380,17 @@ int main()
           break;
 
         case GAME :
+
+          RobotMove->goesTo(0,1200,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
+
+          RobotMove->goesTo(0,0,0);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
           
-          while(!LidargoesTo(225,2000,0));
-          while(!LidargoesTo(225,0,0));
+          // while(!LidargoesTo(225,1600,0));
+          // while(!LidargoesTo(225,225,0));
           
 
          

@@ -5,15 +5,15 @@
 //***********************************/************************************
 Holonome::Holonome()
 {
-    /* StepperA_thread.start(callback(this, &Holonome::routine_stepperA));
+    StepperA_thread.start(callback(this, &Holonome::routine_stepperA));
     StepperB_thread.start(callback(this, &Holonome::routine_stepperB));
-    StepperC_thread.start(callback(this, &Holonome::routine_stepperC)); */
+    StepperC_thread.start(callback(this, &Holonome::routine_stepperC));
     routine.start(callback(this, &Holonome::routine_holonome));
 
     _AckStpA =false;
     _AckStpB =false;
     _AckStpC =false;
-    _Cmd ="STOP";
+    _Cmd ="";
     _Alpha = 0;
     _positionY  =0;
     _positionX  =0;
@@ -84,22 +84,18 @@ int Holonome::getStepC(void)
 
 void Holonome::setPosition(int positionX, int positionY, int Alpha)
 {
-
     _MovepositionX =positionX;
     _MovepositionY =positionY;
     _MoveAlpha =Alpha;
-    _positionY_Save  =0;
-    _positionX_Save  =0;
-    _Alpha_Save      =0;
-    setPositionZero();
-    StepperA->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) - cos((PI/180.0)*_MoveAlpha)*_MovepositionX + sin((PI/180.0)*_MoveAlpha)*_MovepositionY)/KSTP));
-    StepperB->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA+_MoveAlpha))*_MovepositionX - sin((PI/180.0)*(THETA+_MoveAlpha))*_MovepositionY)/KSTP));
-    StepperC->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA-_MoveAlpha))*_MovepositionX + sin((PI/180.0)*(THETA-_MoveAlpha))*_MovepositionY)/KSTP));
+    _Alpha_Save =0;
+    _positionX_Save =0;
+    _positionY_Save =0;
+    _Cmd ="SET";
+   
 }
 
 void Holonome::setPositionZero(void)
 {
-   
     StepperA->setPositionZero();
     StepperB->setPositionZero();
     StepperC->setPositionZero();
@@ -159,6 +155,8 @@ bool Holonome::waitAck(void)
     if(_AckStpA ==true and _AckStpB ==true and _AckStpC ==true ){
       
         _Cmd ="ACK";
+        return 0;
+    }else if(_AckStpA ==false and _AckStpB ==false and _AckStpC ==false and _Cmd =="ACK"){
         return 1;
     }else{
         return 0;
@@ -195,7 +193,7 @@ void Holonome::goesTo(int positionX, int positionY, int Alpha)
      setPositionZero();
     _SpeedX = (float((_MovepositionX))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
     _SpeedY = (float((_MovepositionY))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
-    _SpeedAlpha = (float((_MoveAlpha))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*float(2*SPEED/RADIUS);
+    _SpeedAlpha = (float((_MoveAlpha))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*float(3*SPEED/RADIUS);
     _Cmd = "GOTO";
 }
 
@@ -212,7 +210,7 @@ void Holonome::move(int positionX, int positionY, int Alpha)
     setPositionZero();
     _SpeedX = (float((_MovepositionX))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
     _SpeedY = (float((_MovepositionY))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
-    _SpeedAlpha = (float(_MoveAlpha)/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*float(2*SPEED/RADIUS);
+    _SpeedAlpha = (float(_MoveAlpha)/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*float(3*SPEED/RADIUS);
     _Cmd = "MOVE";
    
 }
@@ -221,7 +219,80 @@ void Holonome::move(int positionX, int positionY, int Alpha)
 //***********************************/************************************
 //                          Protected Methods                           //
 //***********************************/************************************
+void Holonome::routine_stepperA(void)
+{
+    while (1)
+    {   
+        //printf("%s _AckStpA =%d\n",_Cmd.data(),_AckStpA);
+        if ((_Cmd == "GOTO" or _Cmd == "MOVE") and _AckStpA ==false){    
+            StepperA->setSpeed(((-RADIUS*_SpeedAlpha) - cos((PI/180.0)*_Alpha)*_SpeedX + sin((PI/180.0)*_Alpha)*_SpeedY)/KSTP);
+            StepperA->setAcceleration(getSpeedA()/ACC);
+            StepperA->setDeceleration(getSpeedA()/DEC); 
+            StepperA->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) - cos((PI/180.0)*_Alpha)*_MovepositionX + sin((PI/180.0)*_Alpha)*_MovepositionY)/KSTP));
+            _AckStpA = true;
 
+        }else if (_Cmd == "STOP" and _AckStpA ==false){
+            StepperA->stop();
+            _AckStpA = true;
+
+        }else if (_Cmd == "SET" and _AckStpA ==false){
+             StepperA->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) - cos((PI/180.0)*_MoveAlpha)*_MovepositionX + sin((PI/180.0)*_MoveAlpha)*_MovepositionY)/KSTP));
+             _AckStpA = true;
+          
+        }else if (_Cmd == "ACK"){
+            _AckStpA = false;
+        }
+    }
+}
+
+void Holonome::routine_stepperB(void)
+{
+   while (1)
+   {
+        if ((_Cmd == "GOTO" or _Cmd == "MOVE") and _AckStpB ==false){   
+            StepperB->setSpeed(((-RADIUS*_SpeedAlpha) + cos((PI/180.0)*(THETA+_Alpha))*_SpeedX - sin((PI/180.0)*(THETA+_Alpha))*_SpeedY)/KSTP); 
+            StepperB->setAcceleration(getSpeedB()/ACC);
+            StepperB->setDeceleration(getSpeedB()/DEC); 
+            StepperB->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA+_Alpha))*_MovepositionX - sin((PI/180.0)*(THETA+_Alpha))*_MovepositionY)/KSTP)); 
+            _AckStpB = true;
+
+        }else if (_Cmd == "STOP" and _AckStpB ==false){
+            StepperB->stop();
+            _AckStpB = true;
+
+         }else if (_Cmd == "SET" and _AckStpB ==false){
+            
+            StepperB->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA+_MoveAlpha))*_MovepositionX - sin((PI/180.0)*(THETA+_MoveAlpha))*_MovepositionY)/KSTP));
+            _AckStpB = true;  
+        }else if (_Cmd == "ACK"){
+            _AckStpB = false;
+        } 
+    }
+}
+
+void Holonome::routine_stepperC(void)
+{
+    while (1) 
+    {
+        if ((_Cmd == "GOTO" or _Cmd == "MOVE")  and _AckStpC == false){  
+            StepperC->setSpeed(((-RADIUS*_SpeedAlpha) + cos((PI/180.0)*(THETA-_Alpha))*_SpeedX + sin((PI/180.0)*(THETA-_Alpha))*_SpeedY)/KSTP); 
+            StepperC->setAcceleration(getSpeedC()/ACC);
+            StepperC->setDeceleration(getSpeedC()/DEC); 
+            StepperC->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA-_Alpha))*_MovepositionX + sin((PI/180.0)*(THETA-_Alpha))*_MovepositionY)/KSTP)); 
+            _AckStpC = true;
+
+        }else if (_Cmd == "STOP" and _AckStpC ==false){
+            StepperC->stop();
+            _AckStpC = true;
+
+        }else if (_Cmd == "SET" and _AckStpC ==false){
+             StepperC->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA-_MoveAlpha))*_MovepositionX + sin((PI/180.0)*(THETA-_MoveAlpha))*_MovepositionY)/KSTP));
+            _AckStpC = true;  
+        }else if (_Cmd == "ACK"){
+            _AckStpC = false;
+        }
+    }    
+}
 
 void Holonome::routine_holonome(void)
 {
@@ -229,50 +300,6 @@ void Holonome::routine_holonome(void)
     while (1)
     {
        
-
-            if ((_Cmd == "GOTO" or _Cmd == "MOVE") and _AckStpA ==false){    
-                StepperA->setSpeed(((-RADIUS*_SpeedAlpha) - cos((PI/180.0)*_Alpha)*_SpeedX + sin((PI/180.0)*_Alpha)*_SpeedY)/KSTP);
-                StepperA->setAcceleration(getSpeedA()/ACC);
-                StepperA->setDeceleration(getSpeedA()/DEC); 
-                StepperA->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) - cos((PI/180.0)*_Alpha)*_MovepositionX + sin((PI/180.0)*_Alpha)*_MovepositionY)/KSTP));
-                _AckStpA = true;
-
-            }else if (_Cmd == "STOP" and _AckStpA ==false){
-                StepperA->stop();
-                _AckStpA = true;
-            
-            }else if (_Cmd == "ACK"){
-                _AckStpA = false;
-            }
-            if ((_Cmd == "GOTO" or _Cmd == "MOVE") and _AckStpB ==false){   
-                StepperB->setSpeed(((-RADIUS*_SpeedAlpha) + cos((PI/180.0)*(THETA+_Alpha))*_SpeedX - sin((PI/180.0)*(THETA+_Alpha))*_SpeedY)/KSTP); 
-                StepperB->setAcceleration(getSpeedB()/ACC);
-                StepperB->setDeceleration(getSpeedB()/DEC); 
-                StepperB->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA+_Alpha))*_MovepositionX - sin((PI/180.0)*(THETA+_Alpha))*_MovepositionY)/KSTP)); 
-                _AckStpB = true; 
-
-            }else if (_Cmd == "STOP" and _AckStpB ==false){
-                StepperB->stop();
-                _AckStpB = true;
-                
-            }else if (_Cmd == "ACK"){
-                _AckStpB = false;
-            } 
-            if ((_Cmd == "GOTO" or _Cmd == "MOVE")  and _AckStpC == false){  
-                StepperC->setSpeed(((-RADIUS*_SpeedAlpha) + cos((PI/180.0)*(THETA-_Alpha))*_SpeedX + sin((PI/180.0)*(THETA-_Alpha))*_SpeedY)/KSTP); 
-                StepperC->setAcceleration(getSpeedC()/ACC);
-                StepperC->setDeceleration(getSpeedC()/DEC); 
-                StepperC->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA-_Alpha))*_MovepositionX + sin((PI/180.0)*(THETA-_Alpha))*_MovepositionY)/KSTP)); 
-                _AckStpC = true;
-
-            }else if (_Cmd == "STOP" and _AckStpC ==false){
-                StepperC->stop();
-                _AckStpC = true;
-            
-            }else if (_Cmd == "ACK"){
-                _AckStpC = false;
-            }    
-            
             _Alpha     =  _Alpha_Save+ (((-1.0/(3.0*RADIUS))*StepperB->getPosition()) + ((-1.0/(3.0*RADIUS))*StepperA->getPosition()) + ((-1.0/(3.0*RADIUS))*StepperC->getPosition()))*KSTP/(PI/180.0);
             _positionX = _positionX_Save+ ((-cos((PI/180.0)*_Alpha)/6.0)*StepperA->getPosition() + ((cos((PI/180.0)*_Alpha)-sqrt(3)*sin((PI/180.0)*_Alpha))/12.0)*StepperB->getPosition() + ((sqrt(3)*sin((PI/180.0)*_Alpha)+cos((PI/180.0)*_Alpha))/12.0)*StepperC->getPosition())*KSTP*4;
             _positionY = _positionY_Save+ ((sin((PI/180.0)*_Alpha)/6.0)*StepperA->getPosition() - ((sin((PI/180.0)*_Alpha)+sqrt(3)*cos((PI/180.0)*_Alpha))/12.0)*StepperB->getPosition() + ((sqrt(3)*cos((PI/180.0)*_Alpha)-sin((PI/180.0)*_Alpha))/12.0)*StepperC->getPosition())*KSTP*4;
