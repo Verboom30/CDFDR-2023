@@ -96,9 +96,8 @@ void Holonome::setPosition(int positionX, int positionY, int Alpha)
 
 void Holonome::setPositionZero(void)
 {
-    StepperA->setPositionZero();
-    StepperB->setPositionZero();
-    StepperC->setPositionZero();
+    _Cmd ="RST";
+    while(!waitAck());
 }
 
 float Holonome::getPositionX(void)
@@ -313,7 +312,10 @@ void Holonome::routine_holonome(void)
         }else if (_Cmd == "SET" and _AckStpA ==false){
              StepperA->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) - cos((PI/180.0)*_MoveAlpha)*_MovepositionX + sin((PI/180.0)*_MoveAlpha)*_MovepositionY)/KSTP));
              _AckStpA = true;
-          
+
+        }else if (_Cmd == "RST" and _AckStpA ==false){
+            StepperA->setPositionZero();
+            _AckStpA = true;
         }else if (_Cmd == "ACK"){
             _AckStpA = false;
         }
@@ -328,11 +330,15 @@ void Holonome::routine_holonome(void)
         }else if (_Cmd == "STOP" and _AckStpB ==false){
             StepperB->stop();
             _AckStpB = true;
-
+       
          }else if (_Cmd == "SET" and _AckStpB ==false){
             
             StepperB->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA+_MoveAlpha))*_MovepositionX - sin((PI/180.0)*(THETA+_MoveAlpha))*_MovepositionY)/KSTP));
             _AckStpB = true;  
+
+         }else if (_Cmd == "RST" and _AckStpB ==false){
+            StepperB->setPositionZero();
+            _AckStpB = true;
         }else if (_Cmd == "ACK"){
             _AckStpB = false;
         } 
@@ -350,7 +356,12 @@ void Holonome::routine_holonome(void)
 
         }else if (_Cmd == "SET" and _AckStpC ==false){
              StepperC->setPosition(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA-_MoveAlpha))*_MovepositionX + sin((PI/180.0)*(THETA-_MoveAlpha))*_MovepositionY)/KSTP));
-            _AckStpC = true;  
+            _AckStpC = true; 
+
+         }else if (_Cmd == "RST" and _AckStpC ==false){
+            StepperC->setPositionZero();
+            _AckStpC = true;
+
         }else if (_Cmd == "ACK"){
             _AckStpC = false;
         }
