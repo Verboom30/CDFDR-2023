@@ -314,7 +314,7 @@ void Holonome::routine_holonome(void)
             StepperA->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) - cos((PI/180.0)*_Alpha)*_MovepositionX + sin((PI/180.0)*_Alpha)*_MovepositionY)/KSTP));
             _AckStpA = true;
 
-        }else if (_Cmd == "STOP" and _AckStpA ==false){
+        }else if (_Cmd == "STOP"){
             StepperA->stop();
             _AckStpA = true;
 
@@ -336,7 +336,7 @@ void Holonome::routine_holonome(void)
             StepperB->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA+_Alpha))*_MovepositionX - sin((PI/180.0)*(THETA+_Alpha))*_MovepositionY)/KSTP)); 
             _AckStpB = true;
 
-        }else if (_Cmd == "STOP" and _AckStpB ==false){
+        }else if (_Cmd == "STOP"){
             StepperB->stop();
             _AckStpB = true;
        
@@ -359,7 +359,7 @@ void Holonome::routine_holonome(void)
             StepperC->move(int(((-RADIUS*_MoveAlpha*(PI/180.0)) + cos((PI/180.0)*(THETA-_Alpha))*_MovepositionX + sin((PI/180.0)*(THETA-_Alpha))*_MovepositionY)/KSTP)); 
             _AckStpC = true;
 
-        }else if (_Cmd == "STOP" and _AckStpC ==false){
+        }else if (_Cmd == "STOP"){
             StepperC->stop();
             _AckStpC = true;
 
