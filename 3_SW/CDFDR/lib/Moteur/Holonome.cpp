@@ -91,7 +91,6 @@ void Holonome::setPosition(int positionX, int positionY, int Alpha)
     _positionX_Save =0;
     _positionY_Save =0;
     _Cmd ="SET";
-    while(!waitAck());
    
 }
 
@@ -177,7 +176,6 @@ void Holonome::run(void)
 void Holonome::stop(void)
 {   
     _Cmd = "STOP";
-    while(!waitAck());
      
 }
 
@@ -196,9 +194,6 @@ void Holonome::goesTo(int positionX, int positionY, int Alpha)
     _SpeedY = (float((_MovepositionY))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
     _SpeedAlpha = (float((_MoveAlpha))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*float(3*SPEED/RADIUS);
     _Cmd = "GOTO";
-    while(!waitAck());
-    while(!stopped());
-    
 }
 
 void Holonome::move(int positionX, int positionY, int Alpha)
@@ -216,8 +211,6 @@ void Holonome::move(int positionX, int positionY, int Alpha)
     _SpeedY = (float((_MovepositionY))/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*SPEED;
     _SpeedAlpha = (float(_MoveAlpha)/(abs(_MovepositionX)+abs(_MovepositionY)+abs(_MoveAlpha)))*float(3*SPEED/RADIUS);
     _Cmd = "MOVE";
-    while(!waitAck());
-    while(!stopped());
    
 }
 
