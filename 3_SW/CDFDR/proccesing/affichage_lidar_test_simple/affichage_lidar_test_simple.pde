@@ -5,7 +5,7 @@ Serial myPort;  // The serial port
 int lf = 10;    // Linefeed in ASCII
 String myString = null;
 float x,y,angle,r;
-float f = 0.05;
+float f = 0.1;
  
 void setup() {
   // List all the available serial ports
@@ -13,7 +13,7 @@ void setup() {
   // Open the port you are using at the rate you want:
   myPort = new Serial(this, Serial.list()[0], 230400);
     
-  size(1000,1000);
+  size(1500,1500);
   points.add(new PVector(0,0));
 }
  

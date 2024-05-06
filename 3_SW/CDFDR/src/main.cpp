@@ -301,6 +301,15 @@ void main_thread(void)
     Turbine3.pulsewidth_us(1000);
     RobotMove->setPosition(225,225,0);
     while(!RobotMove->waitAck());
+
+    // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+    // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+
+    // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
+    // ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+
+    // ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
+    // ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
     
     
     while (1)
@@ -321,14 +330,23 @@ void main_thread(void)
           ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
           ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
 
-          ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
-          ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
+          // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
+          // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
 
-          ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
-          ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
+          // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
+          // ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
 
-          ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
-          ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
+          // ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
+          // ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
+
+          ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+          ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+
+          ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
+          ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+
+          ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
+          ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
           HAL_Delay (2000); // Attente de 2 secondes 
           lcd.cls();
           lcd.printf("Calibration !\n");
@@ -384,79 +402,66 @@ void main_thread(void)
           break;
 
         case GAME :
+              
 
-
-              // while(!LidargoesTo(225,1000,0));
+              //while(!LidargoesTo(225,1000,0));
               // while(!LidargoesTo(225,225,0));
 
-              RobotMove->goesTo(300,225,0);
+              RobotMove->goesTo(320,270,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
+              ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
+              ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
+              HAL_Delay (200); // Attente de 2 secondes 
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              HAL_Delay (500); // Attente de 2 secondes 
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
 
-              RobotMove->goesTo(525,225,0);
+              RobotMove->goesTo(545,270,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              HAL_Delay (500); // Attente de 2 secondes 
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
 
-              RobotMove->goesTo(750,225,0);
+              RobotMove->goesTo(770,270,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,700,0);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(700,700,30);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              HAL_Delay (500); // Attente de 2 secondes 
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
               ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
               ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
 
-              ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
-              ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+              RobotMove->goesTo(740,680,0);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped());
 
-              ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
-              ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
-              HAL_Delay (500); // Attente de 2 secondes 
-              
-              // ***********************************/************************************
-              //                         Prise Plante 1 stock 1                       //
-              // ***********************************/************************************
-              RobotMove->goesTo(750,700,30);
+              // // ***********************************/************************************
+              // //                         Prise Plante 1 stock 1                       //
+              // // ***********************************/************************************
+              RobotMove->goesTo(720,680,30);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
            
-              RobotMove->goesTo(720,700,30);
-              while(!RobotMove->waitAck());
               Turbine3.pulsewidth_us(1820);
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+30));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+25));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+20));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+15));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+10));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
-              while(!RobotMove->stopped());
+              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down-22));
+             
       
-              HAL_Delay (1000); // Attente de 2 secondes 
+              HAL_Delay (1500); // Attente de 2 secondes 
               ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
               ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
               HAL_Delay (500); // Attente de 2 secondes 
               ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
               Turbine3.pulsewidth_us(1000);
 
-              RobotMove->goesTo(700,700,30);
+              RobotMove->goesTo(700,680,30);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              // ***********************************/************************************
-              //                         Prise Plante 2 stock 1                       //
-              // ***********************************/************************************
+              // // ***********************************/************************************
+              // //                         Prise Plante 2 stock 1                       //
+              // // ***********************************/************************************
 
               RobotMove->goesTo(700,600,30);
               while(!RobotMove->waitAck());
@@ -466,28 +471,16 @@ void main_thread(void)
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(780,600,150);
+              RobotMove->goesTo(750,600,150);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
            
-              RobotMove->goesTo(750,600,150);
-              while(!RobotMove->waitAck());
+
               Turbine2.pulsewidth_us(1820);
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+30));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+25));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+20));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+15));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+10));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
-              while(!RobotMove->stopped());
+              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down-22));
+
       
-              HAL_Delay (1000); // Attente de 2 secondes 
+              HAL_Delay (1500); // Attente de 2 secondes 
               ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
               ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
               HAL_Delay (500); // Attente de 2 secondes 
@@ -498,9 +491,9 @@ void main_thread(void)
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              //***********************************/************************************
-              //                         Prise Plante 3 stock 1                       //
-              //***********************************/************************************
+              // //***********************************/************************************
+              // //                         Prise Plante 3 stock 1                       //
+              // //***********************************/************************************
 
               RobotMove->goesTo(700,790,150);
               while(!RobotMove->waitAck());
@@ -510,28 +503,18 @@ void main_thread(void)
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(790,790,270);
+              RobotMove->goesTo(750,790,270);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
            
-              RobotMove->goesTo(750,790,270);
-              while(!RobotMove->waitAck());
+            
               Turbine1.pulsewidth_us(1820);
               HAL_Delay (100); // Attente de 2 secondes 
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+30));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+25));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+20));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+15));
-              HAL_Delay (100); // Attente de 2 secondes 
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+10));
-              HAL_Delay (100); // Attente de 2 secondes
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
-              while(!RobotMove->stopped());
+              
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down-22));
+             
       
-              HAL_Delay (1000); // Attente de 2 secondes 
+              HAL_Delay (1500); // Attente de 2 secondes 
               ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
               ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
               HAL_Delay (500); // Attente de 2 secondes 
@@ -541,36 +524,17 @@ void main_thread(void)
               RobotMove->goesTo(700,790,270);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
+              
 
-              // ***********************************/************************************
-              //                         END Prise Plante  stock 1                    //
-              // ***********************************/************************************
-            
-              RobotMove->goesTo(200,1800,270);
+              // // ***********************************/************************************
+              // //                         END Prise Plante  stock 1                    //
+              // // ***********************************/************************************
+
+              RobotMove->goesTo(700,790,210);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(200,1000,270);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(200,1320,270);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(250,1320,270);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              // ***********************************/************************************
-              //                         Depose Plante                                //
-              // ***********************************/************************************
-
-              RobotMove->goesTo(200,1320,210);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(110,1320,210);
+              RobotMove->goesTo(132,600,210);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
@@ -578,30 +542,19 @@ void main_thread(void)
               HAL_Delay (500); // Attente de 2 secondes 
               ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
               ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
-              HAL_Delay (500); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+10));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+10));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
-              HAL_Delay (200); // Attente de 2 secondes 
+
               ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+              HAL_Delay (500); // Attente de 2 secondes 
 
-              RobotMove->goesTo(250,1400,210);
+              RobotMove->goesTo(250,600,210);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(250,1400,90);
+              RobotMove->goesTo(250,600,90);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(250,1400,90);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(110,1400,90);
+              RobotMove->goesTo(132,550,90);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
@@ -609,30 +562,19 @@ void main_thread(void)
               HAL_Delay (500); // Attente de 2 secondes 
               ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
               ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
-              HAL_Delay (500); // Attente de 2 secondes 
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+10));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
-              HAL_Delay (200); // Attente de 2 secondes 
-               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+10));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
-              HAL_Delay (200); // Attente de 2 secondes 
+
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+              HAL_Delay (500); // Attente de 2 secondes 
 
-              RobotMove->goesTo(250,1450,90);
+              RobotMove->goesTo(250,550,90);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(250,1450,-30);
+              RobotMove->goesTo(250,550,-30);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(250,1450,-30);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
-
-              RobotMove->goesTo(110,1450,-30);
+              RobotMove->goesTo(132,650,-30);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
@@ -640,24 +582,132 @@ void main_thread(void)
               HAL_Delay (500); // Attente de 2 secondes 
               ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
               ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
-              HAL_Delay (500); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+10));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+10));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
-              HAL_Delay (200); // Attente de 2 secondes 
-              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
 
-              RobotMove->goesTo(250,1450,-30);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
+              ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+              HAL_Delay (500); // Attente de 2 secondes 
+
 
               RobotMove->goesTo(225,225,-30);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
+
+              
+              RobotMove->goesTo(225,225,0);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(200,1800,270);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(200,1000,270);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(200,1320,270);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(250,1320,270);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // // ***********************************/************************************
+              // //                         Depose Plante                                //
+              // // ***********************************/************************************
+
+              // RobotMove->goesTo(200,1320,210);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(110,1320,210);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
+              // HAL_Delay (500); // Attente de 2 secondes 
+              // ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
+              // ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
+              // HAL_Delay (500); // Attente de 2 secondes 
+              // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+10));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down+10));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+
+              // RobotMove->goesTo(250,1400,210);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(250,1400,90);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(250,1400,90);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(110,1400,90);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              // HAL_Delay (500); // Attente de 2 secondes 
+              // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+              // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+              // HAL_Delay (500); // Attente de 2 secondes 
+              // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+10));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              //  ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down+10));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+
+              // RobotMove->goesTo(250,1450,90);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(250,1450,-30);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(250,1450,-30);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(110,1450,-30);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
+              // HAL_Delay (500); // Attente de 2 secondes 
+              // ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
+              // ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+              // HAL_Delay (500); // Attente de 2 secondes 
+              // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+10));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down+10));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
+              // HAL_Delay (200); // Attente de 2 secondes 
+              // ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+
+              // RobotMove->goesTo(250,1450,-30);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+
+              // RobotMove->goesTo(225,225,-30);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
 
               // RobotMove->goesTo(700,1350,-90);
               // while(!RobotMove->waitAck());

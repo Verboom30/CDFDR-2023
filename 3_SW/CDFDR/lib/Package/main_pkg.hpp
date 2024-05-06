@@ -8,7 +8,7 @@
 #define RWHEEL  27.5 
 #define REDUC   0.5
 #define KSTP     ((PI*2.0*RWHEEL/(RSTEP*MSTEP))*REDUC)
-#define SPEED   500.0 // max 50000 Mstepper 16 3200Ma
+#define SPEED   1500.0 // max 50000 Mstepper 16 3200Ma
 #define THETA   60.0 // trop angle sur le A
 
 #define RED     "\033[0;31m"
@@ -18,7 +18,7 @@
 #define YELLOW  "\033[0;33m"
 
 #define ACC    3.0
-#define DEC    3.0
+#define DEC    4.0
 
 
 #define LIDAR_DIS_MIN        200.0
