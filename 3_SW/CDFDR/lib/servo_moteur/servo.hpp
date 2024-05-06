@@ -18,12 +18,12 @@ const struct pos_bras Bras[]{
 };
 
 const struct pos_servo Pince[]{
-    {115, 150}, //Pince 1 Bras 1
-    {105, 60}, //Pince 2 Bras 1
-    {118, 160}, //Pince 1 Bras 2
-    {85, 50}, //Pince 2 Bras 2
-    {50, 95}, //Pince 1 Bras 3
-    {115, 65}, //Pince 2 Bras 3
+    {107, 130}, //Pince 1 Bras 1
+    {92, 60}, //Pince 2 Bras 1
+    {85, 120}, //Pince 1 Bras 2
+    {60, 30}, //Pince 2 Bras 2
+    {80, 115}, //Pince 1 Bras 3
+    {122, 85}, //Pince 2 Bras 3
    
 };
 
