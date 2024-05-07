@@ -6,11 +6,11 @@ int lf = 10;    // Linefeed in ASCII
 String myString = null;
 float x,y,angle,r;
 float f = 0.25;
-int size_x = 3000;
-int size_y = 2000;
+int size_x = 1500;
+int size_y = 900;
 int midd_x = size_x/2;
 int midd_y = size_y/2;
-float scale = 8;
+float scale = 4;
 
  
 void setup() {
@@ -19,7 +19,7 @@ void setup() {
   // Open the port you are using at the rate you want:
   //myPort = new Serial(this, Serial.list()[0], 230400);
     
-  size(3000,2000);
+  size(1500,900);
   Table = loadImage("vinyle_table_2024_FINAL_V1.png");
   points.add(new PVector(0,0));
   stroke(0,0,0); // black

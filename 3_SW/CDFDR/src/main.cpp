@@ -84,6 +84,8 @@ int   DistanceLidar   =0;
 volatile bool end_match = false;
 Timeout endMatch;
 
+int score = 0;
+
 void endMatchProcess(){
       end_match = true;
 }
@@ -261,8 +263,10 @@ void print_lcd(void){
   while (1)
   {
     if(!end_match){
-       lcd.locate(7,1);
-       lcd.printf("%d\n",int(endMatch.remaining_time().count())/1000000);
+       lcd.locate(0,1);
+       lcd.printf("Time :%d\n",int(endMatch.remaining_time().count())/1000000);
+       lcd.locate(7,0);
+       lcd.printf("Score :%d\n",score);
     }
   }
 }
@@ -417,6 +421,8 @@ void main_thread(void)
               HAL_Delay (500); // Attente de 2 secondes 
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
 
+              score += 5;
+
               RobotMove->goesTo(545,270,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
@@ -424,15 +430,19 @@ void main_thread(void)
               HAL_Delay (500); // Attente de 2 secondes 
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
 
+              score += 5;
+
               RobotMove->goesTo(770,270,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
               HAL_Delay (500); // Attente de 2 secondes 
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+              score += 5;
+
               ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
               ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
-
+              
               RobotMove->goesTo(740,680,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
@@ -546,6 +556,8 @@ void main_thread(void)
               ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
               HAL_Delay (500); // Attente de 2 secondes 
 
+              score += 4;
+
               RobotMove->goesTo(250,600,210);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
@@ -565,6 +577,8 @@ void main_thread(void)
 
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
               HAL_Delay (500); // Attente de 2 secondes 
+
+              score += 4;
 
               RobotMove->goesTo(250,550,90);
               while(!RobotMove->waitAck());
@@ -586,15 +600,20 @@ void main_thread(void)
               ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
               HAL_Delay (500); // Attente de 2 secondes 
 
+              score += 4;
+
 
               RobotMove->goesTo(225,225,-30);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
+              score += 10;
               
               RobotMove->goesTo(225,225,0);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
+
+              
 
               // RobotMove->goesTo(200,1800,270);
               // while(!RobotMove->waitAck());
@@ -776,6 +795,10 @@ void main_thread(void)
           lcd_thread.terminate();
           lcd.cls();
           lcd.printf("END !\n");
+          lcd.locate(0,1);
+          lcd.printf("Time :%d\n",int(endMatch.remaining_time().count())/1000000);
+          lcd.locate(7,0);
+          lcd.printf("Score :%d\n",score);
           FsmState = END;
           break;
 
@@ -805,12 +828,14 @@ int main()
     while (1)
     {
      if(end_match){
+      lcd_thread.terminate();
       game_thread.terminate();
       RobotMove->stop();
       while(!RobotMove->waitAck());
       lcd.cls();
       lcd.printf("END TIMOUT !\n");
-
+      lcd.locate(0,1);
+      lcd.printf("Score :%d\n",score);
      }
     }
 }
