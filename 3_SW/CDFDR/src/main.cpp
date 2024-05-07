@@ -365,36 +365,36 @@ void main_thread(void)
             
         
         case CAL :
-          // RobotMove->move(0,0,-30);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
+          RobotMove->move(0,0,-30*offset_Alpha);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
 
-          // RobotMove->move(-150,0,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
+          RobotMove->move(-150*offset_Alpha,0,0*offset_Alpha);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
 
-          // RobotMove->move(0,-80,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
+          RobotMove->move(0*offset_Alpha,-80,0*offset_Alpha);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
 
-          // RobotMove->move(-30,0,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
+          RobotMove->move(-30*offset_Alpha,0,0*offset_Alpha);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
 
-          // RobotMove->move(0,52,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
+          RobotMove->move(0*offset_Alpha,52,0*offset_Alpha);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
 
-          // RobotMove->move(100,0,0);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped());
+          RobotMove->move(100*offset_Alpha,0,0*offset_Alpha);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped());
 
-          // RobotMove->move(0,0,30);
-          // while(!RobotMove->waitAck());
-          // while(!RobotMove->stopped()); 
+          RobotMove->move(0*offset_Alpha,0,30*offset_Alpha);
+          while(!RobotMove->waitAck());
+          while(!RobotMove->stopped()); 
 
-          // RobotMove->setPosition(225,225,0);
-          // while(!RobotMove->waitAck());
+          RobotMove->setPosition(abs(offset_posX-225),225,0*offset_Alpha);
+          while(!RobotMove->waitAck());
  
           FsmState = WAIT_MATCH;
           lcd.cls();
