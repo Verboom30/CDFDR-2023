@@ -5,7 +5,7 @@ Serial myPort;  // The serial port
 int lf = 10;    // Linefeed in ASCII
 String myString = null;
 float x,y,angle,r;
-float f = 0.1;
+float f = 0.05;
  
 void setup() {
   // List all the available serial ports
