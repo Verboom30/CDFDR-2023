@@ -8,7 +8,7 @@
 #define RWHEEL  27.5 
 #define REDUC   0.5
 #define KSTP     ((PI*2.0*RWHEEL/(RSTEP*MSTEP))*REDUC)
-#define SPEED   500.0 // max 50000 Mstepper 16 3200Ma
+#define SPEED   1500.0 // max 50000 Mstepper 16 3200Ma
 #define THETA   60.0 // trop angle sur le A
 
 #define RED     "\033[0;31m"
@@ -17,16 +17,16 @@
 #define GREEN   "\033[0;32m"
 #define YELLOW  "\033[0;33m"
 
-#define ACC    4.0
+#define ACC    3.0
 #define DEC    4.0
 
 
-#define LIDAR_DIS_MIN        220.0
-#define LIDAR_DIS_MAX        400.0
+#define LIDAR_DIS_MIN        200.0
+#define LIDAR_DIS_MAX        500.0
 #define NB_LIDAR_PACK_READ   LIDAR_ANGLE_MARGIN*4.0
-#define LIDAR_ANGLE_MARGIN   45
-#define LIDAR_PC_ON   20.0
-#define LIDAR_PC_OFF  70.0
+#define LIDAR_ANGLE_MARGIN   45.0
+#define LIDAR_PC_ON   10.0
+#define LIDAR_PC_OFF  80.0
 
 enum {IDLE,START_UP,CAL,WAIT_MATCH,GAME,END}FsmState;  
 
