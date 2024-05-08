@@ -21,11 +21,11 @@
 #define DEC    5.0
 
 
-#define LIDAR_DIS_MIN        200.0
-#define LIDAR_DIS_MAX        500.0
+#define LIDAR_DIS_MIN        250.0
+#define LIDAR_DIS_MAX        550.0
 #define NB_LIDAR_PACK_READ   LIDAR_ANGLE_MARGIN*4.0
 #define LIDAR_ANGLE_MARGIN   45.0
-#define LIDAR_PC_ON   10.0
+#define LIDAR_PC_ON   20.0
 #define LIDAR_PC_OFF  80.0
 
 enum {IDLE,START_UP,CAL,WAIT_MATCH,GAME,END}FsmState;  
