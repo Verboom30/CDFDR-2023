@@ -445,7 +445,7 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-770),260,0*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-770),260,0*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-770),252,0*offset_Alpha));
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
               HAL_Delay (500); // Attente de 2 secondes 
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
@@ -457,12 +457,12 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-650),680,0*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-650),680,0*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-650),690,0*offset_Alpha));
 
               // // ***********************************/************************************
               // //                         Prise Plante 1 stock 1                       //
               // // ***********************************/************************************
-              RobotMove->goesTo(abs(offset_posX-650),680,30*offset_Alpha);
+              RobotMove->goesTo(abs(offset_posX-650),690,30*offset_Alpha);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
@@ -473,7 +473,7 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-780),680,30*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-780),680,30*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-760),690,30*offset_Alpha));
               HAL_Delay (1000); // Attente de 2 secondes 
               ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
               ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
@@ -486,7 +486,7 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-780),680,30*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-780),680,30*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-760),690,30*offset_Alpha));
               HAL_Delay (1000); // Attente de 2 secondes 
               ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
               ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
@@ -495,10 +495,10 @@ void main_thread(void)
               Turbine2.pulsewidth_us(1000);
             }
 
-              // RobotMove->goesTo(abs(offset_posX-650),680,30*offset_Alpha);
+              // RobotMove->goesTo(abs(offset_posX-650),680,30*offs eSt_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-650),680,30*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-650),690,30*offset_Alpha));
 
             // ***********************************/************************************
             //                         Prise Plante 2 stock 1                       //
@@ -507,9 +507,9 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-650),600,30*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-650),600,30*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-650),610,30*offset_Alpha));
 
-              RobotMove->goesTo(abs(offset_posX-650),600,150*offset_Alpha);
+              RobotMove->goesTo(abs(offset_posX-650),610,150*offset_Alpha);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
@@ -519,7 +519,7 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-780),600,150*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-780),600,150*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-780),610,150*offset_Alpha));
               HAL_Delay (1000); // Attente de 2 secondes 
               ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_close));
               ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_close));
@@ -532,7 +532,7 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-780),600,150*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-780),600,150*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-780),610,150*offset_Alpha));
               HAL_Delay (1000); // Attente de 2 secondes 
               ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_close));
               ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_close));
@@ -544,7 +544,7 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-650),600,150*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-650),600,150*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-650),610,150*offset_Alpha));
 
               // //***********************************/************************************
               // //                         Prise Plante 3 stock 1                       //
@@ -553,9 +553,9 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-650),795,150*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-650),795,150*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-650),760,150*offset_Alpha));
 
-              RobotMove->goesTo(abs(offset_posX-650),795,270*offset_Alpha);
+              RobotMove->goesTo(abs(offset_posX-650),760,270*offset_Alpha);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
@@ -565,7 +565,7 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-780),795,270*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-780),795,270*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-780),760,270*offset_Alpha));
               HAL_Delay (1000); // Attente de 2 secondes 
               ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
               ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
@@ -573,40 +573,101 @@ void main_thread(void)
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
               Turbine1.pulsewidth_us(1000);
 
-            //   RobotMove->goesTo(abs(offset_posX-700),790,270*offset_Alpha);
-            //   while(!RobotMove->waitAck());
-            //   while(!RobotMove->stopped());
+              while(!LidargoesTo(abs(offset_posX-650),760,270*offset_Alpha));
+
+              RobotMove->goesTo(abs(offset_posX-650),760,300*offset_Alpha);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped());
+
+              // ***********************************/************************************
+              //                         END Prise Plante  stock 1                    //
+              // ***********************************/************************************
+           
+
+              // //***********************************/************************************
+              // //                         depose Plante 1                            //
+              // //***********************************/************************************
+
+              while(!LidargoesTo(abs(offset_posX-762),1864,300*offset_Alpha));
+
+              if(Couleur_Team ==0){
+                ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
+                HAL_Delay (500); // Attente de 2 secondes 
+                ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
+                ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
+                ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+                HAL_Delay (1000); // Attente de 2 secondes 
+              }else{
+                ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
+                HAL_Delay (500); // Attente de 2 secondes 
+                ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
+                ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+                ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+                HAL_Delay (1000); // Attente de 2 secondes 
+              }
+
+              score += 4;
+
+              while(!LidargoesTo(abs(offset_posX-762),1700,300*offset_Alpha));
+
+              RobotMove->goesTo(abs(offset_posX-762),1700,180*offset_Alpha);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped());
+
+              // //***********************************/************************************
+              // //                         depose Plante 2                            //
+              // //***********************************/************************************
+
+              while(!LidargoesTo(abs(offset_posX-690),1864,180*offset_Alpha));
+
+            
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              HAL_Delay (500); // Attente de 2 secondes 
+              ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+              ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+              HAL_Delay (1000); // Attente de 2 secondes 
+
+              score += 4;
+
+              while(!LidargoesTo(abs(offset_posX-690),1700,180*offset_Alpha));
+
+              RobotMove->goesTo(abs(offset_posX-690),1700,60*offset_Alpha);
+              while(!RobotMove->waitAck());
+              while(!RobotMove->stopped());
+
+              while(!LidargoesTo(abs(offset_posX-852),1700,60*offset_Alpha));
+
+              while(!LidargoesTo(abs(offset_posX-852),1864,60*offset_Alpha));
+
+              if(Couleur_Team ==0){
+                ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
+                HAL_Delay (500); // Attente de 2 secondes 
+                ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
+                ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
+                ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
+                HAL_Delay (1000); // Attente de 2 secondes 
+              }else{
+                ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
+                HAL_Delay (500); // Attente de 2 secondes 
+                ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
+                ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
+                ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
+                HAL_Delay (1000); // Attente de 2 secondes 
+              }
+
+              score += 4;
+
+              while(!LidargoesTo(abs(offset_posX-852),1700,60*offset_Alpha));
+
+              while(!LidargoesTo(abs(offset_posX-225),1775,60*offset_Alpha));
+
+              score += 10;
               
 
-            //   // // ***********************************/************************************
-            //   // //                         END Prise Plante  stock 1                    //
-            //   // // ***********************************/************************************
 
-            //   RobotMove->goesTo(abs(offset_posX-700),790,210*offset_Alpha);
-            //   while(!RobotMove->waitAck());
-            //   while(!RobotMove->stopped());
 
-            //   RobotMove->goesTo(abs(offset_posX-132),600,210*offset_Alpha);
-            //   while(!RobotMove->waitAck());
-            //   while(!RobotMove->stopped());
-
-            //   if(Couleur_Team ==0){
-            //     ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_down));
-            //     HAL_Delay (500); // Attente de 2 secondes 
-            //     ServoB3P1.pulsewidth_us(theta2pluse(Pince[4].pos_open));
-            //     ServoB3P2.pulsewidth_us(theta2pluse(Pince[5].pos_open));
-            //     ServoB3.pulsewidth_us(theta2pluse(Bras[2].pos_up));
-            //     HAL_Delay (500); // Attente de 2 secondes 
-            //   }else{
-            //     ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_down));
-            //     HAL_Delay (500); // Attente de 2 secondes 
-            //     ServoB2P1.pulsewidth_us(theta2pluse(Pince[2].pos_open));
-            //     ServoB2P2.pulsewidth_us(theta2pluse(Pince[3].pos_open));
-            //     ServoB2.pulsewidth_us(theta2pluse(Bras[1].pos_up));
-            //     HAL_Delay (500); // Attente de 2 secondes 
-            //   }
-
-            //   score += 4;
+              
 
             //   RobotMove->goesTo(abs(offset_posX-250),600,210*offset_Alpha);
             //   while(!RobotMove->waitAck());

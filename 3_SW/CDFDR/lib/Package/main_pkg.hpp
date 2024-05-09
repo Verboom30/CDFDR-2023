@@ -8,7 +8,7 @@
 #define RWHEEL  27.5 
 #define REDUC   0.5
 #define KSTP     ((PI*2.0*RWHEEL/(RSTEP*MSTEP))*REDUC)
-#define SPEED   1400.0 // max 50000 Mstepper 16 3200Ma
+#define SPEED   800.0 // max 50000 Mstepper 16 3200Ma
 #define THETA   60.0 // trop angle sur le A
 
 #define RED     "\033[0;31m"
