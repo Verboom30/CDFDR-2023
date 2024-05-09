@@ -18,7 +18,7 @@
 #define YELLOW  "\033[0;33m"
 
 #define ACC    4.0
-#define DEC    5.0
+#define DEC    4.0
 
 
 #define LIDAR_DIS_MIN        250.0
