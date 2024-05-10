@@ -496,7 +496,7 @@ void main_thread(void)
               // RobotMove->goesTo(abs(offset_posX-450),1600,0*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
-              while(!LidargoesTo(abs(offset_posX-1200),1075 ,0*offset_Alpha));
+              while(!LidargoesTo(abs(offset_posX-450),1600,0*offset_Alpha));
 
                score += 6;
 
