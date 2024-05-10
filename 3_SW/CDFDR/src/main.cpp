@@ -422,9 +422,9 @@ void main_thread(void)
               //while(!LidargoesTo(225,1000,0));
               // while(!LidargoesTo(225,225,0));
           
-              RobotMove->goesTo(abs(offset_posX-320),270,0*offset_Alpha);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
+              // RobotMove->goesTo(abs(offset_posX-320),270,0*offset_Alpha);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
               while(!LidargoesTo(abs(offset_posX-320),270,0*offset_Alpha));
               ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_close));
               ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_close));
@@ -456,42 +456,49 @@ void main_thread(void)
 
               ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
               ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
-              
-              RobotMove->goesTo(abs(offset_posX-1170),350,0*offset_Alpha);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
 
-              RobotMove->goesTo(abs(offset_posX-1170),350,0*offset_Alpha);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
+             
+              // RobotMove->goesTo(abs(offset_posX-1170),350,0*offset_Alpha);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+              while(!LidargoesTo(abs(offset_posX-1170),350,0*offset_Alpha));
 
-              RobotMove->goesTo(abs(offset_posX-1170),500,0*offset_Alpha);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
+              // RobotMove->goesTo(abs(offset_posX-1170),500,0*offset_Alpha);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+              while(!LidargoesTo(abs(offset_posX-1170),500,0*offset_Alpha));
 
               RobotMove->goesTo(abs(offset_posX-1170),500,25*offset_Alpha);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(abs(offset_posX-200),1700,25*offset_Alpha);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
+              // RobotMove->goesTo(abs(offset_posX-200),1700,25*offset_Alpha);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+              while(!LidargoesTo(abs(offset_posX-200),1700,25*offset_Alpha));
 
-              RobotMove->goesTo(abs(offset_posX-1200),500,25*offset_Alpha);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
+               score += 6;
+
+              // RobotMove->goesTo(abs(offset_posX-1200),500,25*offset_Alpha);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+              while(!LidargoesTo(abs(offset_posX-1200),500,25*offset_Alpha));
 
               RobotMove->goesTo(abs(offset_posX-1200),500,0*offset_Alpha);
               while(!RobotMove->waitAck());
               while(!RobotMove->stopped());
 
-              RobotMove->goesTo(abs(offset_posX-1200),1075 ,0*offset_Alpha);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
+              // RobotMove->goesTo(abs(offset_posX-1200),1075 ,0*offset_Alpha);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+              while(!LidargoesTo(abs(offset_posX-1200),1075 ,0*offset_Alpha));
 
-              RobotMove->goesTo(abs(offset_posX-450),1600,0*offset_Alpha);
-              while(!RobotMove->waitAck());
-              while(!RobotMove->stopped());
+              // RobotMove->goesTo(abs(offset_posX-450),1600,0*offset_Alpha);
+              // while(!RobotMove->waitAck());
+              // while(!RobotMove->stopped());
+              while(!LidargoesTo(abs(offset_posX-1200),1075 ,0*offset_Alpha));
+
+               score += 6;
 
              
               // while(!LidargoesTo(abs(offset_posX-1000),1700,-60*offset_Alpha));
