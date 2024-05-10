@@ -153,11 +153,13 @@ void ShowLidarCoord(void)
     NbNoDetecLidarPack =0;
     for (uint8_t j = 0; j < NB_LIDAR_PACK_READ; j++)
     {
+     
       LidarPoints = LidarLD19->GetPoints();
       for (uint8_t i = 0; i < POINT_PER_PACK; i++)
       {
+        AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-(RobotMove->getPositionX())),(RobotMove->getPosCibleY()-(RobotMove->getPositionY()))))-RobotMove->getAlpha();
         //LidarPoints.point[i].intensity >100 
-        if((LidarPoints.point[i].intensity >200) and (sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >1)){
+        if((LidarPoints.point[i].intensity >180) and (sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >1)){
           //printf("%5.f;%5d\r\n",i,(LidarPoints.point[i].angle/100),LidarPoints.point[i].distance);
 
           //printf("%f;%f;%f;%f;%f\r\n",RobotMove->getPositionX(),RobotMove->getPositionY(),RobotMove->getAlpha(),PointLidarX,PointLidarY);
@@ -169,7 +171,7 @@ void ShowLidarCoord(void)
           
         
           //if(sqrt(pow(float(RobotMove->getPosCibleX()-(RobotMove->getPositionX())),2.0)+pow(float(RobotMove->getPosCibleY()-(RobotMove->getPositionY())),2.0)) >10.0){
-            AngleCible = ((180/PI) *atan2((RobotMove->getPosCibleX()-(RobotMove->getPositionX())),(RobotMove->getPosCibleY()-(RobotMove->getPositionY()))))-RobotMove->getAlpha();
+           
           //}
           
          
@@ -183,7 +185,7 @@ void ShowLidarCoord(void)
           if(AngleCible_Down<0) AngleCible_Down =360+AngleCible_Down;
           if(AngleCible_Top>360)  AngleCible_Top  =AngleCible_Top-360;
       
-          if(LidarX>0 and LidarX<(3000-100) and LidarY>0 and LidarY<(2000-100)){
+          if(LidarX>0 and LidarX<(3000) and LidarY>0 and LidarY<(2000)){
             if(AngleCible_Top > AngleCible_Down){
                 if(float(LidarPoints.point[i].angle/100) <= AngleCible_Top and float(LidarPoints.point[i].angle/100) >= AngleCible_Down){
                   if(LidarPoints.point[i].distance > LIDAR_DIS_MIN and LidarPoints.point[i].distance <LIDAR_DIS_MAX){
@@ -192,7 +194,7 @@ void ShowLidarCoord(void)
                     AngleLidar    = float(LidarPoints.point[i].angle/100);
                     PointLidarX   = LidarX;
                     PointLidarY   = LidarY;
-                    
+                     //printf("[%2d] Dis=%5d Intsy=%5d Agl=%5.f\r\n",i,LidarPoints.point[i].distance,LidarPoints.point[i].intensity,(LidarPoints.point[i].angle/100));
                     //printf("STOP1!=%d, SumStop=%d, distance=%d, AngleCible_Top=%f, Anglelidar=%f, AngleCible_Down=%f\n",Stop,SumStop,LidarPoints.point[i].distance,AngleCible_Top,float(LidarPoints.point[i].angle/100),AngleCible_Down);
                   }else{
                     NbNoDetecLidarPack++;
@@ -225,7 +227,7 @@ void ShowLidarCoord(void)
             }
           }
         }else{
-          Stop = false;
+          //Stop = false;
         }
       }
     } 
