@@ -84,6 +84,9 @@ int   DistanceLidar   =0;
 volatile bool end_match = false;
 Timeout endMatch;
 
+Timeout panneaux;
+volatile bool timeout_panneaux = false;
+
 int score = 0;
 int offset_posX =0;
 int offset_Alpha =1;
@@ -91,6 +94,11 @@ int offset_Alpha =1;
 void endMatchProcess(){
       end_match = true;
 }
+
+void TimeoutProcess(){
+      timeout_panneaux = true;
+}
+
 
 
 void showPostion(void)
@@ -258,7 +266,33 @@ int LidargoesTo(int positionX, int positionY, int Alpha){
             RobotMove->stop();
             while(!RobotMove->waitAck());
             return 0;
-          }   
+          } 
+}
+
+int LidargoesTo2(int positionX, int positionY, int Alpha){
+    if(timeout_panneaux==0){
+          if(Stop == 0){
+            RobotMove->goesTo(positionX,positionY,Alpha);
+            while(!RobotMove->waitAck());
+            while(!RobotMove->stopped() and Stop == 0);
+            if(RobotMove->PosCibleDone()){
+              return 1;
+            }else{
+              return 0;
+            }
+            
+          }else{
+            RobotMove->stop();
+            while(!RobotMove->waitAck());
+            return 0;
+          } 
+    }else{
+            RobotMove->stop();
+            while(!RobotMove->waitAck());
+            //RobotMove->setPosition(abs(offset_posX-RobotMove->getPositionX()),RobotMove->getPositionY(),RobotMove->getAlpha()*offset_Alpha);
+            //while(!RobotMove->waitAck());
+            return 1;
+    }  
 }
 void print_lcd(void){
 
@@ -454,18 +488,92 @@ void main_thread(void)
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
               score += 5;
 
-              ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
-              ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+              // ServoB1P1.pulsewidth_us(theta2pluse(Pince[0].pos_open));
+              // ServoB1P2.pulsewidth_us(theta2pluse(Pince[1].pos_open));
+
 
              
               // RobotMove->goesTo(abs(offset_posX-1170),350,0*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
               while(!LidargoesTo(abs(offset_posX-1170),350,0*offset_Alpha));
+               //////////////////////////////////////////////////////////////////////////////////
+              panneaux.attach(TimeoutProcess, 20s);
 
+              while(!LidargoesTo2(abs(offset_posX-1300),235,0*offset_Alpha));
+              if(timeout_panneaux ==0)
+              {
+                ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+                HAL_Delay (1000); // Attente de 2 secondes 
+                ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+                score += 5;
+              }
+              
+               
+              while(!LidargoesTo2(abs(offset_posX-1575),235,0*offset_Alpha));
+              if(timeout_panneaux ==0)
+              {
+                ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+                HAL_Delay (1000); // Attente de 2 secondes 
+                ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+                score += 5;
+              }
+              
+
+              while(!LidargoesTo2(abs(offset_posX-1775),225,0*offset_Alpha));
+              if(timeout_panneaux ==0)
+              {
+                ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+                HAL_Delay (1000); // Attente de 2 secondes 
+                ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+                score += 5;
+                while(!LidargoesTo(abs(offset_posX-1775),140,0*offset_Alpha));
+                while(!LidargoesTo(abs(offset_posX-1170),140,0*offset_Alpha));
+              }
+              ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+              
+
+
+
+             
+              // while(!LidargoesTo(abs(offset_posX-1300),235,0*offset_Alpha));
+              // if(timeout_panneaux1 ==1){
+              //   while(!LidargoesTo(abs(offset_posX-1170),500,0*offset_Alpha));
+              // }else{
+              //   while(!LidargoesTo(abs(offset_posX-1300),235,0*offset_Alpha));
+              //   ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              //   HAL_Delay (1000); // Attente de 2 secondes 
+              //   ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+              //   score += 5;
+              //   endMatch.attach(TimeoutProcess2, 3s);
+              //   while(!LidargoesTo(abs(offset_posX-1550),235,0*offset_Alpha));
+              //   if(timeout_panneaux2 ==1){
+              //       while(!LidargoesTo(abs(offset_posX-1170),500,0*offset_Alpha));
+              //   }else{
+              //       while(!LidargoesTo(abs(offset_posX-1300),235,0*offset_Alpha));
+              //       ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              //       HAL_Delay (1000); // Attente de 2 secondes 
+              //       ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+              //       score += 5;
+              //       endMatch.attach(TimeoutProcess3, 3s);
+              //       while(!LidargoesTo(abs(offset_posX-1775),235,0*offset_Alpha));
+
+              //       while(!LidargoesTo(abs(offset_posX-1300),235,0*offset_Alpha));
+              //       ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
+              //       HAL_Delay (1000); // Attente de 2 secondes 
+              //       ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
+              //       score += 5;
+              //       while(!LidargoesTo(abs(offset_posX-1170),500,0*offset_Alpha));
+              //   }
+                
+              // }
+             
+
+              //////////////////////////////////////////////////////////////////////////////////
               // RobotMove->goesTo(abs(offset_posX-1170),500,0*offset_Alpha);
               // while(!RobotMove->waitAck());
               // while(!RobotMove->stopped());
+
               while(!LidargoesTo(abs(offset_posX-1170),500,0*offset_Alpha));
 
               RobotMove->goesTo(abs(offset_posX-1170),500,25*offset_Alpha);
@@ -498,7 +606,7 @@ void main_thread(void)
               // while(!RobotMove->stopped());
               while(!LidargoesTo(abs(offset_posX-450),1600,0*offset_Alpha));
 
-               score += 6;
+              score += 6;
 
              
               // while(!LidargoesTo(abs(offset_posX-1000),1700,-60*offset_Alpha));
