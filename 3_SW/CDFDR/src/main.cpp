@@ -500,7 +500,7 @@ void main_thread(void)
                //////////////////////////////////////////////////////////////////////////////////
               panneaux.attach(TimeoutProcess, 20s);
 
-              while(!LidargoesTo2(abs(offset_posX-1300),235,0*offset_Alpha));
+              while(!LidargoesTo2(abs(offset_posX-1325),235,0*offset_Alpha));
               if(timeout_panneaux ==0)
               {
                 ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
@@ -510,7 +510,7 @@ void main_thread(void)
               }
               
                
-              while(!LidargoesTo2(abs(offset_posX-1575),235,0*offset_Alpha));
+              while(!LidargoesTo2(abs(offset_posX-1555),215,0*offset_Alpha));
               if(timeout_panneaux ==0)
               {
                 ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
@@ -520,15 +520,15 @@ void main_thread(void)
               }
               
 
-              while(!LidargoesTo2(abs(offset_posX-1775),225,0*offset_Alpha));
+              while(!LidargoesTo2(abs(offset_posX-1760),215,0*offset_Alpha));
               if(timeout_panneaux ==0)
               {
                 ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_down));
                 HAL_Delay (1000); // Attente de 2 secondes 
                 ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
                 score += 5;
-                while(!LidargoesTo(abs(offset_posX-1775),140,0*offset_Alpha));
-                while(!LidargoesTo(abs(offset_posX-1170),140,0*offset_Alpha));
+                while(!LidargoesTo(abs(offset_posX-1775),150,0*offset_Alpha));
+                while(!LidargoesTo(abs(offset_posX-1170),150,0*offset_Alpha));
               }
               ServoB1.pulsewidth_us(theta2pluse(Bras[0].pos_up));
               
